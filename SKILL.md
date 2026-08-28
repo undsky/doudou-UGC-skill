@@ -132,9 +132,16 @@ path/to/article_name/
 - 提示词保存至 `path/to/article_name/xhs_images/prompts/`。
 - **生图调用**：优先使用 **`generate_image`**，无可用时使用 **`generate_image_to_r2`**。图片保存至 `path/to/article_name/xhs_images/images/`。
 
-#### 6.2 归藏社媒卡片 (`/guizang-social-card-skill`) —— 两种独立风格自主选择
+#### 6.2 归藏社媒卡片 (`/guizang-social-card-skill`) —— 单文件 HTML 渲 PNG
 
-`guizang-social-card-skill` 内置两套相互独立的视觉系统，共用一套图文提炼流程。**必须向用户清晰呈现并提供风格选择**：
+- **素材直接复用（无需再次调用 AI 生图模型）**：
+  - 归藏社媒卡片**不调用**任何生图工具（`generate_image` / `generate_image_to_r2`）。
+  - 直接复用步骤 6.1 (`baoyu-xhs-images`) 已拆解的核心观点、金句、痛点、架构、变现路径及配图素材。
+- **渲染管线**：
+  - 采用 `guizang-social-card-skill` 标准的**单文件 HTML + CSS 模板**（`.poster.xhs` 3:4 比例）。
+  - 通过单文件 HTML 渲染为 PNG（如使用 Playwright / Puppeteer 浏览器自动化截图），直接导出 3:4 高清社交卡片，零生图成本且版式精确。
+- **视觉风格自主选择**：
+  - 内置两套相互独立的视觉系统，共用一套图文提炼内容：
 
 | 风格名称 | 视觉特征 | 推荐适用场景 |
 | :--- | :--- | :--- |
@@ -150,7 +157,7 @@ path/to/article_name/
 - **全自动模式（`--yes` / `--quick`）**：
   - 依据文章题材自动选择最匹配的风格（如技术/教程默认 Swiss，人文/感悟默认 Editorial），并在交付汇总中告知用户选择理由，提示可随时指定另一套风格重绘。
 - **产物归档**：
-  - 生成的 HTML 模板与渲染图片保存至 `path/to/article_name/guizang_cards/`（若两套都选则分别放入 `guizang_cards/editorial/` 和 `guizang_cards/swiss/`）。
+  - 生成的 HTML 模板 (`cards.html`) 与渲染导出的 PNG 图片保存至 `path/to/article_name/guizang_cards/`（若两套都选则分别放入 `guizang_cards/editorial/` 和 `guizang_cards/swiss/`）。
 
 ---
 

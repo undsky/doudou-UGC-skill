@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ARTICLE_TITLE}} - 资产与成果全景看板</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       /* 扁平化色彩体系 (Flat Design Palette) */
@@ -497,6 +498,152 @@
       background: #fafafa;
     }
 
+    .table-thumb {
+      width: 64px;
+      height: 44px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      display: block;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: var(--bg-subtle);
+    }
+
+    .table-thumb:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Markdown 双栏分栏 (Split View) */
+    .markdown-split-view {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+    @media (max-width: 1024px) {
+      .markdown-split-view {
+        grid-template-columns: 1fr;
+      }
+    }
+    .markdown-split-view .code-viewer,
+    .markdown-split-view .markdown-render-viewer {
+      height: 720px;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .markdown-split-view .code-header {
+      height: 52px;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .markdown-split-view .code-content {
+      flex: 1;
+      height: calc(720px - 52px);
+      max-height: calc(720px - 52px);
+      overflow-y: auto;
+      padding: 16px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      background: var(--bg-dark-code);
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      box-sizing: border-box;
+    }
+    .markdown-render-body {
+      flex: 1;
+      height: calc(720px - 52px);
+      max-height: calc(720px - 52px);
+      overflow-y: auto;
+      padding: 24px 28px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text-main);
+      background: #ffffff;
+      box-sizing: border-box;
+    }
+    .markdown-render-body h1,
+    .markdown-render-body h2,
+    .markdown-render-body h3,
+    .markdown-render-body h4 {
+      color: #0f172a;
+      margin-top: 1.4em;
+      margin-bottom: 0.6em;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .markdown-render-body h1 { font-size: 22px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 0; }
+    .markdown-render-body h2 { font-size: 18px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+    .markdown-render-body h3 { font-size: 15px; }
+    .markdown-render-body p { margin-bottom: 1em; }
+    .markdown-render-body img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 14px 0;
+      border: 1px solid #e2e8f0;
+      display: block;
+    }
+    .markdown-render-body blockquote {
+      border-left: 4px solid #059669;
+      background: #f0fdf4;
+      padding: 10px 16px;
+      margin: 12px 0;
+      color: #166534;
+      border-radius: 0 6px 6px 0;
+    }
+    .markdown-render-body ul, .markdown-render-body ol {
+      padding-left: 20px;
+      margin-bottom: 1em;
+    }
+    .markdown-render-body li { margin-bottom: 6px; }
+    .markdown-render-body code {
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12.5px;
+      font-family: Consolas, monospace;
+    }
+    .markdown-render-body pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 14px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+    .markdown-render-body pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    .markdown-render-body hr {
+      border: none;
+      height: 1px;
+      background: #e2e8f0;
+      margin: 24px 0;
+    }
+    .markdown-render-body a {
+      color: #059669;
+      text-decoration: underline;
+    }
+
     /* 嵌入式 Iframe 预览 */
     .preview-frame-wrap {
       background: var(--bg-surface);
@@ -660,13 +807,24 @@
 
       <!-- 2. Markdown 原文与 CDN 版 -->
       <section id="tab-markdown" class="tab-content">
-        <h2 class="section-title">📝 Markdown 文章管理</h2>
-        <div class="code-viewer">
-          <div class="code-header">
-            <span>CDN 加速版 Markdown (本地图片已自动替换为 Cloudflare R2 CDN 链接)</span>
-            <button class="btn" onclick="copyContent('cdn-markdown-raw')">📋 一键复制全文</button>
+        <h2 class="section-title">📝 Markdown 文章管理与实时渲染</h2>
+        <div class="markdown-split-view">
+          <!-- 左侧：Markdown 源码与一键复制 -->
+          <div class="code-viewer">
+            <div class="code-header">
+              <span>CDN 加速版 Markdown ({{CDN_MARKDOWN_FILENAME}})</span>
+              <button class="btn" onclick="copyContent('cdn-markdown-raw')">📋 一键复制Markdown</button>
+            </div>
+            <div class="code-content" id="cdn-markdown-raw">{{CDN_MARKDOWN_CONTENT}}</div>
           </div>
-          <div class="code-content" id="cdn-markdown-raw">{{CDN_MARKDOWN_CONTENT}}</div>
+          <!-- 右侧：marked 解析渲染预览 -->
+          <div class="markdown-render-viewer">
+            <div class="code-header">
+              <span>📖 marked 渲染 HTML 实时预览</span>
+              <button class="btn" onclick="copyHtmlContent('markdown-rendered-preview')">📋 一键复制HTML</button>
+            </div>
+            <div class="markdown-render-body" id="markdown-rendered-preview"></div>
+          </div>
         </div>
       </section>
 
@@ -701,6 +859,7 @@
           <table class="data-table">
             <thead>
               <tr>
+                <th style="width: 80px;">图片预览</th>
                 <th>本地相对路径</th>
                 <th>CDN 公开访问链接</th>
                 <th>快捷操作</th>
@@ -783,6 +942,17 @@
       });
     }
 
+    function copyHtmlContent(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const html = el.innerHTML;
+      navigator.clipboard.writeText(html).then(() => {
+        showToast('已复制 HTML 代码到剪贴板！');
+      }).catch(() => {
+        alert('复制失败，请手动复制');
+      });
+    }
+
     function copyText(text) {
       navigator.clipboard.writeText(text).then(() => {
         showToast('已复制：' + text);
@@ -798,9 +968,24 @@
       }, 1800);
     }
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
+    // 页面加载完成后自动使用 marked 解析 Markdown 并渲染到右侧预览区
+    function renderMarkdown() {
+      const rawEl = document.getElementById('cdn-markdown-raw');
+      const targetEl = document.getElementById('markdown-rendered-preview');
+      if (!rawEl || !targetEl) return;
+      const mdContent = rawEl.innerText || rawEl.textContent;
+      if (typeof marked !== 'undefined' && marked.parse) {
+        targetEl.innerHTML = marked.parse(mdContent);
+      } else {
+        targetEl.innerHTML = '<pre>' + mdContent + '</pre>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMarkdown();
     });
+    // 立即尝试解析一次
+    renderMarkdown();
   </script>
 </body>
 </html>
