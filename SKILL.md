@@ -1,6 +1,6 @@
 ---
 name: doudou-markdown
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文与瑞士杂志风社媒卡片生成（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、guizang-social-card-skill）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文与瑞士/杂志风社媒卡片生成（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、guizang-social-card-skill）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
@@ -40,9 +40,9 @@ path/to/article_name/
 ├── xhs_images/                           # 步骤 6.1：小红书/微信图文卡片 (baoyu-xhs-images)
 │   ├── prompts/
 │   └── images/
-└── guizang_cards/                        # 步骤 6.2：瑞士风/杂志风社媒卡片 (guizang-social-card-skill)
-    ├── html/
-    └── images/
+└── guizang_cards/                        # 步骤 6.2：归藏高质感社媒卡片 (guizang-social-card-skill)
+    ├── editorial/                        # [风格选项 A] 电子杂志风产物 (html & images)
+    └── swiss/                            # [风格选项 B] 瑞士国际主义风产物 (html & images)
 ```
 
 ---
@@ -124,18 +124,33 @@ path/to/article_name/
 - 提示词保存至 `path/to/article_name/xhs_images/prompts/`。
 - **生图调用**：优先使用 **`generate_image`**，无可用时使用 **`generate_image_to_r2`**。图片保存至 `path/to/article_name/xhs_images/images/`。
 
-#### 6.2 瑞士杂志风高质感社媒卡片 (`/guizang-social-card-skill`)
+#### 6.2 归藏社媒卡片 (`/guizang-social-card-skill`) —— 两种独立风格自主选择
 
-- 提炼金句、关键论点与数据，采用瑞士排版与杂志设计风格生成 3:4 比例卡片套组与公众号封面对。
-- HTML 模板与渲染图片保存至 `path/to/article_name/guizang_cards/`。
+`guizang-social-card-skill` 内置两套相互独立的视觉系统，共用一套图文提炼流程。**必须向用户清晰呈现并提供风格选择**：
+
+| 风格名称 | 视觉特征 | 推荐适用场景 |
+| :--- | :--- | :--- |
+| **1. 电子杂志风 (Editorial)** | 像 *Monocle* / *Kinfolk* / *Cereal* 般克制留白的版面，优雅衬线/无衬线混排、质感背景 | 叙事、生活方式、旅行、阅读、影视评论、深度观察、个人随笔 |
+| **2. 瑞士国际主义 (Swiss)** | 严谨网格系统、单一高亮锚点色、直角发丝线、极致字号与层级对比 | 产品测评、技术指南、数据分析、架构方法论、开发教程、AI 工具 |
+
+**风格选择与调度机制**：
+- **分步交互模式（默认）**：
+  - 提炼文章核心金句与观点后，主动向用户提问，让用户自主选择：
+    1. **电子杂志风 (Editorial)**
+    2. **瑞士国际主义 (Swiss)**
+    3. **两套风格均生成**（分别保存在 `editorial/` 与 `swiss/` 子目录下进行对比）
+- **全自动模式（`--yes` / `--quick`）**：
+  - 依据文章题材自动选择最匹配的风格（如技术/教程默认 Swiss，人文/感悟默认 Editorial），并在交付汇总中告知用户选择理由，提示可随时指定另一套风格重绘。
+- **产物归档**：
+  - 生成的 HTML 模板与渲染图片保存至 `path/to/article_name/guizang_cards/`（若两套都选则分别放入 `guizang_cards/editorial/` 和 `guizang_cards/swiss/`）。
 
 ---
 
 ## 交互与执行模式
 
-- **一键全流程模式**：当用户输入 `/doudou-markdown-skill path/to/article.md`（或带有 `--yes`、`--quick`、`自动`、`一键`）时，自动按最优推荐参数连续跑通 1~6 全套流程。
-- **分步交互模式**：在关键决策点（合规问题反馈、排版主题确认）主动向用户汇报并确认后继续。
-- **断点/单步执行**：支持用户指定执行特定步骤（如仅执行 `/doudou-r2` 或 `/gzh-design`），直接复用同名目录下的已有资产。
+- **一键全流程模式**：当用户输入 `/doudou-markdown path/to/article.md`（或带有 `--yes`、`--quick`、`自动`、`一键`）时，自动按最优推荐参数连续跑通 1~6 全套流程。
+- **分步交互模式**：在关键决策点（合规问题反馈、排版主题确认、**社媒卡片风格选择：电子杂志风 vs 瑞士国际主义风**）主动向用户汇报并确认后继续。
+- **断点/单步执行**：支持用户指定执行特定步骤（如仅执行 `/doudou-r2` 或 `/guizang-social-card-skill`），直接复用同名目录下的已有资产。
 
 ---
 
@@ -149,4 +164,4 @@ path/to/article_name/
 - 🌐 **CDN 文章**：`article_name_cdn.md`
 - 📱 **公众号排版**：`article_name_预览.html` 及纯正文 HTML
 - 📑 **小红书图文**：`xhs_images/images/`
-- 📰 **瑞士风卡片**：`guizang_cards/images/`
+- 📰 **归藏社媒卡片**：`guizang_cards/`（含选定的 **电子杂志风 (Editorial)** 或 **瑞士国际主义 (Swiss)** 卡片组）
