@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ARTICLE_TITLE}} - 资产与成果全景看板</title>
+  <style>
+    :root {
+      /* 扁平化色彩体系 (Flat Design Palette) */
+      --bg-app: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --bg-dark-code: #0f172a;
+      --text-main: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --border-focus: #2563eb;
+      
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-subtle: #eff6ff;
+      --primary-text: #1d4ed8;
+      
+      --success: #059669;
+      --success-subtle: #ecfdf5;
+      --success-text: #065f46;
+      
+      --warning: #d97706;
+      --warning-subtle: #fffbeb;
+      --warning-text: #92400e;
+      
+      --purple: #7c3aed;
+      --purple-subtle: #f5f3ff;
+      --purple-text: #5b21b6;
+      
+      --radius-xs: 4px;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      line-height: 1.5;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 扁平化侧边栏 (Flat Sidebar) */
+    .sidebar {
+      width: 260px;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .brand-header {
+      padding: 20px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-surface);
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .nav-menu {
+      flex: 1;
+      padding: 12px 8px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-subtle);
+      color: var(--text-main);
+    }
+
+    .nav-item.active {
+      background: var(--primary-subtle);
+      color: var(--primary-text);
+      font-weight: 600;
+      border-left-color: var(--primary);
+    }
+
+    .nav-item .badge {
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: var(--radius-xs);
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .nav-item.active .badge {
+      background: #dbeafe;
+      color: var(--primary);
+    }
+
+    /* 扁平化主区域 (Flat Main Container) */
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      background: var(--bg-app);
+    }
+
+    .top-header {
+      padding: 14px 28px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .article-info h1 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .article-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 16px;
+      margin-top: 2px;
+    }
+
+    .article-meta code {
+      background: var(--bg-subtle);
+      padding: 1px 5px;
+      border-radius: var(--radius-xs);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .action-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 500;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      background: var(--bg-subtle);
+      border-color: var(--text-secondary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+
+    .content-body {
+      padding: 24px 28px;
+      max-width: 1300px;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0 auto;
+    }
+
+    /* 模块容器 */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 扁平统计卡片 (Flat Stat Cards) */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-card .label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .stat-card .value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .flat-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 7px;
+      border-radius: var(--radius-xs);
+      font-size: 11.5px;
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .flat-badge-success {
+      background: var(--success-subtle);
+      color: var(--success-text);
+      border: 1px solid #a7f3d0;
+    }
+
+    .flat-badge-primary {
+      background: var(--primary-subtle);
+      color: var(--primary-text);
+      border: 1px solid #bfdbfe;
+    }
+
+    .flat-badge-warning {
+      background: var(--warning-subtle);
+      color: var(--warning-text);
+      border: 1px solid #fde68a;
+    }
+
+    /* 扁平卡片网格 (Flat Asset Cards) */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .asset-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.15s ease;
+    }
+
+    .asset-card:hover {
+      border-color: var(--border-strong);
+    }
+
+    .asset-preview {
+      position: relative;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+
+    .asset-preview img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .asset-tag {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: #0f172ae0;
+      padding: 2px 6px;
+      border-radius: var(--radius-xs);
+      font-size: 11px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .asset-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .asset-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .prompt-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      max-height: 100px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 1.45;
+    }
+
+    .asset-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+    }
+
+    /* 扁平代码展示器 (Flat Code Viewer) */
+    .code-viewer {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .code-header {
+      padding: 10px 16px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .code-content {
+      padding: 16px;
+      max-height: 550px;
+      overflow-y: auto;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      background: var(--bg-dark-code);
+      color: #e2e8f0;
+      white-space: pre-wrap;
+    }
+
+    /* 扁平报告卡片 (Flat Report Cards) */
+    .flat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .flat-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .flat-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* 扁平数据表格 (Flat Table) */
+    .table-wrap {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--bg-surface);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .data-table th {
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tr:hover {
+      background: #fafafa;
+    }
+
+    /* 嵌入式 Iframe 预览 */
+    .preview-frame-wrap {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 720px;
+    }
+
+    .preview-frame-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
+
+    /* 扁平 Lightbox 模态框 */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 30px;
+      cursor: zoom-out;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      object-fit: contain;
+      background: #000;
+    }
+
+    /* 扁平 Toast 提示 (Flat Toast) */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text-main);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 500;
+      transform: translateY(60px);
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      z-index: 2000;
+      border: 1px solid #334155;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 左侧扁平目录导航 -->
+  <aside class="sidebar">
+    <div class="brand-header">
+      <div class="brand-logo">DD</div>
+      <div>
+        <div class="brand-title">自媒体发布资产看板</div>
+        <div class="brand-subtitle">doudou-markdown 全景交付</div>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-item active" onclick="switchTab('overview')">
+        <span>📊 全局概览</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('markdown')">
+        <span>📝 原文与 CDN Markdown</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('compliance')">
+        <span>🛡️ 01. 内容合规审查</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('illustrations')">
+        <span>🎨 02. 文章配图</span>
+        <span class="badge" id="badge-illustrations">0</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('cover')">
+        <span>🖼️ 03. 封面图集</span>
+        <span class="badge" id="badge-cover">0</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('cdn')">
+        <span>🌐 04. CDN 映射清单</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('wechat')">
+        <span>📱 05. 公众号排版</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('xhs')">
+        <span>📑 06. 小红书图文</span>
+        <span class="badge" id="badge-xhs">0</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('guizang')">
+        <span>📰 07. 归藏社媒卡片</span>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- 扁平主内容区 -->
+  <main class="main-container">
+    <header class="top-header">
+      <div class="article-info">
+        <h1>{{ARTICLE_TITLE}}</h1>
+        <div class="article-meta">
+          <span>📅 生成时间: {{GENERATION_TIME}}</span>
+          <span>📦 路径: <code>{{ARTICLE_FOLDER_PATH}}</code></span>
+        </div>
+      </div>
+      <div class="action-group">
+        <button class="btn" onclick="copyContent('cdn-markdown-raw')">📋 复制 CDN Markdown</button>
+        <a class="btn btn-primary" href="./{{ARTICLE_NAME}}_预览.html" target="_blank">🚀 独立打开公众号预览</a>
+      </div>
+    </header>
+
+    <div class="content-body">
+      <!-- 1. 全局概览 -->
+      <section id="tab-overview" class="tab-content active">
+        <h2 class="section-title">📊 流程产物交付总览</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="label">合规审查状态</span>
+            <div style="margin-top: 4px;">
+              <span class="flat-badge flat-badge-success">🛡️ 已通过 (0 违禁词)</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <span class="label">文章高清插图</span>
+            <span class="value">{{ILLUSTRATION_COUNT}} <small style="font-size: 13px; font-weight: normal; color: var(--text-muted);">张</small></span>
+          </div>
+          <div class="stat-card">
+            <span class="label">文章封面 (多比例)</span>
+            <span class="value">{{COVER_COUNT}} <small style="font-size: 13px; font-weight: normal; color: var(--text-muted);">张</small></span>
+          </div>
+          <div class="stat-card">
+            <span class="label">小红书/社媒卡片</span>
+            <span class="value">{{CARD_COUNT}} <small style="font-size: 13px; font-weight: normal; color: var(--text-muted);">张</small></span>
+          </div>
+        </div>
+
+        <div class="flat-card">
+          <h3>🚀 快速交付说明</h3>
+          <p>全部提示词 (Prompts)、高清配图原图、公众号排版 HTML、小红书及归藏卡片资产与 Cloudflare R2 CDN 加速链接均已按规范保存到本地同名目录。请从左侧导航栏按阶段目录检视与一键复制资产。</p>
+        </div>
+      </section>
+
+      <!-- 2. Markdown 原文与 CDN 版 -->
+      <section id="tab-markdown" class="tab-content">
+        <h2 class="section-title">📝 Markdown 文章管理</h2>
+        <div class="code-viewer">
+          <div class="code-header">
+            <span>CDN 加速版 Markdown (本地图片已自动替换为 Cloudflare R2 CDN 链接)</span>
+            <button class="btn" onclick="copyContent('cdn-markdown-raw')">📋 一键复制全文</button>
+          </div>
+          <div class="code-content" id="cdn-markdown-raw">{{CDN_MARKDOWN_CONTENT}}</div>
+        </div>
+      </section>
+
+      <!-- 3. 合规审查 -->
+      <section id="tab-compliance" class="tab-content">
+        <h2 class="section-title">🛡️ 01. 敏感词与微信运营合规审查</h2>
+        <div class="flat-card">
+          <pre style="white-space: pre-wrap; font-family: inherit; font-size: 13px; color: var(--text-secondary);">{{COMPLIANCE_REPORT_CONTENT}}</pre>
+        </div>
+      </section>
+
+      <!-- 4. 文章插图 -->
+      <section id="tab-illustrations" class="tab-content">
+        <h2 class="section-title">🎨 02. 文章配图与提示词 (illustrations/)</h2>
+        <div class="card-grid">
+          <!-- ILLUSTRATION_CARDS_PLACEHOLDER -->
+        </div>
+      </section>
+
+      <!-- 5. 封面图集 -->
+      <section id="tab-cover" class="tab-content">
+        <h2 class="section-title">🖼️ 03. 封面设计与提示词 (cover/)</h2>
+        <div class="card-grid">
+          <!-- COVER_CARDS_PLACEHOLDER -->
+        </div>
+      </section>
+
+      <!-- 6. CDN 映射清单 -->
+      <section id="tab-cdn" class="tab-content">
+        <h2 class="section-title">🌐 04. Cloudflare R2 CDN 资源清单</h2>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>本地相对路径</th>
+                <th>CDN 公开访问链接</th>
+                <th>快捷操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- CDN_TABLE_ROWS_PLACEHOLDER -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 7. 公众号排版 -->
+      <section id="tab-wechat" class="tab-content">
+        <h2 class="section-title">📱 05. 微信公众号排版预览 (gzh-design)</h2>
+        <div class="preview-frame-wrap">
+          <div class="code-header">
+            <span>实时公众号排版预览 (基于 ./{{ARTICLE_NAME}}_预览.html)</span>
+            <a class="btn" href="./{{ARTICLE_NAME}}_预览.html" target="_blank">🔗 新标签页打开</a>
+          </div>
+          <iframe src="./{{ARTICLE_NAME}}_预览.html"></iframe>
+        </div>
+      </section>
+
+      <!-- 8. 小红书图文 -->
+      <section id="tab-xhs" class="tab-content">
+        <h2 class="section-title">📑 06. 小红书图文卡片 (xhs_images/)</h2>
+        <div class="card-grid">
+          <!-- XHS_CARDS_PLACEHOLDER -->
+        </div>
+      </section>
+
+      <!-- 9. 归藏社媒卡片 -->
+      <section id="tab-guizang" class="tab-content">
+        <h2 class="section-title">📰 07. 归藏高质感社媒卡片 (guizang_cards/)</h2>
+        <div class="card-grid">
+          <!-- GUIZANG_CARDS_PLACEHOLDER -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- 扁平 Lightbox 模态框 -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="放大图">
+  </div>
+
+  <!-- 扁平 Toast 提示 -->
+  <div class="toast" id="toast">已复制到剪贴板</div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      
+      const targetTab = document.getElementById('tab-' + tabId);
+      if (targetTab) targetTab.classList.add('active');
+      
+      const navItem = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick').includes(tabId));
+      if (navItem) navItem.classList.add('active');
+    }
+
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      lb.classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    function copyContent(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('已复制内容到剪贴板！');
+      });
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('已复制：' + text);
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 1800);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>
