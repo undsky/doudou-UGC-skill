@@ -23,6 +23,7 @@ description: 针对给定的 Markdown 文章文件，一站式全流程依次执
 ## 图像文字语言规约
 
 在生成所有配图、封面图、图文卡片时：
+
 - **中文优先原则**：图片中若包含文字标签、标题、模块说明或总结，**除标准英文专业名词/技术术语（如 Docker、Node.js、Python、API、JSON、OpenCode、Alpine 等）外，一律优先使用中文（简体中文）进行清晰呈现**，严禁生成无意义的大段纯英文文本。
 
 ---
@@ -37,10 +38,10 @@ path/to/article_name/
 ├── 01_compliance_report.md              # 步骤 1：合规性与敏感词审查报告 (text-check-skill)
 ├── illustrations/                        # 步骤 2：文章插图资产 (baoyu-article-illustrator)
 │   ├── prompts/                          # 插图 Prompt 文件 (如 01-infographic-arch.md)
-│   └── images/                           # 生成的高清插图 (如 01-arch.png)
+│   └── images/                           # 生成的高清插图 (如 01-arch.png 及步骤 4 下载的 01-arch_thumb.png)
 ├── cover/                                # 步骤 3：封面图资产 (baoyu-cover-image)
 │   ├── prompts/                          # 封面 Prompt 文件
-│   └── images/                           # 生成的封面图 (2.35:1 / 16:9 / 1:1)
+│   └── images/                           # 生成的封面图 (2.35:1 / 16:9 / 1:1 及步骤 4 下载的 _thumb 缩略图)
 ├── cdn_manifest.json                     # 步骤 4：R2 CDN 上传清单与 URL 映射表 (doudou-r2)
 ├── article_name_cdn.md                   # 步骤 4：已将本地图片无缝替换为 CDN URL 的 Markdown
 ├── article_name_排版_摸鱼绿(fish-green).html # 步骤 5：公众号纯排版正文片段 (gzh-design)
@@ -98,13 +99,14 @@ path/to/article_name/
 
 ---
 
-### 4. 图片上传到 CDN (`/doudou-r2`)
+### 4. 图片上传到 CDN 与缩略图同步 (`/doudou-r2`)
 
-- **执行目标**：将生成的本地配图与封面图批量同步至 Cloudflare R2，实现 CDN 加速并回填 Markdown。
+- **执行目标**：将生成的本地配图与封面图批量同步至 Cloudflare R2，实现 CDN 加速并回填 Markdown，同时下载 CDN 处理后的图片到本地作为缩略图。
 - **调用逻辑**：
   1. 调用 `doudou-r2` 上传脚本将 `illustrations/images/` 和 `cover/images/` 下的所有图片上传至 R2。
   2. 获取公开访问 CDN URL，生成映射清单保存至 `path/to/article_name/cdn_manifest.json`。
-  3. 将原 Markdown 中的本地图片引用替换为对应的公开 CDN URL，生成图床化文章文件 `path/to/article_name/article_name_cdn.md`（后续排版与卡片制作均以该 CDN 版为基准输入）。
+  3. **下载缩略图到本地**：上传成功后，将 CDN 返回的处理后图片下载保存至原图所在同级目录，命名为：`原图名_thumb`（保留原扩展名，例如 `illustrations/images/01-arch.png` 对应下载为 `illustrations/images/01-arch_thumb.png`，封面 `cover-2.35x1.png` 对应下载为 `cover-2.35x1_thumb.png`）。
+  4. 将原 Markdown 中的本地图片引用替换为对应的公开 CDN URL，生成图床化文章文件 `path/to/article_name/article_name_cdn.md`。
 
 ---
 
@@ -143,12 +145,13 @@ path/to/article_name/
 - **视觉风格自主选择**：
   - 内置两套相互独立的视觉系统，共用一套图文提炼内容：
 
-| 风格名称 | 视觉特征 | 推荐适用场景 |
-| :--- | :--- | :--- |
-| **1. 电子杂志风 (Editorial)** | 像 *Monocle* / *Kinfolk* / *Cereal* 般克制留白的版面，优雅衬线/无衬线混排、质感背景 | 叙事、生活方式、旅行、阅读、影视评论、深度观察、个人随笔 |
-| **2. 瑞士国际主义 (Swiss)** | 严谨网格系统、单一高亮锚点色、直角发丝线、极致字号与层级对比 | 产品测评、技术指南、数据分析、架构方法论、开发教程、AI 工具 |
+| 风格名称                      | 视觉特征                                                                            | 推荐适用场景                                                |
+| :---------------------------- | :---------------------------------------------------------------------------------- | :---------------------------------------------------------- |
+| **1. 电子杂志风 (Editorial)** | 像 _Monocle_ / _Kinfolk_ / _Cereal_ 般克制留白的版面，优雅衬线/无衬线混排、质感背景 | 叙事、生活方式、旅行、阅读、影视评论、深度观察、个人随笔    |
+| **2. 瑞士国际主义 (Swiss)**   | 严谨网格系统、单一高亮锚点色、直角发丝线、极致字号与层级对比                        | 产品测评、技术指南、数据分析、架构方法论、开发教程、AI 工具 |
 
 **风格选择与调度机制**：
+
 - **分步交互模式（默认）**：
   - 提炼文章核心金句与观点后，主动向用户提问，让用户自主选择：
     1. **电子杂志风 (Editorial)**
@@ -166,17 +169,17 @@ path/to/article_name/
 - **执行目标**：在流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`）。让用户只需双击打开该 HTML，即可一站式查看、对比、复制全流程产出（Markdown 原文、Prompt 提示词、高清配图、封面、CDN 清单、公众号排版页面、小红书图文与归藏社媒卡片）。
 - **内容组织规划（按生成的文件夹目录结构划分模块）**：
 
-| 模块标签 | 对应目录/文件 | 核心展示与交互内容 |
-| :--- | :--- | :--- |
-| 📊 **全局概览 (Overview)** | 产物根目录 | 文章元数据（标题、字数、生成时间、产物统计看板）、各阶段状态徽章（1~6已就绪）、快捷操作按钮（复制 CDN Markdown、打开公众号预览等）。 |
-| 📝 **文章与 Markdown** | `[article].md`<br>`article_cdn.md` | 原文与 CDN 加速版 Markdown 的 Tab 切换预览、行号代码高亮、字符统计、一键复制 Markdown 全文。 |
-| 🛡️ **01 内容审查** | `01_compliance_report.md` | 格式化渲染合规审查报告，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签。 |
-| 🎨 **02 文章插图** | `illustrations/`<br>├ `prompts/`<br>└ `images/` | 插图网格卡片流：每张卡片含高清缩略图、放大弹窗 (Lightbox)、类型标签（架构图/流程图等）、Prompt 提示词折叠面板（带一键复制）、本地路径与 CDN URL 快速复制。 |
-| 🖼️ **03 封面图集** | `cover/`<br>├ `prompts/`<br>└ `images/` | 2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例并列陈列；展示 5 维设计提示词，支持大图放大。 |
-| 🌐 **04 CDN 映射表** | `cdn_manifest.json` | 交互式数据表格：展示原始相对路径、Cloudflare R2 CDN 加速链接、图片尺寸与上传状态；支持单项或批量一键复制 URL。 |
-| 📱 **05 公众号排版** | `[article]_排版_[theme].html`<br>`[article]_预览.html` | 嵌入式实时渲染 iframe 预览公众号样式；提供纯排版正文片段查看；一键复制可直接粘贴至微信公众平台编辑器的富文本内容。 |
-| 📑 **06 小红书图文** | `xhs_images/`<br>├ `prompts/`<br>└ `images/` | 3:4 比例卡片流/轮播排版，展示封面卡、要点卡、总结卡；附带对应生图 Prompt 与发布配文查看。 |
-| 📰 **07 归藏社媒卡片** | `guizang_cards/`<br>├ `editorial/`<br>└ `swiss/` | 电子杂志风 (Editorial) / 瑞士国际主义 (Swiss) 双风格卡片画廊；支持 HTML 模板预览与渲染生成卡片大图切换查看。 |
+| 模块标签                   | 对应目录/文件                                          | 核心展示与交互内容                                                                                                                                         |
+| :------------------------- | :----------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📊 **全局概览 (Overview)** | 产物根目录                                             | 文章元数据（标题、字数、生成时间、产物统计看板）、各阶段状态徽章（1~6已就绪）、快捷操作按钮（复制 CDN Markdown、打开公众号预览等）。                       |
+| 📝 **文章与 Markdown**     | `[article].md`<br>`article_cdn.md`                     | 原文与 CDN 加速版 Markdown 的 Tab 切换预览、行号代码高亮、字符统计、一键复制 Markdown 全文。                                                               |
+| 🛡️ **01 内容审查**         | `01_compliance_report.md`                              | 格式化渲染合规审查报告，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签。                                                                       |
+| 🎨 **02 文章插图**         | `illustrations/`<br>├ `prompts/`<br>└ `images/`        | 插图网格卡片流：每张卡片含高清缩略图、放大弹窗 (Lightbox)、类型标签（架构图/流程图等）、Prompt 提示词折叠面板（带一键复制）、本地路径与 CDN URL 快速复制。 |
+| 🖼️ **03 封面图集**         | `cover/`<br>├ `prompts/`<br>└ `images/`                | 2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例并列陈列；展示 5 维设计提示词，支持大图放大。                                                       |
+| 🌐 **04 CDN 映射表**       | `cdn_manifest.json`                                    | 交互式数据表格：展示原始相对路径、Cloudflare R2 CDN 加速链接、图片尺寸与上传状态；支持单项或批量一键复制 URL。                                             |
+| 📱 **05 公众号排版**       | `[article]_排版_[theme].html`<br>`[article]_预览.html` | 嵌入式实时渲染 iframe 预览公众号样式；提供纯排版正文片段查看；一键复制可直接粘贴至微信公众平台编辑器的富文本内容。                                         |
+| 📑 **06 小红书图文**       | `xhs_images/`<br>├ `prompts/`<br>└ `images/`           | 3:4 比例卡片流/轮播排版，展示封面卡、要点卡、总结卡；附带对应生图 Prompt 与发布配文查看。                                                                  |
+| 📰 **07 归藏社媒卡片**     | `guizang_cards/`<br>├ `editorial/`<br>└ `swiss/`       | 电子杂志风 (Editorial) / 瑞士国际主义 (Swiss) 双风格卡片画廊；支持 HTML 模板预览与渲染生成卡片大图切换查看。                                               |
 
 #### 看板 HTML 实现规范 (Design & UX Standard)
 
@@ -218,11 +221,11 @@ path/to/article_name/
 
 全流程执行完成后，向用户呈递同名目录资产汇总，并重点提示打开 `index.html` 查看：
 
-- 📊 **全景结果汇总看板**：`index.html` ⭐ *(双击即可在浏览器中一览全部原文、提示词、图片、页面与 CDN 资产)*
+- 📊 **全景结果汇总看板**：`index.html` ⭐ _(双击即可在浏览器中一览全部原文、提示词、图片、页面与 CDN 资产)_
 - 🛡️ **合规报告**：`01_compliance_report.md`
 - 🎨 **文章插图**：`illustrations/` (含 `prompts/` 与 `images/`)
 - 🖼️ **封面图片**：`cover/` (含 `prompts/` 与 `images/`)
-- 🌐 **CDN 文章与映射**：`article_name_cdn.md` 及 `cdn_manifest.json`
+- 🌐 **CDN 文章与映射**：`article_name_cdn.md`、`cdn_manifest.json` 及本地缩略图备份 (`_thumb`)
 - 📱 **公众号排版**：`article_name_预览.html` 及纯排版正文 HTML
 - 📑 **小红书图文**：`xhs_images/` (含 `prompts/` 与 `images/`)
 - 📰 **归藏社媒卡片**：`guizang_cards/`（含 **电子杂志风 (Editorial)** 或 **瑞士国际主义 (Swiss)** 卡片组）
