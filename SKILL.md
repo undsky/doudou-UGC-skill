@@ -225,15 +225,20 @@ path/to/article_name/
 
 #### 看板 HTML 实现规范 (Design & UX Standard)
 
-1. **纯静态自包含设计**：
+1. **模板唯一定义与严禁自拟样式**：
+   - 步骤 8 生成 `index.html` 时，**必须强制读取 `references/dashboard-template.html` 作为唯一种子模版**进行占位符插槽填充替换，**严禁脱离模板从零手写 HTML/CSS，严禁自行设计深色/极客主题**！
+   - 严格保持模版预设的现代扁平化浅色白灰调视觉体系（`--bg-app: #f8fafc`、`--bg-surface: #ffffff`、1px 发丝边框 `--border-subtle: #e2e8f0`、扁平实色徽章与按钮），确保所有文章产出看板在视觉风格与交互逻辑上 100% 规范统一。
+2. **Markdown 双栏实时渲染与 marked.js 依赖**：
+   - 页面 `<head>` 必须引入 `<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>`。
+   - 「文章与 Markdown」模块必须采用 `.markdown-split-view` 双栏布局：
+     - **左侧（源码区）**：展示高亮代码，支持一键在「CDN 加速版」与「原始 Markdown」之间自由切换，配备 `📋 一键复制 Markdown`；
+     - **右侧（实时预览区）**：通过 `marked.parse()` 实时将左侧 Markdown 解析渲染为带完整版式（标题、引用、列表、代码块、图片等）的 HTML 视图，配备 `📋 一键复制 HTML`。
+3. **纯静态自包含设计**：
    - 页面内的所有图片、存证截图和文件链接均采用**相对路径**（例如 `./illustrations/images/01-arch.png`、`./cover/images/cover-2.35x1.png`、`./publishes/screenshots/weixin_article.png`）。
    - 用户无需启动本地 HTTP 服务器，直接在文件管理器中**双击 `index.html`** 即可在任意现代浏览器中正常加载全部内容、图片与存证截图。
-2. **现代扁平化设计美学 (Modern Flat Design Standard)**：
-   - 采用精致清爽的扁平化现代设计（白/灰高对比平面背景、1px 发丝边框、扁平实色徽章与按钮、纯色点缀）。
-   - 去除沉重的大面积阴影与拟物渐变，强调清晰的版式网格、高易读性无衬线排版与克制轻盈的交互反馈。
-3. **内置交互组件**：
+4. **内置交互组件与占位符填充**：
    - **侧边栏/分类 Tab 导航**：基于文件夹目录结构进行直观归类，点击平滑切换，支持徽章计数。
-   - **多平台发布状态面板与存证画廊**：多平台卡片式状态流，支持按状态（成功/失败/跳过）筛选，支持存证截图 Lightbox 全屏预览。
+   - **多平台发布状态面板与存证画廊**：多平台卡片式状态流，展示 11 平台状态与存证截图 Lightbox 全屏预览。
    - **图片放大镜 / Lightbox 模态框**：点击任意插图/封面/卡片/发布存证截图即可全屏放大预览，支持键盘 ESC 关闭。
    - **全局一键复制与 Toast 提示**：复制 Prompt、Markdown 全文、CDN URL、公众号排版 HTML、多平台发布状态报告时均提供即时反馈。
    - **Prompt 提示词抽屉/折叠器**：默认紧凑陈列，点击展开完整 Midjourney/Flux/原生提示词。

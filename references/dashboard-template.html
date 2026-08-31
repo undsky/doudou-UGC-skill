@@ -736,11 +736,11 @@
       </div>
       <div class="nav-item" onclick="switchTab('illustrations')">
         <span>🎨 02. 文章配图</span>
-        <span class="badge" id="badge-illustrations">0</span>
+        <span class="badge" id="badge-illustrations">{{ILLUSTRATION_COUNT}}</span>
       </div>
       <div class="nav-item" onclick="switchTab('cover')">
         <span>🖼️ 03. 封面图集</span>
-        <span class="badge" id="badge-cover">0</span>
+        <span class="badge" id="badge-cover">{{COVER_COUNT}}</span>
       </div>
       <div class="nav-item" onclick="switchTab('cdn')">
         <span>🌐 04. CDN 映射清单</span>
@@ -750,10 +750,13 @@
       </div>
       <div class="nav-item" onclick="switchTab('xhs')">
         <span>📑 06. 小红书图文</span>
-        <span class="badge" id="badge-xhs">0</span>
+        <span class="badge" id="badge-xhs">{{CARD_COUNT}}</span>
       </div>
       <div class="nav-item" onclick="switchTab('guizang')">
         <span>📰 07. 归藏社媒卡片</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('publishes')">
+        <span>🚀 08. 多平台发布矩阵</span>
       </div>
     </nav>
   </aside>
@@ -899,6 +902,33 @@
           <!-- GUIZANG_CARDS_PLACEHOLDER -->
         </div>
       </section>
+
+      <!-- 10. 多平台发布矩阵 -->
+      <section id="tab-publishes" class="tab-content">
+        <h2 class="section-title">🚀 08. 全网多平台草稿发布矩阵与存证 (publishes/)</h2>
+        <div class="table-wrap" style="margin-bottom: 20px;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>平台名称</th>
+                <th>发布分类</th>
+                <th>发布模态</th>
+                <th>核心注入资产</th>
+                <th>草稿状态</th>
+                <th>存证操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- PUBLISHES_TABLE_ROWS_PLACEHOLDER -->
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:14px; font-weight:600; margin-bottom:12px;">📸 自动化草稿存证截图</h3>
+        <div class="card-grid">
+          <!-- PUBLISHES_SCREENSHOTS_PLACEHOLDER -->
+        </div>
+      </section>
     </div>
   </main>
 
@@ -918,8 +948,12 @@
       const targetTab = document.getElementById('tab-' + tabId);
       if (targetTab) targetTab.classList.add('active');
       
-      const navItem = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick').includes(tabId));
+      const navItem = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick') && el.getAttribute('onclick').includes(tabId));
       if (navItem) navItem.classList.add('active');
+
+      if (tabId === 'markdown') {
+        renderMarkdown();
+      }
     }
 
     function openLightbox(src) {
