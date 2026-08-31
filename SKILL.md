@@ -106,7 +106,7 @@ path/to/article_name/
 
 - **执行目标**：将生成的本地配图与封面图批量同步至 Cloudflare R2，实现 CDN 加速并回填 Markdown，同时下载 CDN 处理后的图片到本地作为缩略图。
 - **调用逻辑**：
-  1. 调用 `doudou-r2` 上传脚本将 `illustrations/images/` 和 `cover/images/` 下的所有图片上传至 R2。
+  1. 调用 `doudou-r2` 上传脚本将 `illustrations/images/` 和 `cover/images/` 下的所有图片上传至 R2。**严禁携带 `--original`、`--no-compress` 或 `--resize 0` 参数**，必须走默认上传逻辑（由 n8n 服务端自动压缩并将宽 ≥ 1000 的图片等比缩小至 600px），以确保 CDN 处理产物为真正的轻量缩略图。
   2. 获取公开访问 CDN URL，生成映射清单保存至 `path/to/article_name/cdn_manifest.json`。
   3. **下载缩略图到本地**：上传成功后，将 CDN 返回的处理后图片下载保存至原图所在同级目录，命名为：`原图名_thumb`（保留原扩展名，例如 `illustrations/images/01-arch.png` 对应下载为 `illustrations/images/01-arch_thumb.png`，封面 `cover-2.35x1.png` 对应下载为 `cover-2.35x1_thumb.png`）。
   4. 将原 Markdown 中的本地图片引用替换为对应的公开 CDN URL，生成图床化文章文件 `path/to/article_name/article_name_cdn.md`（后续排版、卡片制作及多平台发布均以该 CDN 版为基准输入）。
