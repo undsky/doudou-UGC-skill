@@ -175,17 +175,17 @@ path/to/article_name/
 
 | 平台分类 | 技能名称 | 目标平台与后台 | 适配创作模态与注入资产 |
 | :--- | :--- | :--- | :--- |
-| **微信公众平台** | `doudou-weixin` | [微信公众平台](https://mp.weixin.qq.com) | ① **图文文章**：`gzh-design` 纯排版 HTML + 2.35:1 宽屏封面 + 摘要<br>② **小绿书贴图**：`xhs_images` / `guizang_cards` 3:4 卡片集 + 贴图文案 |
-| **自媒体综合** | `doudou-toutiao` | [今日头条 / 头条号](https://mp.toutiao.com) | CDN Markdown 文章 + 宽屏封面 + 标题与摘要 |
-| **自媒体综合** | `doudou-baijia` | [百度百家号](https://baijiahao.baidu.com) | CDN Markdown 文章 + 宽屏封面 + 标题与摘要 |
-| **自媒体综合** | `doudou-qiehao` | [企鹅号 (腾讯内容开放平台)](https://om.qq.com) | CDN Markdown 文章 + 宽屏封面 + 标题与摘要 |
-| **技术社区** | `doudou-juejin` | [稀土掘金社区](https://juejin.cn) | CDN Markdown 原文 + 技术分类与标签 + 封面图 |
-| **技术社区** | `doudou-csdn` | [CSDN 博客](https://editor.csdn.net/md) | 原生 Markdown 格式 + 专栏分类 + Mark-Selection 标签 + 封面图 |
-| **技术社区** | `doudou-tencent` | [腾讯云开发者社区](https://cloud.tencent.com/developer) | Cherry Markdown 原文 + 标签与摘要 + Cropper 封面 |
-| **技术社区** | `doudou-aliyun` | [阿里云开发者社区](https://developer.aliyun.com) | Markdown 原文 + 宽屏封面 + 标签与分类 |
-| **技术社区/视频** | `doudou-bilibili` | [哔哩哔哩 (B站) 专栏](https://member.bilibili.com) | 官方 BFS 转存正文配图 + TipTap 语义化 HTML + 16:9 封面裁切 + 原创声明 |
-| **视觉与社交** | `doudou-xiaohongshu` | [小红书创作者服务平台](https://creator.xiaohongshu.com) | ① **长文专栏**：富文本正文 + 封面图<br>② **图文笔记**：`guizang_cards` / `xhs_images` 3:4 卡片集 + 标题 + 描述与话题 |
-| **视觉与社交** | `doudou-douyin` | [抖音创作者服务平台](https://creator.douyin.com) | ① **长文文章**：TipTap 富文本正文 + 高清封面<br>② **图文笔记**：信息图卡片集 + 标题 + 话题标签 |
+| **微信公众平台** | `doudou-weixin` | [微信公众平台](https://mp.weixin.qq.com) | ① **图文文章**：`gzh-design` 纯排版 HTML + 2.35:1 宽屏封面（**优先 `_thumb` 缩略图**）+ 摘要<br>② **小绿书贴图**：`xhs_images` / `guizang_cards` 3:4 卡片集 + 贴图文案 |
+| **自媒体综合** | `doudou-toutiao` | [今日头条 / 头条号](https://mp.toutiao.com) | CDN Markdown 文章（**配图优先 `_thumb`/CDN**）+ 宽屏封面（**优先 `_thumb`**）+ 标题与摘要 |
+| **自媒体综合** | `doudou-baijia` | [百度百家号](https://baijiahao.baidu.com) | CDN Markdown 文章（**配图优先 `_thumb`/CDN**）+ 宽屏封面（**优先 `_thumb`**）+ 标题与摘要 |
+| **自媒体综合** | `doudou-qiehao` | [企鹅号 (腾讯内容开放平台)](https://om.qq.com) | CDN Markdown 文章（**配图优先 `_thumb`/CDN**）+ 宽屏封面（**优先 `_thumb`**）+ 标题与摘要 |
+| **技术社区** | `doudou-juejin` | [稀土掘金社区](https://juejin.cn) | CDN Markdown 原文 + 技术分类与标签 + 封面图（**优先 `_thumb`**） |
+| **技术社区** | `doudou-csdn` | [CSDN 博客](https://editor.csdn.net/md) | 原生/CDN Markdown 格式 + 专栏分类 + Mark-Selection 标签 + 封面图（**优先 `_thumb`**） |
+| **技术社区** | `doudou-tencent` | [腾讯云开发者社区](https://cloud.tencent.com/developer) | Cherry Markdown 原文 + 标签与摘要 + Cropper 封面（**优先 `_thumb`**） |
+| **技术社区** | `doudou-aliyun` | [阿里云开发者社区](https://developer.aliyun.com) | Markdown 原文 + 宽屏封面（**优先 `_thumb`**）+ 标签与分类 |
+| **技术社区/视频** | `doudou-bilibili` | [哔哩哔哩 (B站) 专栏](https://member.bilibili.com) | 官方 BFS 转存正文配图（**优先 `illustrations/images/*_thumb.png`**）+ TipTap 语义化 HTML + 16:9 封面（**优先 `_thumb`**）+ 原创声明 |
+| **视觉与社交** | `doudou-xiaohongshu` | [小红书创作者服务平台](https://creator.xiaohongshu.com) | ① **长文专栏**：富文本正文 + 封面图（**优先 `_thumb`**）<br>② **图文笔记**：`guizang_cards` / `xhs_images` 3:4 卡片集 + 标题 + 描述与话题 |
+| **视觉与社交** | `doudou-douyin` | [抖音创作者服务平台](https://creator.douyin.com) | ① **长文文章**：TipTap 富文本正文 + 封面图（**优先 `_thumb`**）<br>② **图文笔记**：信息图卡片集 + 标题 + 话题标签 |
 
 #### 7.2 发布核心规约
 
@@ -193,8 +193,12 @@ path/to/article_name/
    - **绝对限定仅保存到草稿箱**，严禁触发「公开发布」、「群发」或「发表」按钮，确保所有内容必须经人工最终确认后再正式发布。
 2. **拟真人机防风控**：
    - 操作间加入微随机正态分布时延（300ms~1500ms），严格模拟人工视口平滑滚动、拟真悬停与真实 DOM 事件派发。
-3. **资产自动智能装配**：
-   - 正文优先使用 `[article_name]_cdn.md`；公众号优先使用 `_排版_[theme].html`；封面优先使用 `cdn_manifest.json` 或 `cover/images/`；贴图优先使用 `guizang_cards/` 或 `xhs_images/`。
+3. **资产自动智能装配（缩略图优先原则）**：
+   - **封面图优先缩略图**：上传封面时，**必须优先选用带有 `_thumb` 后缀的本地缩略图**（如 `cover-2.35x1_thumb.png`、`cover-16x9_thumb.png`，或 `cdn_manifest.json` 中记录的 `thumb_path`）；若无 `_thumb` 缩略图才降级使用原图。不仅能规避各大平台 2MB~5MB 的封面上传上限，还能大幅提升上传与裁切响应速度。
+   - **正文配图优先缩略图/CDN 压缩图**：
+     - 正文优先使用已替换为 CDN 压缩链接的 `[article_name]_cdn.md`；
+     - 需要向平台官方图床（如 B 站 BFS）转存或上传本地图片的场景，**优先使用 `illustrations/images/*_thumb.png` 缩略图**进行转存注入，避免原图过大导致网络超时或风控阻断。
+   - **排版与贴图产物**：公众号发布优先使用 `_排版_[theme].html`；贴图/图文笔记优先使用 `guizang_cards/` 或 `xhs_images/`。
 4. **截屏存证与清单记录**：
    - 每个平台保存草稿后，自动调用 `take_screenshot` 保存存证截图至 `path/to/article_name/publishes/screenshots/[platform]_[mode].png`。
    - 在 `path/to/article_name/publishes/publish_manifest.json` 中结构化记录各平台发布状态、草稿 ID/链接、存证截图路径与耗时。
