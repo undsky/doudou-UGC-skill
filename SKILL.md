@@ -1,6 +1,6 @@
 ---
 name: doudou-markdown
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文与瑞士/杂志风社媒卡片生成、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、guizang-social-card-skill、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文与瑞士/杂志风社媒卡片生成、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、guizang-social-card-skill、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
@@ -171,7 +171,7 @@ path/to/article_name/
 
 - **执行目标**：在图文卡片生成完毕后，调用 `doudou-publish-skills` 套件，基于 `chrome-devtools-mcp` 自动将文章及衍生资产发布至各大自媒体平台与技术社区的草稿箱，并完成状态记录与截屏存证。
 
-#### 7.1 支持的 11 大平台矩阵
+#### 7.1 支持的 12 大平台矩阵
 
 | 平台名称 | 技能名称 |
 | :--- | :--- |
@@ -186,6 +186,7 @@ path/to/article_name/
 | **哔哩哔哩 (B站)** | `/doudou-bilibili` |
 | **小红书** | `/doudou-xiaohongshu` |
 | **抖音** | `/doudou-douyin` |
+| **知乎** | `/doudou-zhihu` |
 
 #### 7.2 发布核心规约与执行机制
 
@@ -210,7 +211,7 @@ path/to/article_name/
 
 ### 8. 生成产物结果汇总看板 (`index.html`)
 
-- **执行目标**：在全流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`）。用户只需双击打开该 HTML，即可一站式查看、对比、复制全流程产出（Markdown 原文、Prompt 提示词、高清配图、封面、CDN 清单、公众号排版页面、小红书与归藏社媒卡片、**以及全网 11 大平台的草稿发布结果与存证截图**）。
+- **执行目标**：在全流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`）。用户只需双击打开该 HTML，即可一站式查看、对比、复制全流程产出（Markdown 原文、Prompt 提示词、高清配图、封面、CDN 清单、公众号排版页面、小红书与归藏社媒卡片、**以及全网 12 大平台的草稿发布结果与存证截图**）。
 - **内容组织规划（按生成的文件夹目录结构划分模块）**：
 
 | 模块标签 | 对应目录/文件 | 核心展示与交互内容 |
@@ -224,7 +225,7 @@ path/to/article_name/
 | 📱 **05 公众号排版** | `[article]_排版_[theme].html`<br>`[article]_预览.html` | 嵌入式实时渲染 iframe 预览公众号样式；提供纯排版正文片段查看；一键复制可直接粘贴至微信公众平台编辑器的富文本内容。 |
 | 📑 **06 小红书图文** | `xhs_images/`<br>├ `prompts/`<br>└ `images/` | 3:4 比例卡片流/轮播排版，展示封面卡、要点卡、总结卡；附带对应生图 Prompt 与发布配文查看。 |
 | 📰 **07 归藏社媒卡片** | `guizang_cards/`<br>├ `editorial/`<br>└ `swiss/` | 电子杂志风 (Editorial) / 瑞士国际主义 (Swiss) 双风格卡片画廊；支持 HTML 模板预览与渲染生成卡片大图切换查看。 |
-| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>├ `publish_manifest.json`<br>└ `screenshots/` | **多平台草稿发布状态看板**：展示 11 大平台发布状态徽章（✅ 已保存草稿 / ⚠️ 待登录 / ❌ 失败 / ⏸️ 未选择）、发布模态（图文长文/卡片贴图）、草稿 ID、发布时间；网格化展示各平台草稿保存成功的存证截图（支持点击全屏放大 Lightbox 审查），支持一键复制多平台发布状态汇总。 |
+| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>├ `publish_manifest.json`<br>└ `screenshots/` | **多平台草稿发布状态看板**：展示 12 大平台发布状态徽章（✅ 已保存草稿 / ⚠️ 待登录 / ❌ 失败 / ⏸️ 未选择）、发布模态（图文长文/卡片贴图）、草稿 ID、发布时间；网格化展示各平台草稿保存成功的存证截图（支持点击全屏放大 Lightbox 审查），支持一键复制多平台发布状态汇总。 |
 
 #### 看板 HTML 实现规范 (Design & UX Standard)
 
@@ -241,7 +242,7 @@ path/to/article_name/
    - 用户无需启动本地 HTTP 服务器，直接在文件管理器中**双击 `index.html`** 即可在任意现代浏览器中正常加载全部内容、图片与存证截图。
 4. **内置交互组件与占位符填充**：
    - **侧边栏/分类 Tab 导航**：基于文件夹目录结构进行直观归类，点击平滑切换，支持徽章计数。
-   - **多平台发布状态面板与存证画廊**：多平台卡片式状态流，展示 11 平台状态与存证截图 Lightbox 全屏预览。
+   - **多平台发布状态面板与存证画廊**：多平台卡片式状态流，展示 12 平台状态与存证截图 Lightbox 全屏预览。
    - **图片放大镜 / Lightbox 模态框**：点击任意插图/封面/卡片/发布存证截图即可全屏放大预览，支持键盘 ESC 关闭。
    - **全局一键复制与 Toast 提示**：复制 Prompt、Markdown 全文、CDN URL、公众号排版 HTML、多平台发布状态报告时均提供即时反馈。
    - **Prompt 提示词抽屉/折叠器**：默认紧凑陈列，点击展开完整 Midjourney/Flux/原生提示词。
