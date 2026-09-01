@@ -1,11 +1,11 @@
 ---
 name: doudou-markdown
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文与瑞士/杂志风社媒卡片生成、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、guizang-social-card-skill、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文卡片生成、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`guizang-social-card-skill`、`doudou-publish-skills`），实现从**内容审查、配图、封面、CDN 加速、公众号排版、多平台图文卡片、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`doudou-publish-skills`），实现从**内容审查、配图、封面、CDN 加速、公众号排版、图文卡片、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布存证截图与清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -46,12 +46,9 @@ path/to/article_name/
 ├── article_name_cdn.md                   # 步骤 4：已将本地图片无缝替换为 CDN URL 的 Markdown
 ├── article_name_排版_摸鱼绿(fish-green).html # 步骤 5：公众号纯排版正文片段 (gzh-design)
 ├── article_name_预览.html                # 步骤 5：带一键复制功能的公众号预览页
-├── xhs_images/                           # 步骤 6.1：小红书/微信图文卡片 (baoyu-xhs-images)
+├── xhs_images/                           # 步骤 6：小红书/微信图文卡片 (baoyu-xhs-images)
 │   ├── prompts/                          # 小红书卡片 Prompt 文件
 │   └── images/                           # 生成的 3:4 图文卡片
-├── guizang_cards/                        # 步骤 6.2：归藏高质感社媒卡片 (guizang-social-card-skill)
-│   ├── editorial/                        # [风格选项 A] 电子杂志风产物 (html & images)
-│   └── swiss/                            # [风格选项 B] 瑞士国际主义风产物 (html & images)
 └── publishes/                            # 步骤 7：多平台发布存证与状态清单 (doudou-publish-skills)
     ├── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、草稿状态、时间、截图路径等)
     └── screenshots/                      # 各平台草稿保存成功的存证截图 (如 weixin_article.png, bilibili.png 等)
@@ -66,7 +63,7 @@ path/to/article_name/
 ### 0. 准备同名工作目录
 
 - 获取目标文件所在目录与主文件名（如 `mds/AICoding/article.md` -> `mds/AICoding/article/`）。
-- 创建同名产物目录及相关子目录（`illustrations/prompts`、`illustrations/images`、`cover/prompts`、`cover/images`、`xhs_images/prompts`、`xhs_images/images`、`guizang_cards`、`publishes/screenshots`）。
+- 创建同名产物目录及相关子目录（`illustrations/prompts`、`illustrations/images`、`cover/prompts`、`cover/images`、`xhs_images/prompts`、`xhs_images/images`、`publishes/screenshots`）。
 
 ---
 
@@ -127,43 +124,11 @@ path/to/article_name/
 
 ---
 
-### 6. 生成图文卡片
-
-针对多平台自媒体分发需求，依次调用两套图文卡片技能：
-
-#### 6.1 小红书/微信图文卡片 (`/baoyu-xhs-images`)
+### 6. 生成图文卡片 (`/baoyu-xhs-images`)
 
 - 将文章知识点拆解为 1-10 张生动信息图卡片（封面卡 + 核心要点卡 + 总结卡）。
 - 提示词保存至 `path/to/article_name/xhs_images/prompts/`。
 - **生图调用**：优先使用 **`generate_image`**，无可用时使用 **`generate_image_to_r2`**。图片保存至 `path/to/article_name/xhs_images/images/`。
-
-#### 6.2 归藏社媒卡片 (`/guizang-social-card-skill`) —— 单文件 HTML 渲 PNG
-
-- **素材直接复用（无需再次调用 AI 生图模型）**：
-  - 归藏社媒卡片**不调用**任何生图工具（`generate_image` / `generate_image_to_r2`）。
-  - 直接复用步骤 6.1 (`baoyu-xhs-images`) 已拆解的核心观点、金句、痛点、架构、变现路径及配图素材。
-- **渲染管线**：
-  - 采用 `guizang-social-card-skill` 标准的**单文件 HTML + CSS 模板**（`.poster.xhs` 3:4 比例）。
-  - 通过单文件 HTML 渲染为 PNG（如使用 Playwright / Puppeteer 浏览器自动化截图），直接导出 3:4 高清社交卡片，零生图成本且版式精确。
-- **视觉风格自主选择**：
-  - 内置两套相互独立的视觉系统，共用一套图文提炼内容：
-
-| 风格名称 | 视觉特征 | 推荐适用场景 |
-| :--- | :--- | :--- |
-| **1. 电子杂志风 (Editorial)** | 像 *Monocle* / *Kinfolk* / *Cereal* 般克制留白的版面，优雅衬线/无衬线混排、质感背景 | 叙事、生活方式、旅行、阅读、影视评论、深度观察、个人随笔 |
-| **2. 瑞士国际主义 (Swiss)** | 严谨网格系统、单一高亮锚点色、直角发丝线、极致字号与层级对比 | 产品测评、技术指南、数据分析、架构方法论、开发教程、AI 工具 |
-
-**风格选择与调度机制**：
-
-- **分步交互模式（默认）**：
-  - 提炼文章核心金句与观点后，主动向用户提问，让用户自主选择：
-    1. **电子杂志风 (Editorial)**
-    2. **瑞士国际主义 (Swiss)**
-    3. **两套风格均生成**（分别保存在 `editorial/` 与 `swiss/` 子目录下进行对比）
-- **全自动模式（`--yes` / `--quick`）**：
-  - 依据文章题材自动选择最匹配的风格（如技术/教程默认 Swiss，人文/感悟默认 Editorial），并在交付汇总中告知用户选择理由，提示可随时指定另一套风格重绘。
-- **产物归档**：
-  - 生成的 HTML 模板 (`cards.html`) 与渲染导出的 PNG 图片保存至 `path/to/article_name/guizang_cards/`（若两套都选则分别放入 `guizang_cards/editorial/` 和 `guizang_cards/swiss/`）。
 
 ---
 
@@ -173,20 +138,20 @@ path/to/article_name/
 
 #### 7.1 支持的 12 大平台矩阵
 
-| 平台名称 | 技能名称 |
-| :--- | :--- |
-| **微信公众平台** | `/doudou-weixin` |
-| **今日头条** | `/doudou-toutiao` |
-| **百家号** | `/doudou-baijia` |
-| **企鹅号** | `/doudou-qiehao` |
-| **掘金** | `/doudou-juejin` |
-| **CSDN** | `/doudou-csdn` |
-| **腾讯云开发者社区** | `/doudou-tencent` |
-| **阿里云开发者社区** | `/doudou-aliyun` |
-| **哔哩哔哩 (B站)** | `/doudou-bilibili` |
-| **小红书** | `/doudou-xiaohongshu` |
-| **抖音** | `/doudou-douyin` |
-| **知乎** | `/doudou-zhihu` |
+| 平台名称             | 技能名称              |
+| :------------------- | :-------------------- |
+| **微信公众平台**     | `/doudou-weixin`      |
+| **今日头条**         | `/doudou-toutiao`     |
+| **百家号**           | `/doudou-baijia`      |
+| **企鹅号**           | `/doudou-qiehao`      |
+| **掘金**             | `/doudou-juejin`      |
+| **CSDN**             | `/doudou-csdn`        |
+| **腾讯云开发者社区** | `/doudou-tencent`     |
+| **阿里云开发者社区** | `/doudou-aliyun`      |
+| **哔哩哔哩 (B站)**   | `/doudou-bilibili`    |
+| **小红书**           | `/doudou-xiaohongshu` |
+| **抖音**             | `/doudou-douyin`      |
+| **知乎**             | `/doudou-zhihu`       |
 
 #### 7.2 发布核心规约与执行机制
 
@@ -211,21 +176,20 @@ path/to/article_name/
 
 ### 8. 生成产物结果汇总看板 (`index.html`)
 
-- **执行目标**：在全流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`）。用户只需双击打开该 HTML，即可一站式查看、对比、复制全流程产出（Markdown 原文、Prompt 提示词、高清配图、封面、CDN 清单、公众号排版页面、小红书与归藏社媒卡片、**以及全网 12 大平台的草稿发布结果与存证截图**）。
+- **执行目标**：在全流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`）。用户只需双击打开该 HTML，即可一站式查看、对比、复制全流程产出（Markdown 原文、Prompt 提示词、高清配图、封面、CDN 清单、公众号排版页面、小红书图文卡片、**以及全网 12 大平台的草稿发布结果与存证截图**）。
 - **内容组织规划（按生成的文件夹目录结构划分模块）**：
 
-| 模块标签 | 对应目录/文件 | 核心展示与交互内容 |
-| :--- | :--- | :--- |
-| 📊 **全局概览 (Overview)** | 产物根目录 | 文章元数据（标题、字数、生成时间、产物统计看板）、各阶段状态徽章（1~7 已就绪）、快捷操作按钮（复制 CDN Markdown、打开公众号预览、查看多平台草稿存证等）。 |
-| 📝 **文章与 Markdown** | `[article].md`<br>`article_cdn.md` | 原文与 CDN 加速版 Markdown 的 Tab 切换预览、行号代码高亮、字符统计、一键复制 Markdown 全文。 |
-| 🛡️ **01 内容审查** | `01_compliance_report.md` | 格式化渲染合规审查报告，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签。 |
-| 🎨 **02 文章插图** | `illustrations/`<br>├ `prompts/`<br>└ `images/` | 插图网格卡片流：每张卡片含高清缩略图、放大弹窗 (Lightbox)、类型标签（架构图/流程图等）、Prompt 提示词折叠面板（带一键复制）、本地路径与 CDN URL 快速复制。 |
-| 🖼️ **03 封面图集** | `cover/`<br>├ `prompts/`<br>└ `images/` | 2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例并列陈列；展示 5 维设计提示词，支持大图放大。 |
-| 🌐 **04 CDN 映射表** | `cdn_manifest.json` | 交互式数据表格：展示原始相对路径、Cloudflare R2 CDN 加速链接、图片尺寸与上传状态；支持单项或批量一键复制 URL。 |
-| 📱 **05 公众号排版** | `[article]_排版_[theme].html`<br>`[article]_预览.html` | 嵌入式实时渲染 iframe 预览公众号样式；提供纯排版正文片段查看；一键复制可直接粘贴至微信公众平台编辑器的富文本内容。 |
-| 📑 **06 小红书图文** | `xhs_images/`<br>├ `prompts/`<br>└ `images/` | 3:4 比例卡片流/轮播排版，展示封面卡、要点卡、总结卡；附带对应生图 Prompt 与发布配文查看。 |
-| 📰 **07 归藏社媒卡片** | `guizang_cards/`<br>├ `editorial/`<br>└ `swiss/` | 电子杂志风 (Editorial) / 瑞士国际主义 (Swiss) 双风格卡片画廊；支持 HTML 模板预览与渲染生成卡片大图切换查看。 |
-| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>├ `publish_manifest.json`<br>└ `screenshots/` | **多平台草稿发布状态看板**：展示 12 大平台发布状态徽章（✅ 已保存草稿 / ⚠️ 待登录 / ❌ 失败 / ⏸️ 未选择）、发布模态（图文长文/卡片贴图）、草稿 ID、发布时间；网格化展示各平台草稿保存成功的存证截图（支持点击全屏放大 Lightbox 审查），支持一键复制多平台发布状态汇总。 |
+| 模块标签                           | 对应目录/文件                                                 | 核心展示与交互内容                                                                                                                                                                                                                                                      |
+| :--------------------------------- | :------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📊 **全局概览 (Overview)**         | 产物根目录                                                    | 文章元数据（标题、字数、生成时间、产物统计看板）、各阶段状态徽章（1~7 已就绪）、快捷操作按钮（复制 CDN Markdown、打开公众号预览、查看多平台草稿存证等）。                                                                                                               |
+| 📝 **文章与 Markdown**             | `[article].md`<br>`article_cdn.md`                            | 原文与 CDN 加速版 Markdown 的 Tab 切换预览、行号代码高亮、字符统计、一键复制 Markdown 全文。                                                                                                                                                                            |
+| 🛡️ **01 内容审查**                 | `01_compliance_report.md`                                     | 格式化渲染合规审查报告，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签。                                                                                                                                                                                    |
+| 🎨 **02 文章插图**                 | `illustrations/`<br>├ `prompts/`<br>└ `images/`               | 插图网格卡片流：每张卡片含高清缩略图、放大弹窗 (Lightbox)、类型标签（架构图/流程图等）、Prompt 提示词折叠面板（带一键复制）、本地路径与 CDN URL 快速复制。                                                                                                              |
+| 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                       | 2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例并列陈列；展示 5 维设计提示词，支持大图放大。                                                                                                                                                                    |
+| 🌐 **04 CDN 映射表**               | `cdn_manifest.json`                                           | 交互式数据表格：展示原始相对路径、Cloudflare R2 CDN 加速链接、图片尺寸与上传状态；支持单项或批量一键复制 URL。                                                                                                                                                          |
+| 📱 **05 公众号排版**               | `[article]_排版_[theme].html`<br>`[article]_预览.html`        | 嵌入式实时渲染 iframe 预览公众号样式；提供纯排版正文片段查看；一键复制可直接粘贴至微信公众平台编辑器的富文本内容。                                                                                                                                                      |
+| 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                  | 3:4 比例卡片流/轮播排版，展示封面卡、要点卡、总结卡；附带对应生图 Prompt 与发布配文查看。                                                                                                                                                                               |
+| 🚀 **07 多平台发布 (Publish Hub)** | `publishes/`<br>├ `publish_manifest.json`<br>└ `screenshots/` | **多平台草稿发布状态看板**：展示 12 大平台发布状态徽章（✅ 已保存草稿 / ⚠️ 待登录 / ❌ 失败 / ⏸️ 未选择）、发布模态（图文长文/卡片贴图）、草稿 ID、发布时间；网格化展示各平台草稿保存成功的存证截图（支持点击全屏放大 Lightbox 审查），支持一键复制多平台发布状态汇总。 |
 
 #### 看板 HTML 实现规范 (Design & UX Standard)
 
@@ -259,10 +223,9 @@ path/to/article_name/
     3. **步骤 3（封面门禁）**：触发 `baoyu-cover-image` 的 5 维封面参数确认（视觉类型、配色方案、渲染风格、文字密度、比例）。
     4. **步骤 4**：执行 R2 CDN 上传并回填 Markdown。
     5. **步骤 5（排版门禁）**：触发 `gzh-design` 的排版主题确认（摸鱼绿、红白色系、石墨极简等），装配 HTML 并同步博客。
-    6. **步骤 6.1（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（策略 A/B/C、风格、布局）。
-    7. **步骤 6.2（归藏卡片门禁）**：触发 `guizang-social-card-skill` 的风格选择（1. 电子杂志风 Editorial / 2. 瑞士国际主义 Swiss / 3. 双风格均生成）。
-    8. **步骤 7（多平台发布门禁）**：触发 `doudou-publish-skills` 多平台发布选项确认。向用户提供平台勾选与发布模态选择（如推荐全选、自媒体组、技术社区组、视觉图文组或自定义选择），用户确认后启动浏览器自动化将文章与图文资产发布到各平台草稿箱并保存存证截图。
-    9. **步骤 8**：组装并生成一站式结果汇总看板 `index.html`（含 1~7 阶段完整资产与多平台发布状态 Tab）。
+    6. **步骤 6（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（策略 A/B/C、风格、布局）。
+    7. **步骤 7（多平台发布门禁）**：触发 `doudou-publish-skills` 多平台发布选项确认。向用户提供平台勾选与发布模态选择（如推荐全选、自媒体组、技术社区组、视觉图文组或自定义选择），用户确认后启动浏览器自动化将文章与图文资产发布到各平台草稿箱并保存存证截图。
+    8. **步骤 8**：组装并生成一站式结果汇总看板 `index.html`（含 1~7 阶段完整资产与多平台发布状态 Tab）。
 - **全自动模式（Explicit Only）**：
   - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~8 全套流程。
 - **断点/单步执行**：
@@ -274,13 +237,11 @@ path/to/article_name/
 
 全流程执行完成后，向用户呈递同名目录资产汇总，并重点提示打开 `index.html` 查看：
 
-- 📊 **全景结果汇总看板**：`index.html` ⭐ *(双击即可在浏览器中一览全部原文、提示词、图片、页面、多平台发布状态与 CDN 资产)*
+- 📊 **全景结果汇总看板**：`index.html` ⭐ _(双击即可在浏览器中一览全部原文、提示词、图片、页面、多平台发布状态与 CDN 资产)_
 - 🛡️ **合规报告**：`01_compliance_report.md`
 - 🎨 **文章插图**：`illustrations/` (含 `prompts/` 与 `images/`)
 - 🖼️ **封面图片**：`cover/` (含 `prompts/` 与 `images/`)
 - 🌐 **CDN 文章与映射**：`article_name_cdn.md`、`cdn_manifest.json` 及本地缩略图备份 (`_thumb`)
 - 📱 **公众号排版**：`article_name_预览.html` 及纯排版 HTML
 - 📑 **小红书图文**：`xhs_images/` (含 `prompts/` 与 `images/`)
-- 📰 **归藏社媒卡片**：`guizang_cards/`（含 **电子杂志风 (Editorial)** 或 **瑞士国际主义 (Swiss)** 卡片组）
 - 🚀 **多平台发布存证**：`publishes/`（含 `publish_manifest.json` 清单与 `screenshots/` 各平台草稿存证截图）
-
