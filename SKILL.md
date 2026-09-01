@@ -1,5 +1,5 @@
 ---
-name: doudou-markdown
+name: doudou-UGC
 description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文卡片生成、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
@@ -246,7 +246,7 @@ path/to/article_name/
 ## 交互与执行模式（核心规约）
 
 - **默认模式：严格分步依次交互确认（Default）**：
-  - 当用户输入 `/doudou-markdown path/to/article.md`（未带 `--yes` / `--quick`）时，**必须严格按步骤 1 到步骤 9 的顺序依次推进**。
+  - 当用户输入 `/doudou-UGC path/to/article.md`（未带 `--yes` / `--quick`）时，**必须严格按步骤 1 到步骤 9 的顺序依次推进**。
   - **关键门禁（Gate）**：在每一个涉及选项配置的环节，**必须使用 `ask_question` 交互工具向用户呈现分析结果与推荐选项，等待用户确认/选择后方可执行该步骤的生成**，严禁一次性静默直跑！
     1. **步骤 1（合规阻断门禁）**：汇报合规性与敏感词审查报告。若发现违规或敏感词，必须立即中断流程并指导用户修改；用户修改完成或明确要求继续后方可进入步骤 2。
     2. **步骤 2（外链引用追加）**：合规审查通过后，自动扫描提取外链并在目标 Markdown 文件尾部追加标准引用链接（默认首项 `https://www.undsky.com`）。
