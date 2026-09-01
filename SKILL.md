@@ -126,9 +126,11 @@ path/to/article_name/
 
 ### 6. 生成图文卡片 (`/baoyu-xhs-images`)
 
-- 将文章知识点拆解为 1-10 张生动信息图卡片（封面卡 + 核心要点卡 + 总结卡）。
-- 提示词保存至 `path/to/article_name/xhs_images/prompts/`。
-- **生图调用**：优先使用 **`generate_image`**，无可用时使用 **`generate_image_to_r2`**。图片保存至 `path/to/article_name/xhs_images/images/`。
+- **执行目标**：将文章核心知识点与脉络结构拆解为生动的信息图与社媒图文卡片。
+- **调用逻辑**：
+  1. 分析文章脉络与知识架构，拆解为 1-10 张生动信息图卡片（封面卡 + 核心要点卡 + 总结卡）。
+  2. 生成各卡片的绘图提示词，保存至 `path/to/article_name/xhs_images/prompts/`。
+  3. **生图调用**：优先使用 **`generate_image`**，无可用时使用 **`generate_image_to_r2`**。生成的 3:4 图文卡片保存至 `path/to/article_name/xhs_images/images/`。
 
 ---
 
