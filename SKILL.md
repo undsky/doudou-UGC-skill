@@ -1,11 +1,11 @@
 ---
 name: doudou-markdown
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文卡片生成、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文卡片生成、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`doudou-publish-skills`），实现从**内容审查、配图、封面、CDN 加速、公众号排版、图文卡片、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`doudou-publish-skills`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布存证截图与清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -34,22 +34,22 @@ description: 针对给定的 Markdown 文章文件，一站式全流程依次执
 
 ```text
 path/to/article_name/
-├── index.html                            # 步骤 8：一站式产物结果汇总看板 (HTML Dashboard，含多平台发布状态与存证)
+├── index.html                            # 步骤 9：一站式产物结果汇总看板 (HTML Dashboard，含多平台发布状态与存证)
 ├── 01_compliance_report.md              # 步骤 1：合规性与敏感词审查报告 (text-check-skill)
-├── illustrations/                        # 步骤 2：文章插图资产 (baoyu-article-illustrator)
+├── illustrations/                        # 步骤 3：文章插图资产 (baoyu-article-illustrator)
 │   ├── prompts/                          # 插图 Prompt 文件 (如 01-infographic-arch.md)
-│   └── images/                           # 生成的高清插图 (如 01-arch.png 及步骤 4 下载的 01-arch_thumb.png)
-├── cover/                                # 步骤 3：封面图资产 (baoyu-cover-image)
+│   └── images/                           # 生成的高清插图 (如 01-arch.png 及步骤 5 下载的 01-arch_thumb.png)
+├── cover/                                # 步骤 4：封面图资产 (baoyu-cover-image)
 │   ├── prompts/                          # 封面 Prompt 文件
-│   └── images/                           # 生成的封面图 (2.35:1 / 16:9 / 1:1 及步骤 4 下载的 _thumb 缩略图)
-├── cdn_manifest.json                     # 步骤 4：R2 CDN 上传清单与 URL 映射表 (doudou-r2)
-├── article_name_cdn.md                   # 步骤 4：已将本地图片无缝替换为 CDN URL 的 Markdown
-├── article_name_排版_摸鱼绿(fish-green).html # 步骤 5：公众号纯排版正文片段 (gzh-design)
-├── article_name_预览.html                # 步骤 5：带一键复制功能的公众号预览页
-├── xhs_images/                           # 步骤 6：小红书/微信图文卡片 (baoyu-xhs-images)
+│   └── images/                           # 生成的封面图 (2.35:1 / 16:9 / 1:1 及步骤 5 下载的 _thumb 缩略图)
+├── cdn_manifest.json                     # 步骤 5：R2 CDN 上传清单与 URL 映射表 (doudou-r2)
+├── article_name_cdn.md                   # 步骤 5：已将本地图片无缝替换为 CDN URL 的 Markdown
+├── article_name_排版_摸鱼绿(fish-green).html # 步骤 6：公众号纯排版正文片段 (gzh-design)
+├── article_name_预览.html                # 步骤 6：带一键复制功能的公众号预览页
+├── xhs_images/                           # 步骤 7：小红书/微信图文卡片 (baoyu-xhs-images)
 │   ├── prompts/                          # 小红书卡片 Prompt 文件
 │   └── images/                           # 生成的 3:4 图文卡片
-└── publishes/                            # 步骤 7：多平台发布存证与状态清单 (doudou-publish-skills)
+└── publishes/                            # 步骤 8：多平台发布存证与状态清单 (doudou-publish-skills)
     ├── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、草稿状态、时间、截图路径等)
     └── screenshots/                      # 各平台草稿保存成功的存证截图 (如 weixin_article.png, bilibili.png 等)
 ```
@@ -58,7 +58,7 @@ path/to/article_name/
 
 ## 全流程依次执行指南
 
-当接收到目标 Markdown 文件时，依次执行以下 8 个环节：
+当接收到目标 Markdown 文件时，依次执行以下 9 个环节：
 
 ### 0. 准备同名工作目录
 
@@ -78,7 +78,35 @@ path/to/article_name/
 
 ---
 
-### 2. 文章配图 (`/baoyu-article-illustrator`)
+### 2. 外链提取与文末引用追加 (引用链接标准化)
+
+- **执行目标**：在合规审查通过后，扫描目标 Markdown 文档中的所有外部超链接，按标准引用格式规整并追加到目标 Markdown 文件尾部。
+- **核心规约与执行逻辑**：
+  1. **外链扫描与解析**：
+     - 解析目标 Markdown 全文，提取所有外部超链接的目标 URL（匹配 `[链接文字](URL)` 格式及正文裸 URL，忽略图片引用 `![]()`、相对文件路径与文内锚点 `#`）。
+     - **纯裸链接提取**：忽略所有链接文字描述或标题，只提取纯 URL 地址。
+     - 对相同 URL 自动去重，保留正文中首次出现的顺序。
+  2. **默认首项链接规约（强制）**：
+     - **第 1 项始终固定为**：`[1] https://www.undsky.com`
+     - **无论正文中有无外部链接，该默认首项必须始终存在且位列第 1**。
+  3. **引用链接格式排版**：
+     - 正文中提取到的其余外部链接，紧随 `[1]` 之后依次按 `[2]`、`[3]`、`[4]`... 顺序编号追加纯 URL。
+     - 标准格式示例如下：
+       ```markdown
+       ### 引用链接
+
+       [1] https://www.undsky.com
+       [2] https://github.com/undsky/doudou-smartedu-down
+       ```
+     - 保持每条链接单行呈现：`[序号] 完整URL`。
+  4. **回写目标文件与幂等保障**：
+     - 将生成的引用链接区域直接追加写入目标 Markdown 文件（`[article_name].md`）末尾。
+     - **幂等更新**：若目标 Markdown 文件末尾已存在旧的引用链接区域（如以 `### 引用链接` 开头的区块），先清理替换旧区块后再行写入，避免重复堆叠。
+     - 目标 Markdown 回写完成后，后续的配图分析、CDN 图床替换（生成 `article_name_cdn.md`）、公众号排版（`gzh-design` 自动转为引用链接卡片）及多平台发布全部无缝继承此标准化引用。
+
+---
+
+### 3. 文章配图 (`/baoyu-article-illustrator`)
 
 - **执行目标**：分析文章脉络并在关键信息节点生成高清配图。
 - **调用逻辑**：
@@ -88,7 +116,7 @@ path/to/article_name/
 
 ---
 
-### 3. 封面图 (`/baoyu-cover-image`)
+### 4. 封面图 (`/baoyu-cover-image`)
 
 - **执行目标**：为文章设计匹配的高质感封面。
 - **调用逻辑**：
@@ -99,7 +127,7 @@ path/to/article_name/
 
 ---
 
-### 4. 图片上传到 CDN 与缩略图同步 (`/doudou-r2`)
+### 5. 图片上传到 CDN 与缩略图同步 (`/doudou-r2`)
 
 - **执行目标**：将生成的本地配图与封面图批量同步至 Cloudflare R2，实现 CDN 加速并回填 Markdown，同时下载 CDN 处理后的图片到本地作为缩略图。
 - **调用逻辑**：
@@ -110,7 +138,7 @@ path/to/article_name/
 
 ---
 
-### 5. 生成公众号文章 (`/gzh-design`)
+### 6. 生成公众号文章 (`/gzh-design`)
 
 - **执行目标**：将 CDN 版 Markdown 转为符合微信公众平台规范的精美 HTML。
 - **调用逻辑**：
@@ -124,7 +152,7 @@ path/to/article_name/
 
 ---
 
-### 6. 生成图文卡片 (`/baoyu-xhs-images`)
+### 7. 生成图文卡片 (`/baoyu-xhs-images`)
 
 - **执行目标**：将文章核心知识点与脉络结构拆解为生动的信息图与社媒图文卡片。
 - **调用逻辑**：
@@ -134,11 +162,11 @@ path/to/article_name/
 
 ---
 
-### 7. 多平台文章与图文发布到草稿箱 (`doudou-publish-skills`)
+### 8. 多平台文章与图文发布到草稿箱 (`doudou-publish-skills`)
 
 - **执行目标**：在图文卡片生成完毕后，调用 `doudou-publish-skills` 套件，基于 `chrome-devtools-mcp` 自动将文章及衍生资产发布至各大自媒体平台与技术社区的草稿箱，并完成状态记录与截屏存证。
 
-#### 7.1 支持的 12 大平台矩阵
+#### 8.1 支持的 12 大平台矩阵
 
 | 平台名称             | 技能名称              |
 | :------------------- | :-------------------- |
@@ -155,7 +183,7 @@ path/to/article_name/
 | **抖音**             | `/doudou-douyin`      |
 | **知乎**             | `/doudou-zhihu`       |
 
-#### 7.2 发布核心规约与执行机制
+#### 8.2 发布核心规约与执行机制
 
 1. **真实触发与全自动执行链路（确保发布技能真实调用）**：
    - 当用户确认目标平台列表后，**必须真实依次调用各平台对应的发布技能**，严禁仅生成静态 JSON 清单而跳过浏览器真实自动化！
@@ -176,15 +204,15 @@ path/to/article_name/
 
 ---
 
-### 8. 生成产物结果汇总看板 (`index.html`)
+### 9. 生成产物结果汇总看板 (`index.html`)
 
 - **执行目标**：在全流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`）。用户只需双击打开该 HTML，即可一站式查看、对比、复制全流程产出（Markdown 原文、Prompt 提示词、高清配图、封面、CDN 清单、公众号排版页面、小红书图文卡片、**以及全网 12 大平台的草稿发布结果与存证截图**）。
 - **内容组织规划（按生成的文件夹目录结构划分模块）**：
 
 | 模块标签                           | 对应目录/文件                                                 | 核心展示与交互内容                                                                                                                                                                                                                                                      |
 | :--------------------------------- | :------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 📊 **全局概览 (Overview)**         | 产物根目录                                                    | 文章元数据（标题、字数、生成时间、产物统计看板）、各阶段状态徽章（1~7 已就绪）、快捷操作按钮（复制 CDN Markdown、打开公众号预览、查看多平台草稿存证等）。                                                                                                               |
-| 📝 **文章与 Markdown**             | `[article].md`<br>`article_cdn.md`                            | 原文与 CDN 加速版 Markdown 的 Tab 切换预览、行号代码高亮、字符统计、一键复制 Markdown 全文。                                                                                                                                                                            |
+| 📊 **全局概览 (Overview)**         | 产物根目录                                                    | 文章元数据（标题、字数、生成时间、产物统计看板）、各阶段状态徽章（1~8 已就绪）、快捷操作按钮（复制 CDN Markdown、打开公众号预览、查看多平台草稿存证等）。                                                                                                               |
+| 📝 **文章与 Markdown**             | `[article].md`<br>`article_cdn.md`                            | 原文（含文末标准引用链接）与 CDN 加速版 Markdown 的 Tab 切换预览、行号代码高亮、字符统计、一键复制 Markdown 全文。                                                                                                                                                      |
 | 🛡️ **01 内容审查**                 | `01_compliance_report.md`                                     | 格式化渲染合规审查报告，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签。                                                                                                                                                                                    |
 | 🎨 **02 文章插图**                 | `illustrations/`<br>├ `prompts/`<br>└ `images/`               | 插图网格卡片流：每张卡片含高清缩略图、放大弹窗 (Lightbox)、类型标签（架构图/流程图等）、Prompt 提示词折叠面板（带一键复制）、本地路径与 CDN URL 快速复制。                                                                                                              |
 | 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                       | 2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例并列陈列；展示 5 维设计提示词，支持大图放大。                                                                                                                                                                    |
@@ -196,7 +224,7 @@ path/to/article_name/
 #### 看板 HTML 实现规范 (Design & UX Standard)
 
 1. **模板唯一定义与严禁自拟样式**：
-   - 步骤 8 生成 `index.html` 时，**必须强制读取 `references/dashboard-template.html` 作为唯一种子模版**进行占位符插槽填充替换，**严禁脱离模板从零手写 HTML/CSS，严禁自行设计深色/极客主题**！
+   - 步骤 9 生成 `index.html` 时，**必须强制读取 `references/dashboard-template.html` 作为唯一种子模版**进行占位符插槽填充替换，**严禁脱离模板从零手写 HTML/CSS，严禁自行设计深色/极客主题**！
    - 严格保持模版预设的现代扁平化浅色白灰调视觉体系（`--bg-app: #f8fafc`、`--bg-surface: #ffffff`、1px 发丝边框 `--border-subtle: #e2e8f0`、扁平实色徽章与按钮），确保所有文章产出看板在视觉风格与交互逻辑上 100% 规范统一。
 2. **Markdown 双栏实时渲染与 marked.js 依赖**：
    - 页面 `<head>` 必须引入 `<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>`。
@@ -218,18 +246,19 @@ path/to/article_name/
 ## 交互与执行模式（核心规约）
 
 - **默认模式：严格分步依次交互确认（Default）**：
-  - 当用户输入 `/doudou-markdown path/to/article.md`（未带 `--yes` / `--quick`）时，**必须严格按步骤 1 到步骤 8 的顺序依次推进**。
+  - 当用户输入 `/doudou-markdown path/to/article.md`（未带 `--yes` / `--quick`）时，**必须严格按步骤 1 到步骤 9 的顺序依次推进**。
   - **关键门禁（Gate）**：在每一个涉及选项配置的环节，**必须使用 `ask_question` 交互工具向用户呈现分析结果与推荐选项，等待用户确认/选择后方可执行该步骤的生成**，严禁一次性静默直跑！
     1. **步骤 1（合规阻断门禁）**：汇报合规性与敏感词审查报告。若发现违规或敏感词，必须立即中断流程并指导用户修改；用户修改完成或明确要求继续后方可进入步骤 2。
-    2. **步骤 2（插图门禁）**：触发 `baoyu-article-illustrator` 的插图选项确认（类型/预设、密度、渲染风格、配色）。
-    3. **步骤 3（封面门禁）**：触发 `baoyu-cover-image` 的 5 维封面参数确认（视觉类型、配色方案、渲染风格、文字密度、比例）。
-    4. **步骤 4**：执行 R2 CDN 上传并回填 Markdown。
-    5. **步骤 5（排版门禁）**：触发 `gzh-design` 的排版主题确认（摸鱼绿、红白色系、石墨极简等），装配 HTML 并同步博客。
-    6. **步骤 6（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（策略 A/B/C、风格、布局）。
-    7. **步骤 7（多平台发布门禁）**：触发 `doudou-publish-skills` 多平台发布选项确认。向用户提供平台勾选与发布模态选择（如推荐全选、自媒体组、技术社区组、视觉图文组或自定义选择），用户确认后启动浏览器自动化将文章与图文资产发布到各平台草稿箱并保存存证截图。
-    8. **步骤 8**：组装并生成一站式结果汇总看板 `index.html`（含 1~7 阶段完整资产与多平台发布状态 Tab）。
+    2. **步骤 2（外链引用追加）**：合规审查通过后，自动扫描提取外链并在目标 Markdown 文件尾部追加标准引用链接（默认首项 `https://www.undsky.com`）。
+    3. **步骤 3（插图门禁）**：触发 `baoyu-article-illustrator` 的插图选项确认（类型/预设、密度、渲染风格、配色）。
+    4. **步骤 4（封面门禁）**：触发 `baoyu-cover-image` 的 5 维封面参数确认（视觉类型、配色方案、渲染风格、文字密度、比例）。
+    5. **步骤 5**：执行 R2 CDN 上传并回填 Markdown。
+    6. **步骤 6（排版门禁）**：触发 `gzh-design` 的排版主题确认（摸鱼绿、红白色系、石墨极简等），装配 HTML 并同步博客。
+    7. **步骤 7（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（策略 A/B/C、风格、布局）。
+    8. **步骤 8（多平台发布门禁）**：触发 `doudou-publish-skills` 多平台发布选项确认。向用户提供平台勾选与发布模态选择（如推荐全选、自媒体组、技术社区组、视觉图文组或自定义选择），用户确认后启动浏览器自动化将文章与图文资产发布到各平台草稿箱并保存存证截图。
+    9. **步骤 9**：组装并生成一站式结果汇总看板 `index.html`（含 1~8 阶段完整资产与多平台发布状态 Tab）。
 - **全自动模式（Explicit Only）**：
-  - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~8 全套流程。
+  - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~9 全套流程。
 - **断点/单步执行**：
   - 支持用户指定执行特定步骤（如仅执行 `/doudou-r2`、单独发布到指定平台如 `/doudou-bilibili`、或重新生成 `index.html` 汇总看板），直接复用同名目录下的已有资产。
 
