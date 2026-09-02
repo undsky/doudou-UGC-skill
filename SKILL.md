@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文卡片生成、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成（支持博客同步）、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft 镜头配方卡 + doudou-tts edge-tts 配音字幕）、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、video-shotcraft、doudou-tts、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`doudou-publish-skills`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`doudou-tts`、`doudou-publish-skills`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布存证截图与清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -34,7 +34,7 @@ description: 针对给定的 Markdown 文章文件，一站式全流程依次执
 
 ```text
 path/to/article_name/
-├── index.html                            # 步骤 9：一站式产物结果汇总看板 (HTML Dashboard，含多平台发布状态与存证)
+├── index.html                            # 步骤 10：一站式产物结果汇总看板 (HTML Dashboard，含视频播放器、多平台发布状态与存证)
 ├── 01_compliance_report.md              # 步骤 1：合规性与敏感词审查报告 (text-check-skill)
 ├── illustrations/                        # 步骤 3：文章插图资产 (baoyu-article-illustrator)
 │   ├── prompts/                          # 插图 Prompt 文件 (如 01-infographic-arch.md)
@@ -49,16 +49,26 @@ path/to/article_name/
 ├── xhs_images/                           # 步骤 7：小红书/微信图文卡片 (baoyu-xhs-images)
 │   ├── prompts/                          # 小红书卡片 Prompt 文件
 │   └── images/                           # 生成的 3:4 图文卡片
-└── publishes/                            # 步骤 8：多平台发布存证与状态清单 (doudou-publish-skills)
+├── video/                                # 步骤 8：Remotion 短视频资产 (video-shotcraft + doudou-tts)
+│   ├── storyboard.md                     # 分镜脚本 (黄金钩子开场 + 镜头卡映射表 + 帧级时间轴)
+│   ├── narration/                        # edge-tts 配音与字幕
+│   │   ├── shot_NN.mp3                   # 各分镜配音音频 (edge-tts，云扬/晓晓等音色)
+│   │   └── shot_NN.srt                   # 与音频对齐的 SRT 字幕 (--srt 产出)
+│   ├── qa/                               # 逐镜头静帧验收档案 (npx remotion still)
+│   ├── article_name.mp4                  # ⭐ 终渲成片 (时长 ≥ 60s，含配音与 SFX)
+│   └── video_manifest.json               # 视频元数据 (时长、分辨率、分镜清单、镜头卡、音色、渲染耗时)
+└── publishes/                            # 步骤 9：多平台发布存证与状态清单 (doudou-publish-skills)
     ├── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、草稿状态、时间、截图路径等)
     └── screenshots/                      # 各平台草稿保存成功的存证截图 (如 weixin_article.png, bilibili.png 等)
 ```
+
+> **步骤 8 的 Remotion 源码不落在产物目录**：短视频**直接复用仓库根目录既有的 Remotion 工程**（不另建自包含工程、不新装依赖）——镜头与时间线源码写进根 `src/videos/<article_name>/`，静态素材放根 `public/<article_name>/`，Composition 注册在根 `src/Root.tsx`。产物目录只收**产物**：分镜脚本、配音字幕、静帧验收、成片与元数据。
 
 ---
 
 ## 全流程依次执行指南
 
-当接收到目标 Markdown 文件时，依次执行以下 9 个环节：
+当接收到目标 Markdown 文件时，依次执行以下 10 个环节：
 
 ### 0. 准备同名工作目录
 
@@ -162,11 +172,86 @@ path/to/article_name/
 
 ---
 
-### 8. 多平台文章与图文发布到草稿箱 (`doudou-publish-skills`)
+### 8. 生成 Remotion 短视频 (`video-shotcraft` + `doudou-tts`)
+
+- **执行目标**：在图文卡片生成完毕后，综合分析**目标 Markdown 原文**与**同名产物目录下已生成的全部资料**（`illustrations/`、`cover/`、`xhs_images/` 及各自的 Prompt），制作一支**时长不小于 60 秒**的解说短视频，作为抖音 / B站 / 小红书 / 视频号等视频形态平台的发布素材。
+- **技能协同分工**：
+  - **分镜与镜头实现**：`video-shotcraft`（`E:\me\undsky\.agents\skills\video-shotcraft`）提供 152 张镜头配方卡、可复用组件（PageCam / ClipCard / Caption 等）与音效库。
+  - **配音与字幕**：`doudou-tts`（`E:\me\undsky\.agents\skills\doudou-tts`）的 **edge-tts** 引擎（`scripts/edgetts.py`），**必须使用 edge-tts，不使用 cosyvoice**（后者慢到分钟级、且本流程无音色克隆需求）。
+  - **渲染引擎**：Remotion（30fps；竖屏 1080×1920 优先，横屏 1920×1080 备选）。
+
+#### 8.1 分镜脚本生成（黄金钩子原则）
+
+将分镜脚本写入 `path/to/article_name/video/storyboard.md`，必须遵循以下结构与原则：
+
+1. **黄金钩子（Golden Hook，硬约束）**：
+   - **前 3 秒必须抛出最强张力**：用文章中最扎心的痛点、反常识结论或代价数字开场，禁止用"大家好"、"今天给大家分享"一类无信息量的寒暄，也禁止先自我介绍或先讲背景。
+   - 钩子的三种可选句式（择一，取自文章原文的真实冲突）：**痛点直击**（"在我电脑上明明是好的"）、**反常识断言**（"工具换了一轮又一轮，其实都是在换马甲"）、**代价前置**（"少了这一步，客户后端直接 JSON 解析报错"）。
+   - 钩子镜头结束时必须给出**本片承诺**（观众看完能得到什么），承诺随后必须在正文段被兑现。
+2. **叙事骨架（钩子之后）**：按「**冲突 → 拆解 → 兑现 → 收束**」推进——痛点冲突段（问题有多贵）→ 方法拆解段（核心架构 / 原则，对应文章主干小节）→ 价值兑现段（能换来什么结果）→ 品牌收束段（字标落定 + 引导关注）。
+3. **分镜表（四列，与 video-shotcraft 阶段 3 对齐）**：`| # | 时间(帧) | 镜头卡 | 关键动效与画面内容 |`，另附**帧级时间轴** `| shot | from | duration | 内容 |`，并逐镜标注：解说文案（口播原文）、字幕、素材来源（引用产物目录中的具体图片路径）、转场与 SFX。
+4. **时长与呼吸位**：**总时长 ≥ 60 秒（30fps 即 ≥ 1800 帧）**；排时间线时预留呼吸位——品牌字标落定 hold ≥ 1s、批量动效收尾留 0.5s 静止、开场主体动作给足 3s。**节奏返工是单向的：过快必返工，放慢从未被否。**
+5. **一镜一动效**：同一种动画手法（飞入 / 堆叠 / 翻页）全片只当一次主角，重复镜头与重复 tagline 一律删。
+
+#### 8.2 镜头配方卡挑选（从 `video-shotcraft/references/shots/`）
+
+1. **按能量曲线选卡**：先扫 `references/shots/` 各卡 frontmatter（`适用` / `时长` / `能量` / `标签`），为每个分镜挑首选卡与备选卡，形成**分镜到镜头卡映射表**写入 `storyboard.md`。目录与典型用途对应关系：
+   - `opening/`（开场钩子，如 `spotlight-hero-card`、`brand-ink-open`、`text-as-mask`）
+   - `typography/`（金句 / 数字 / 标题字卡）、`ui-entrance/`（卡片与列表入场）
+   - `data/`（对比、计数、图表）、`camera/`（2.5D 运镜推进）
+   - `effects/`（聚光、扫描、光效）、`transition/`（段间转场）、`rhythm/`（节奏卡点与蒙太奇）
+   - `outro/`（品牌收束，如 `logo-shrink-wordmark-lockup`、`ui-to-brand-morph`）
+2. **三读硬规则（不可跳）**：选定后 → 用 `gallery/api/library.json` 校验卡名与 `style-key` → **读该配方卡全文** → 按卡片「参考实现」定位并**读准确的 demo TSX 源码全文** → 把 `assets/lib/`（及 `demos/_fixtures/`）对应组件 **copy 进** `src/videos/<article_name>/lib/`（不 import 原库）。
+   - **配方卡「已知坑 / 命门」标注的参数不得降档**，允许按本文章素材做适配性改动，质量标准只升不降。
+   - 凭卡名与理解自行新写 = 放弃全部调校积累，实测质感差一档，**禁止**。
+3. **视觉语言从素材生长**：全片配色、字体、圆角与质感必须复用文章产物的视觉 tokens（从 `cover/` 与 `xhs_images/` 图片及其 Prompt 中提取主色与调性），镜头卡只继承运动语法与已调参数，**皮肤按本文章重新蒙皮**。
+
+#### 8.3 配音与字幕（`doudou-tts` edge-tts）
+
+1. **逐镜头合成**：按 `storyboard.md` 中每个分镜的解说文案，逐镜调用 edge-tts，产物落到 `path/to/article_name/video/narration/`：
+
+   ```bash
+   python3 <doudou-tts技能目录>/scripts/edgetts.py '该分镜的解说文案' \
+     -v 云扬 --speed 0.95 --srt \
+     -o path/to/article_name/video/narration/shot_01.mp3
+   ```
+
+2. **音色与语速规约**：技术干货类默认 **`-v 云扬`**（男声，专业可靠，新闻播报首选）；轻松种草类可用 `-v 晓晓` / `-v 云希`。语速 `--speed 0.9 ~ 1.0`，**必须带 `--srt`** 以获得与音频对齐的 SRT 字幕。
+3. **以音频实测时长反推帧数（关键）**：合成后读取各 `shot_NN.mp3` 的**实测时长**（`--json` 返回元数据，或用 ffprobe），据此**回填 `storyboard.md` 的帧级时间轴**——镜头时长必须容得下其配音，严禁画面先切而人声未落。若某镜配音超出镜头卡建议时长，优先延长 hold 呼吸位，而不是加快语速。
+4. **字幕上屏**：SRT 经 `@remotion/captions` 或 `assets/lib/` 的 `Caption` 组件上屏，字体与配色沿用第 8.2 条的视觉 tokens；**纯动画段落也要有解说字幕**，不留哑巴段落。
+
+#### 8.4 Remotion 工程实现与渲染
+
+1. **直接复用仓库根目录的 Remotion 工程（禁建自包含工程）**：不要在产物目录里另起 Remotion 工程、不要新装依赖、不要新写 `package.json` / `remotion.config.ts`。一律用仓库根目录既有工程：
+   - 镜头与时间线源码写进 `src/videos/<article_name>/`（`scenes/`、`lib/`、`theme.ts`、`captions.ts`、`sfx.tsx`、`<Name>Video.tsx`）。
+   - Composition 在根 `src/Root.tsx` 中挂载注册（30fps，竖屏 1080×1920），入口仍是根 `src/index.ts`。
+   - 渲染与静帧一律在**仓库根目录**执行，沿用根 `remotion.config.ts`（rspack / jpeg / overwriteOutput / tailwind）。
+2. **素材接入**：把产物目录中的卡片、插图与封面、各镜配音与所需 SFX / BGM copy 到**根 `public/` 下按文章分目录**（`public/<article_name>/textures|audio|sfx|bgm/`，`staticFile()` 按此前缀取），图片以真实素材入场（**禁止手搓 UI 复刻已有卡片**）；`<Audio>` 挂各镜配音，BGM 用布尔 inputProp（`bgm`，默认 `true`）单独包住以便出两版。
+3. **声音设计**：SFX 从 `video-shotcraft/assets/audio/sfx/<类别>/` 取（运镜→`transition`、落地→`impact`、铺垫→`riser`、光效→`light`、打字→`text`），用**声明式钉帧表**集中管理（`{ from, src, volume }[]`，`from` 一律写 `SHOTS.x.from + offset` 相对表达式，禁裸帧号）；长样本（>5s）必须显式给 `durationInFrames`。结尾固定句式：riser → impact（字标落地，音量峰值）→ sparkle（取自 `light/`）。
+4. **确定性渲染铁律**：禁 `Date.now()` / `Math.random()` / 无参 `new Date()`，一切伪随机用固定种子（mulberry32 / 哈希，seed 从 index 派生）。
+5. **逐镜静帧验收**：每镜实现完成即在仓库根目录跑 `npx remotion still src/index.ts <Comp> mds/<分类>/<article_name>/video/qa/<name>.png --frame=<N>`，肉眼检查构图 / 穿帮 / 文字锐度后才算完成；静帧归档 `video/qa/`。
+6. **终渲与产物**：在仓库根目录跑 `npx remotion render src/index.ts <Comp> mds/<分类>/<article_name>/video/<article_name>.mp4`，渲完用 ffmpeg 抽关键帧回看，并核验**成片时长 ≥ 60 秒**。配了 BGM 则从同一时间线额外渲一版无 BGM 成片（`props-nobgm.json` 内容 `{"bgm":false}` + `--props=props-nobgm.json`；Windows 下必须走文件，内联 JSON 会被 shell 剥掉双引号）。
+7. **元数据落盘**：将时长、分辨率、fps、分镜清单、所用镜头卡与变体、配音音色、渲染耗时结构化写入 `path/to/article_name/video/video_manifest.json`。
+
+#### 8.5 视频质量门禁（交付前自检）
+
+渲染完成后逐条核验，任一不通过则回到对应环节修复：
+
+- ✅ **时长达标**：成片 ≥ 60 秒。
+- ✅ **黄金钩子**：前 3 秒即抛出痛点 / 反常识 / 代价，无寒暄铺垫。
+- ✅ **音画同步**：每镜画面切换晚于该镜配音结束，字幕与人声逐句对齐。
+- ✅ **镜头卡还原度**：保留所选卡的动作语法、关键时值与「已知坑 / 命门」参数。
+- ✅ **视觉一致**：配色字体与文章封面 / 卡片同源，非另造一套宣传片皮肤。
+- ✅ **文字锐度**：推进特写下文字不糊（先查 2x 纹理与栅格化路径，别先动景深）。
+- ✅ **无哑巴段落**：每个镜头都有解说或字幕承载新信息。
+
+---
+
+### 9. 多平台文章与图文发布到草稿箱 (`doudou-publish-skills`)
 
 - **执行目标**：在图文卡片生成完毕后，调用 `doudou-publish-skills` 套件，基于 `chrome-devtools-mcp` 自动将文章及衍生资产发布至各大自媒体平台与技术社区的草稿箱，并完成状态记录与截屏存证。
 
-#### 8.1 支持的 12 大平台矩阵
+#### 9.1 支持的 12 大平台矩阵
 
 | 平台名称             | 技能名称              |
 | :------------------- | :-------------------- |
@@ -183,7 +268,7 @@ path/to/article_name/
 | **抖音**             | `/doudou-douyin`      |
 | **知乎**             | `/doudou-zhihu`       |
 
-#### 8.2 发布核心规约与执行机制
+#### 9.2 发布核心规约与执行机制
 
 1. **真实触发与全自动执行链路（确保发布技能真实调用）**：
    - 当用户确认目标平台列表后，**必须真实依次调用各平台对应的发布技能**，严禁仅生成静态 JSON 清单而跳过浏览器真实自动化！
@@ -198,20 +283,24 @@ path/to/article_name/
    - **封面图优先缩略图**：上传封面时，**必须优先选用带有 `_thumb` 后缀的本地缩略图**（如 `cover-2.35x1_thumb.png`、`cover-16x9_thumb.png`，或 `cdn_manifest.json` 中记录的 `thumb_path`）；若无 `_thumb` 缩略图才降级使用原图，规避平台封面上传大小限制并大幅提升上传速度。
    - **正文配图优先缩略图**：需要向平台转存或上传本地图片的场景，**优先使用 `illustrations/images/*_thumb.png` 缩略图**进行转存注入，避免原图过大导致网络超时或风控阻断。
 
-4. **截屏存证与清单记录**：
+4. **视频形态平台优先投喂成片**：
+   - 对**抖音、B站、小红书、视频号**等支持视频的平台，优先上传步骤 8 产出的成片 `video/article_name.mp4`（走视频稿投递），配文取分镜脚本的钩子文案与文章摘要，封面沿用 `cover/images/` 的封面图。
+   - 若该平台视频投递失败或未登录，按第 2 条容错规约降级为图文/卡片模式发布，并在清单中记录降级原因。
+
+5. **截屏存证与清单记录**：
    - 每个平台保存草稿后，自动调用 `take_screenshot` 保存存证截图至 `path/to/article_name/publishes/screenshots/[platform]_[mode].png`。
    - 在 `path/to/article_name/publishes/publish_manifest.json` 中结构化记录各平台发布状态、草稿 ID/链接、存证截图路径与耗时。
 
 ---
 
-### 9. 生成产物结果汇总看板 (`index.html`)
+### 10. 生成产物结果汇总看板 (`index.html`)
 
-- **执行目标**：在全流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`）。用户只需双击打开该 HTML，即可一站式查看、对比、复制全流程产出（Markdown 原文、Prompt 提示词、高清配图、封面、CDN 清单、公众号排版页面、小红书图文卡片、**以及全网 12 大平台的草稿发布结果与存证截图**）。
+- **执行目标**：在全流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`）。用户只需双击打开该 HTML，即可一站式查看、对比、复制全流程产出（Markdown 原文、Prompt 提示词、高清配图、封面、CDN 清单、公众号排版页面、小红书图文卡片、**Remotion 短视频成片**、**以及全网 12 大平台的草稿发布结果与存证截图**）。
 - **内容组织规划（按生成的文件夹目录结构划分模块）**：
 
 | 模块标签                           | 对应目录/文件                                                 | 核心展示与交互内容                                                                                                                                                                                                                                                      |
 | :--------------------------------- | :------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 📊 **全局概览 (Overview)**         | 产物根目录                                                    | 文章元数据（标题、字数、生成时间、产物统计看板）、各阶段状态徽章（1~8 已就绪）、快捷操作按钮（复制 CDN Markdown、打开公众号预览、查看多平台草稿存证等）。                                                                                                               |
+| 📊 **全局概览 (Overview)**         | 产物根目录                                                    | 文章元数据（标题、字数、生成时间、产物统计看板）、各阶段状态徽章（1~9 已就绪）、快捷操作按钮（复制 CDN Markdown、打开公众号预览、播放短视频成片、查看多平台草稿存证等）。                                                                                                |
 | 📝 **文章与 Markdown**             | `[article].md`<br>`article_cdn.md`                            | 原文（含文末标准引用链接）与 CDN 加速版 Markdown 的 Tab 切换预览、行号代码高亮、字符统计、一键复制 Markdown 全文。                                                                                                                                                      |
 | 🛡️ **01 内容审查**                 | `01_compliance_report.md`                                     | 格式化渲染合规审查报告，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签。                                                                                                                                                                                    |
 | 🎨 **02 文章插图**                 | `illustrations/`<br>├ `prompts/`<br>└ `images/`               | 插图网格卡片流：每张卡片含高清缩略图、放大弹窗 (Lightbox)、类型标签（架构图/流程图等）、Prompt 提示词折叠面板（带一键复制）、本地路径与 CDN URL 快速复制。                                                                                                              |
@@ -219,12 +308,13 @@ path/to/article_name/
 | 🌐 **04 CDN 映射表**               | `cdn_manifest.json`                                           | 交互式数据表格：展示原始相对路径、Cloudflare R2 CDN 加速链接、图片尺寸与上传状态；支持单项或批量一键复制 URL。                                                                                                                                                          |
 | 📱 **05 公众号排版**               | `[article]_排版_[theme].html`<br>`[article]_预览.html`        | 嵌入式实时渲染 iframe 预览公众号样式；提供纯排版正文片段查看；一键复制可直接粘贴至微信公众平台编辑器的富文本内容。                                                                                                                                                      |
 | 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                  | 3:4 比例卡片流/轮播排版，展示封面卡、要点卡、总结卡；附带对应生图 Prompt 与发布配文查看。                                                                                                                                                                               |
-| 🚀 **07 多平台发布 (Publish Hub)** | `publishes/`<br>├ `publish_manifest.json`<br>└ `screenshots/` | **多平台草稿发布状态看板**：展示 12 大平台发布状态徽章（✅ 已保存草稿 / ⚠️ 待登录 / ❌ 失败 / ⏸️ 未选择）、发布模态（图文长文/卡片贴图）、草稿 ID、发布时间；网格化展示各平台草稿保存成功的存证截图（支持点击全屏放大 Lightbox 审查），支持一键复制多平台发布状态汇总。 |
+| 🎬 **07 短视频成片**               | `video/`<br>├ `storyboard.md`<br>├ `narration/`<br>└ `video_manifest.json` | 内嵌 `<video controls>` 播放器直接播放成片（相对路径引用 `./video/[article].mp4`）；展示分镜脚本表（钩子文案、镜头卡、时长）、所用镜头配方卡清单与配音音色/语速；逐镜配音音频 `<audio>` 试听与 SRT 字幕查看；视频元数据卡（时长、分辨率、fps、渲染耗时）。 |
+| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>├ `publish_manifest.json`<br>└ `screenshots/` | **多平台草稿发布状态看板**：展示 12 大平台发布状态徽章（✅ 已保存草稿 / ⚠️ 待登录 / ❌ 失败 / ⏸️ 未选择）、发布模态（图文长文/卡片贴图/**视频稿**）、草稿 ID、发布时间；网格化展示各平台草稿保存成功的存证截图（支持点击全屏放大 Lightbox 审查），支持一键复制多平台发布状态汇总。 |
 
 #### 看板 HTML 实现规范 (Design & UX Standard)
 
 1. **模板唯一定义与严禁自拟样式**：
-   - 步骤 9 生成 `index.html` 时，**必须强制读取 `references/dashboard-template.html` 作为唯一种子模版**进行占位符插槽填充替换，**严禁脱离模板从零手写 HTML/CSS，严禁自行设计深色/极客主题**！
+   - 步骤 10 生成 `index.html` 时，**必须强制读取 `references/dashboard-template.html` 作为唯一种子模版**进行占位符插槽填充替换，**严禁脱离模板从零手写 HTML/CSS，严禁自行设计深色/极客主题**！
    - 严格保持模版预设的现代扁平化浅色白灰调视觉体系（`--bg-app: #f8fafc`、`--bg-surface: #ffffff`、1px 发丝边框 `--border-subtle: #e2e8f0`、扁平实色徽章与按钮），确保所有文章产出看板在视觉风格与交互逻辑上 100% 规范统一。
 2. **Markdown 双栏实时渲染与 marked.js 依赖**：
    - 页面 `<head>` 必须引入 `<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>`。
@@ -246,7 +336,7 @@ path/to/article_name/
 ## 交互与执行模式（核心规约）
 
 - **默认模式：严格分步依次交互确认（Default）**：
-  - 当用户输入 `/doudou-UGC path/to/article.md`（未带 `--yes` / `--quick`）时，**必须严格按步骤 1 到步骤 9 的顺序依次推进**。
+  - 当用户输入 `/doudou-UGC path/to/article.md`（未带 `--yes` / `--quick`）时，**必须严格按步骤 1 到步骤 10 的顺序依次推进**。
   - **关键门禁（Gate）**：在每一个涉及选项配置的环节，**必须使用 `ask_question` 交互工具向用户呈现分析结果与推荐选项，等待用户确认/选择后方可执行该步骤的生成**，严禁一次性静默直跑！
     1. **步骤 1（合规阻断门禁）**：汇报合规性与敏感词审查报告。若发现违规或敏感词，必须立即中断流程并指导用户修改；用户修改完成或明确要求继续后方可进入步骤 2。
     2. **步骤 2（外链引用追加）**：合规审查通过后，自动扫描提取外链并在目标 Markdown 文件尾部追加标准引用链接（默认首项 `https://www.undsky.com`）。
@@ -255,10 +345,11 @@ path/to/article_name/
     5. **步骤 5**：执行 R2 CDN 上传并回填 Markdown。
     6. **步骤 6（排版门禁）**：触发 `gzh-design` 的排版主题确认（摸鱼绿、红白色系、石墨极简等），装配 HTML 并同步博客。
     7. **步骤 7（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（策略 A/B/C、风格、布局）。
-    8. **步骤 8（多平台发布门禁）**：触发 `doudou-publish-skills` 多平台发布选项确认。向用户提供平台勾选与发布模态选择（如推荐全选、自媒体组、技术社区组、视觉图文组或自定义选择），用户确认后启动浏览器自动化将文章与图文资产发布到各平台草稿箱并保存存证截图。
-    9. **步骤 9**：组装并生成一站式结果汇总看板 `index.html`（含 1~8 阶段完整资产与多平台发布状态 Tab）。
+    8. **步骤 8（短视频门禁）**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、分镜数量与总时长、所选 `video-shotcraft` 镜头配方卡清单、画幅（竖屏 1080×1920 / 横屏 1920×1080）、配音音色与语速（默认 `云扬` / `--speed 0.95`）；用户确认后再执行配音合成、Remotion 工程实现与渲染。
+    9. **步骤 9（多平台发布门禁）**：触发 `doudou-publish-skills` 多平台发布选项确认。向用户提供平台勾选与发布模态选择（如推荐全选、自媒体组、技术社区组、视觉图文组、视频稿组或自定义选择），用户确认后启动浏览器自动化将文章、图文与视频资产发布到各平台草稿箱并保存存证截图。
+    10. **步骤 10**：组装并生成一站式结果汇总看板 `index.html`（含 1~9 阶段完整资产、短视频播放器与多平台发布状态 Tab）。
 - **全自动模式（Explicit Only）**：
-  - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~9 全套流程。
+  - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~10 全套流程。
 - **断点/单步执行**：
   - 支持用户指定执行特定步骤（如仅执行 `/doudou-r2`、单独发布到指定平台如 `/doudou-bilibili`、或重新生成 `index.html` 汇总看板），直接复用同名目录下的已有资产。
 
@@ -268,11 +359,12 @@ path/to/article_name/
 
 全流程执行完成后，向用户呈递同名目录资产汇总，并重点提示打开 `index.html` 查看：
 
-- 📊 **全景结果汇总看板**：`index.html` ⭐ _(双击即可在浏览器中一览全部原文、提示词、图片、页面、多平台发布状态与 CDN 资产)_
+- 📊 **全景结果汇总看板**：`index.html` ⭐ _(双击即可在浏览器中一览全部原文、提示词、图片、页面、短视频成片、多平台发布状态与 CDN 资产)_
 - 🛡️ **合规报告**：`01_compliance_report.md`
 - 🎨 **文章插图**：`illustrations/` (含 `prompts/` 与 `images/`)
 - 🖼️ **封面图片**：`cover/` (含 `prompts/` 与 `images/`)
 - 🌐 **CDN 文章与映射**：`article_name_cdn.md`、`cdn_manifest.json` 及本地缩略图备份 (`_thumb`)
 - 📱 **公众号排版**：`article_name_预览.html` 及纯排版 HTML
 - 📑 **小红书图文**：`xhs_images/` (含 `prompts/` 与 `images/`)
+- 🎬 **短视频成片**：`video/article_name.mp4`（≥ 60s）及 `video/storyboard.md` 分镜脚本、`video/narration/` 配音与字幕、`video/video_manifest.json` 元数据
 - 🚀 **多平台发布存证**：`publishes/`（含 `publish_manifest.json` 清单与 `screenshots/` 各平台草稿存证截图）
