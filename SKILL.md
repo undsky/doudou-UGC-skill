@@ -256,11 +256,11 @@ path/to/article_name/
    - 镜头与时间线源码写进 `src/videos/<article_name>/`（`scenes/`、`lib/`、`theme.ts`、`captions.ts`、`sfx.tsx`、`<Name>Video.tsx`）。
    - Composition 在根 `src/Root.tsx` 中挂载注册（30fps，根据用户选择的画幅注册为横屏 1920×1080 或竖屏 1080×1920），入口仍是根 `src/index.ts`。
    - 渲染与静帧一律在**仓库根目录**执行，沿用根 `remotion.config.ts`（rspack / jpeg / overwriteOutput / tailwind）。
-2. **素材接入**：把产物目录中的卡片、插图与封面、各镜配音与所需 SFX / BGM copy 到**根 `public/` 下按文章分目录**（`public/<article_name>/textures|audio|sfx|bgm/`，`staticFile()` 按此前缀取），图片以真实素材入场（**禁止手搓 UI 复刻已有卡片**）；`<Audio>` 挂各镜配音，BGM 用布尔 inputProp（`bgm`，默认 `true`）单独包住以便出两版。
+2. **素材接入**：把产物目录中的卡片、插图与封面、各镜配音与所需 SFX / BGM copy 到**根 `public/` 下按文章分目录**（`public/<article_name>/textures|audio|sfx|bgm/`，`staticFile()` 按此前缀取），图片以真实素材入场（**禁止手搓 UI 复刻已有卡片**）；`<Audio>` 挂各镜配音与 BGM。
 3. **声音设计**：SFX 从 `video-shotcraft/assets/audio/sfx/<类别>/` 取（运镜→`transition`、落地→`impact`、铺垫→`riser`、光效→`light`、打字→`text`），用**声明式钉帧表**集中管理（`{ from, src, volume }[]`，`from` 一律写 `SHOTS.x.from + offset` 相对表达式，禁裸帧号）；长样本（>5s）必须显式给 `durationInFrames`。结尾固定句式：riser → impact（字标落地，音量峰值）→ sparkle（取自 `light/`）。
 4. **确定性渲染铁律**：禁 `Date.now()` / `Math.random()` / 无参 `new Date()`，一切伪随机用固定种子（mulberry32 / 哈希，seed 从 index 派生）。
 5. **逐镜静帧验收**：每镜实现完成即在仓库根目录跑 `npx remotion still src/index.ts <Comp> mds/<分类>/<article_name>/video/qa/<name>.png --frame=<N>`，肉眼检查构图 / 穿帮 / 文字锐度后才算完成；静帧归档 `video/qa/`。
-6. **终渲与产物**：在仓库根目录跑 `npx remotion render src/index.ts <Comp> mds/<分类>/<article_name>/video/<article_name>.mp4`，渲完用 ffmpeg 抽关键帧回看，并核验**成片时长符合字数规划（每 500 字约 1 分钟，且 ≥ 60 秒）**。配了 BGM 则从同一时间线额外渲一版无 BGM 成片（`props-nobgm.json` 内容 `{"bgm":false}` + `--props=props-nobgm.json`；Windows 下必须走文件，内联 JSON 会被 shell 剥掉双引号）。
+6. **终渲与产物**：在仓库根目录跑 `npx remotion render src/index.ts <Comp> mds/<分类>/<article_name>/video/<article_name>.mp4`。
 7. **元数据落盘**：将时长、分辨率、fps、分镜清单、所用镜头卡与变体、配音音色、渲染耗时结构化写入 `path/to/article_name/video/video_manifest.json`。
 
 #### 8.5 视频质量门禁（交付前自检）
