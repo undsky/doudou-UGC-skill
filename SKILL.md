@@ -180,8 +180,8 @@ path/to/article_name/
 - **执行目标**：在图文卡片生成完毕后，综合分析**目标 Markdown 原文**与**同名产物目录下已生成的全部资料**（`illustrations/`、`cover/`、`xhs_images/` 及各自的 Prompt），**根据目标 Markdown 原文字数规划视频时长（每 500 字生成 1 分钟左右的视频，且总时长不小于 60 秒）**，制作解说短视频，作为抖音 / B站 / 小红书 / 视频号等视频形态平台的发布素材。
 - **技能协同分工**：
   - **分镜与镜头动效（双引擎协同）**：
-    - `video-shotcraft`：提供 152 张电影感与产品镜头配方卡、可复用组件（PageCam / ClipCard / Caption 等）与音效库。
-    - `video-talkcraft`：提供 78 张口播/解说动效配方卡、七层反 PPT 运镜系统、SHOTBOOK 三面分层工作单、Apple 视觉范式与字级时间戳节拍锚定。
+    - `/video-shotcraft`：提供 157 张电影感与产品镜头配方卡（附 demo 源码与动态样片画廊）、Ink Press 模板、可复用组件（PageCam / ClipCard / Caption 等）与声明式钉帧音效库。
+    - `/video-talkcraft`：提供 78 张口播/解说动效配方卡（23 调研 + 8 实战★ + 9 真实视频挖掘◆ + 18 remocn 适配◇ + 20 参考图复刻◈）、七层反 PPT 运镜系统（CameraRig/视差/让位/环境）、SHOTBOOK 三面分层工作单、Apple 视觉范式与字级时间戳节拍锚定。
   - **配音与字幕**：`/doudou-tts` 的 **edge-tts** 引擎（`scripts/edgetts.py`），**必须使用 edge-tts，不使用 cosyvoice**（后者慢到分钟级、且本流程无音色克隆需求）。
   - **渲染引擎**：Remotion（30fps；竖屏 1080×1920 优先，横屏 1920×1080 备选）。
 
