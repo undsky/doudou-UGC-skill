@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕）、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-r2、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕）、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-r2、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`doudou-publish-skills`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`doudou-publish-skills`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布存证截图与清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -16,7 +16,21 @@ description: 针对给定的 Markdown 文章文件，一站式全流程依次执
 在整个执行过程中，所有涉及图像生成的阶段（配图、封面图、社媒图文卡片等），必须严格遵循以下生图工具调用顺序：
 
 1. **第一优先级（默认）**：优先调用内置原生生图工具 **`generate_image`** 进行图像生成与渲染。
-2. **第二优先级（降级）**：如果环境未提供 `generate_image` 或调用失败，再降级调用 MCP 工具 **`generate_image_to_r2`**。
+2. **第二优先级（降级）**：如果环境未提供 `generate_image` 或调用失败，再调用 **`/doudou-image`** 技能出图。
+
+### `/doudou-image` 调用方式
+
+先读取 `/doudou-image` 技能说明，再按其文生图流程执行 `scripts/generate.mjs`。Prompt 已写入产物目录 `prompts/` 文件时，必须用 `--prompt-file` 读取（避免长提示词被 shell 转义），并用 `-o` 指定最终落盘路径：
+
+```bash
+node <doudou-image技能目录>/scripts/generate.mjs \
+  --prompt-file path/to/article_name/.../prompts/NN-xxx.md \
+  -o path/to/article_name/.../images/NN-xxx.png
+```
+
+- 图片始终落本地文件；**不要**在生图阶段上传 CDN。公开链接仍由步骤 5 `/doudou-r2` 统一处理。
+- 默认不传 `--model`；禁止手拼 curl 调生图接口。
+- 比例 / 画幅写进 Prompt 正文（该脚本无独立宽高参数）。
 
 ---
 
@@ -127,7 +141,7 @@ path/to/article_name/
 - **调用逻辑**：
   1. 分析文章信息密度与逻辑结构，识别适合配图的位置（信息图 `infographic`、流程图 `flowchart`、架构图 `framework`、对比图 `comparison`、场景图 `scene` 等）。
   2. 生成符合 Type × Style × Palette 三维标准的绘图提示词，保存至 `path/to/article_name/illustrations/prompts/NN-[type]-[slug].md`。
-  3. **生图调用**：优先调用内置 **`generate_image`**，若无则调用 MCP **`generate_image_to_r2`**。生成的图片保存至 `path/to/article_name/illustrations/images/NN-[slug].png`。
+  3. **生图调用**：优先调用内置 **`generate_image`**，若无则调用 **`/doudou-image`**（`--prompt-file` 读取上一步 Prompt，`-o` 指定落盘路径）。生成的图片保存至 `path/to/article_name/illustrations/images/NN-[slug].png`。
 
 ---
 
@@ -138,7 +152,7 @@ path/to/article_name/
   1. 提炼核心主题与标题，按 5 维框架（Type, Palette, Rendering, Text, Mood）定制封面提示词。
   2. 针对公众号与全网分发，生成标准主封面（`2.35:1` 或 `16:9`）与次级封面（`1:1`）。
   3. Prompt 保存至 `path/to/article_name/cover/prompts/`。
-  4. **生图调用**：优先使用 **`generate_image`** 出图，缺失时再调用 **`generate_image_to_r2`**。生成的封面图片保存至 `path/to/article_name/cover/images/`。
+  4. **生图调用**：优先使用 **`generate_image`** 出图，缺失时再调用 **`/doudou-image`**（`--prompt-file` + `-o`）。生成的封面图片保存至 `path/to/article_name/cover/images/`。
 
 ---
 
@@ -173,7 +187,7 @@ path/to/article_name/
 - **调用逻辑**：
   1. 分析文章脉络与知识架构，拆解为 1-10 张生动信息图卡片（封面卡 + 核心要点卡 + 总结卡）。
   2. 生成各卡片的绘图提示词，保存至 `path/to/article_name/xhs_images/prompts/`。
-  3. **生图调用**：优先使用 **`generate_image`**，无可用时使用 **`generate_image_to_r2`**。生成的 3:4 图文卡片保存至 `path/to/article_name/xhs_images/images/`。
+  3. **生图调用**：优先使用 **`generate_image`**，无可用时调用 **`/doudou-image`**（`--prompt-file` + `-o`）。生成的 3:4 图文卡片保存至 `path/to/article_name/xhs_images/images/`。
 
 ---
 
