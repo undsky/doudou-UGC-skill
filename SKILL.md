@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕）、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-r2、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-r2、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`doudou-publish-skills`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`doudou-publish-skills`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布存证截图与清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -191,14 +191,16 @@ path/to/article_name/
 
 ---
 
-### 8. 生成 Remotion 短视频 (`/video-shotcraft` + `/video-talkcraft` + `/doudou-tts`)
+### 8. 生成 Remotion 短视频 (`/video-shotcraft` + `/video-talkcraft` + `/doudou-tts` + `/remotion-best-practices`)
 
 - **执行目标**：综合分析**目标 Markdown 原文**与**同名产物目录下已生成的全部资料**（`illustrations/`、`cover/`、`xhs_images/` 及各自的 Prompt——**深度分析 Prompt 的核心目的是理解图像语义与构图特征，精准判断每张图片能否以及如何有机融入到对应分镜的画面中**），**根据目标 Markdown 原文字数规划视频时长（每 500 字生成 1 分钟左右的视频，且总时长不小于 60 秒）**，制作解说短视频。
+- **遵循 Remotion 最佳实践**：全程严格遵循 Remotion 最佳实践（`/remotion-best-practices`），确保组件架构、动效计算、确定性渲染与工程化规范达标。
 - **画幅与分辨率自主选择规约（横屏 vs 竖屏）**：
   - 生成的视频画幅规格**必须由用户在步骤 8 门禁中自主选择**：
     - 🖥️ **横屏（16:9，1920×1080）**
     - 📱 **竖屏（9:16，1080×1920）**
 - **技能协同分工**：
+  - **最佳实践规范**：`/remotion-best-practices`：遵循 Remotion 官方架构规范、组件生命周期、动画计算准则、确定性渲染与工程化最佳实践。
   - **分镜与镜头动效（双引擎协同）**：
     - `/video-shotcraft`：提供 157 张电影感与产品镜头配方卡（附 demo 源码与动态样片画廊）、Ink Press 模板、可复用组件（PageCam / ClipCard / Caption 等）与声明式钉帧音效库。
     - `/video-talkcraft`：提供 78 张口播/解说动效配方卡（23 调研 + 8 实战★ + 9 真实视频挖掘◆ + 18 remocn 适配◇ + 20 参考图复刻◈）、七层反 PPT 运镜系统（CameraRig/视差/让位/环境）、SHOTBOOK 三面分层工作单、Apple 视觉范式与字级时间戳节拍锚定。
@@ -283,6 +285,7 @@ path/to/article_name/
 
 渲染完成后逐条核验，任一不通过则回到对应环节修复：
 
+- ✅ **遵循 Remotion 最佳实践**：严格遵循 Remotion 最佳实践（`/remotion-best-practices`），包括确定性渲染（严禁 `Math.random()`/时间戳污染）、规范使用 `interpolate`/`spring` 动效驱动、合理的组件分层与时序管理、静态资源使用 `staticFile()` 等。
 - ✅ **时长达标**：成片总时长符合字数规划（每 500 字约 1 分钟，且 ≥ 60 秒）。
 - ✅ **单分镜 ≤ 10 秒**：全片每一个分镜时长均严格控制在 10 秒以下（≤ 300 帧，黄金区间 3~7 秒），长文案已合理拆解切镜。
 - ✅ **黄金钩子**：前 3 秒即抛出痛点 / 反常识 / 代价，无寒暄铺垫。
