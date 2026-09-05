@@ -77,6 +77,10 @@
       --warning: #d97706;
       --warning-subtle: #fffbeb;
       --warning-text: #92400e;
+
+      --danger: #dc2626;
+      --danger-subtle: #fef2f2;
+      --danger-text: #991b1b;
       
       --purple: #7c3aed;
       --purple-subtle: #f5f3ff;
@@ -368,6 +372,19 @@
       background: var(--warning-subtle);
       color: var(--warning-text);
       border: 1px solid #fde68a;
+    }
+
+    /* 发布失败 / 未登录等异常状态：严禁复用 success 绿色徽章掩盖真实结果 */
+    .flat-badge-danger {
+      background: var(--danger-subtle);
+      color: var(--danger-text);
+      border: 1px solid #fecaca;
+    }
+
+    .flat-badge-muted {
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
     }
 
     /* 扁平卡片网格 (Flat Asset Cards) */
@@ -1119,14 +1136,24 @@
             </thead>
             <tbody>
               <!-- PUBLISHES_TABLE_ROWS_PLACEHOLDER
-                   每行格式规范（5 列，已移除技术性发布分类）：
+                   每行格式规范（5 列，已移除技术性发布分类）。
+                   按「平台 × 模态」逐条输出：一个平台跑了文章+贴图两个模态就输出两行。
                    <tr>
                      <td><strong>${platformName}</strong></td>
                      <td>${mode}</td>
                      <td>${assetTitle}</td>
-                     <td><span class="flat-badge flat-badge-success">${status}</span></td>
+                     <td><span class="flat-badge ${badgeClass}">${status}</span></td>
                      <td><button class="btn" style="padding:4px 8px; font-size:12px;" onclick="openLightbox('${screenshotUrl}')">📸 查看存证</button></td>
                    </tr>
+
+                   badgeClass 必须按真实状态取色，严禁一律用 flat-badge-success：
+                     success     -> flat-badge-success  ✅ 草稿已保存
+                     degraded    -> flat-badge-warning  ⚠️ 已保存（附降级原因，如封面未绑定）
+                     needs_login -> flat-badge-warning  ⚠️ 待登录
+                     failed      -> flat-badge-danger   ❌ 失败（附简短原因）
+                     skipped     -> flat-badge-muted    ⏭️ 已跳过（缺资产）
+                   无存证截图（failed / skipped / needs_login）时，末列改为纯文本占位：
+                     <td><span style="color:var(--text-muted); font-size:12px;">无存证</span></td>
               -->
             </tbody>
           </table>
