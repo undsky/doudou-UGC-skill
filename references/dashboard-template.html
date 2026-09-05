@@ -1,3 +1,48 @@
+<!--
+  =============================================================================
+  doudou-UGC 全景交付结果汇总看板种子模版 (dashboard-template.html)
+  
+  【渲染规范】
+  步骤 10 生成 index.html 时，必须读取本文件作为唯一模版，直接对下述占位符进行字符串替换。
+  严禁自行重写 HTML 骨架、严禁自拟 CSS 样式、依赖与 DOM 结构！
+  
+  【全局模版变量字典】
+  - {{ARTICLE_TITLE}}           : 文章主标题
+  - {{GENERATION_TIME}}          : 看板生成时间 (如 2026-09-04 16:15)
+  - {{ARTICLE_FOLDER_PATH}}      : 文章同名产物相对路径 (如 mds/RuoYi-SpringBoot3/byeidea/)
+  - {{ARTICLE_NAME}}             : 文章名称标识 / slug (如 byeidea)
+  - {{CDN_MARKDOWN_FILENAME}}    : CDN 加速版文件名 (如 byeidea_cdn.md)
+  - {{CDN_MARKDOWN_CONTENT}}     : CDN 加速版 Markdown 原文代码内容
+  - {{COMPLIANCE_REPORT_CONTENT}}: 合规报告 Markdown 全文 (01_compliance_report.md)
+  
+  【概览统计指标变量】
+  - {{ILLUSTRATION_COUNT}}       : 文章高清配图总数 (纯数字)
+  - {{COVER_COUNT}}              : 封面图总数 (纯数字)
+  - {{CARD_COUNT}}               : 小红书/社媒卡片总数 (纯数字)
+  
+  【短视频插槽变量】
+  - {{VIDEO_POSTER_PATH}}        : 视频海报图相对路径 (优先 _thumb 缩略图)
+  - {{VIDEO_FILE_PATH}}          : 视频文件相对路径 (如 ./video/byeidea.mp4)
+  - {{VIDEO_RESOLUTION}}         : 分辨率 (如 1920×1080)
+  - {{VIDEO_ASPECT_RATIO}}       : 画幅比例 (如 16:9 横版)
+  - {{VIDEO_DURATION}}           : 总时长 (如 59.67s)
+  - {{VIDEO_FPS}}                : 帧率 (如 30)
+  - {{VIDEO_TOTAL_FRAMES}}       : 总帧数 (如 1790)
+  - {{VIDEO_RENDER_TIME}}        : 渲染耗时 (如 89.2s)
+  - {{VIDEO_FILE_SIZE}}          : 视频大小 (如 40.93)
+  - {{VIDEO_VOICE}}              : 配音音色与语速说明
+  - {{VIDEO_RECIPE_TAGS}}        : 运镜配方卡标签集 HTML (<span class="flat-badge">S1: ...</span>)
+  - {{STORYBOARD_CONTENT}}       : 分镜脚本 Markdown 全文 (storyboard.md)
+  
+  【列表/卡片 HTML 片段插槽】
+  - <!-- ILLUSTRATION_CARDS_PLACEHOLDER --> : 02. 文章配图卡片流 HTML
+  - <!-- COVER_CARDS_PLACEHOLDER -->        : 03. 封面图集卡片流 HTML
+  - <!-- CDN_TABLE_ROWS_PLACEHOLDER -->     : 04. CDN 映射清单表格行 HTML (4 列)
+  - <!-- XHS_CARDS_PLACEHOLDER -->          : 06. 小红书图文卡片流 HTML
+  - <!-- PUBLISHES_TABLE_ROWS_PLACEHOLDER -->: 08. 多平台发布表格行 HTML (5 列)
+  - <!-- PUBLISHES_SCREENSHOTS_PLACEHOLDER -->: 08. 存证截图画廊 HTML
+  =============================================================================
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -215,8 +260,12 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 5px;
       text-decoration: none;
+      white-space: nowrap;
+      word-break: keep-all;
+      flex-shrink: 0;
       transition: background 0.15s ease, border-color 0.15s ease;
     }
 
@@ -467,7 +516,7 @@
     .table-wrap {
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      overflow: hidden;
+      overflow-x: auto;
       background: var(--bg-surface);
     }
 
@@ -475,12 +524,14 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 13px;
+      table-layout: auto;
     }
 
     .data-table th, .data-table td {
-      padding: 10px 14px;
+      padding: 10px 12px;
       text-align: left;
       border-bottom: 1px solid var(--border-subtle);
+      vertical-align: middle;
     }
 
     .data-table th {
@@ -488,6 +539,35 @@
       color: var(--text-secondary);
       font-weight: 600;
       font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .data-table th:first-child, .data-table td:first-child,
+    .data-table th:nth-child(2), .data-table td:nth-child(2) {
+      white-space: nowrap;
+    }
+
+    .data-table th:last-child, .data-table td:last-child {
+      white-space: nowrap;
+      text-align: center;
+      width: 110px;
+      min-width: 110px;
+    }
+
+    #tab-publishes .data-table td:nth-child(3) {
+      word-break: break-word;
+      max-width: 280px;
+    }
+
+    #tab-publishes .data-table td:nth-child(4) {
+      word-break: break-word;
+      max-width: 240px;
+    }
+
+    #tab-publishes .data-table td:nth-child(4) .flat-badge {
+      white-space: normal;
+      line-height: 1.4;
+      text-align: left;
     }
 
     .data-table tr:last-child td {
@@ -499,20 +579,32 @@
     }
 
     .table-thumb {
-      width: 64px;
-      height: 44px;
+      width: 52px;
+      height: 52px;
       object-fit: cover;
-      border-radius: 4px;
+      border-radius: 6px;
       border: 1px solid var(--border-subtle);
       cursor: pointer;
       display: block;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
       background: var(--bg-subtle);
     }
 
     .table-thumb:hover {
-      transform: scale(1.1);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: scale(1.15);
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .markdown-rendered img,
+    .markdown-preview img {
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .markdown-rendered img:hover,
+    .markdown-preview img:hover {
+      opacity: 0.9;
     }
 
     /* Markdown 双栏分栏 (Split View) */
@@ -752,19 +844,14 @@
       <div class="nav-item active" onclick="switchTab('overview')">
         <span>📊 全局概览</span>
       </div>
-      <div class="nav-item" onclick="switchTab('markdown')">
-        <span>📝 原文与 CDN Markdown</span>
-      </div>
       <div class="nav-item" onclick="switchTab('compliance')">
         <span>🛡️ 01. 内容合规审查</span>
       </div>
       <div class="nav-item" onclick="switchTab('illustrations')">
         <span>🎨 02. 文章配图</span>
-        <span class="badge" id="badge-illustrations">{{ILLUSTRATION_COUNT}}</span>
       </div>
       <div class="nav-item" onclick="switchTab('cover')">
         <span>🖼️ 03. 封面图集</span>
-        <span class="badge" id="badge-cover">{{COVER_COUNT}}</span>
       </div>
       <div class="nav-item" onclick="switchTab('cdn')">
         <span>🌐 04. CDN 映射清单</span>
@@ -774,7 +861,6 @@
       </div>
       <div class="nav-item" onclick="switchTab('xhs')">
         <span>📑 06. 小红书图文</span>
-        <span class="badge" id="badge-xhs">{{CARD_COUNT}}</span>
       </div>
       <div class="nav-item" onclick="switchTab('video')">
         <span>🎬 07. Remotion 短视频</span>
@@ -794,10 +880,6 @@
           <span>📅 生成时间: {{GENERATION_TIME}}</span>
           <span>📦 路径: <code>{{ARTICLE_FOLDER_PATH}}</code></span>
         </div>
-      </div>
-      <div class="action-group">
-        <button class="btn" onclick="copyContent('cdn-markdown-raw')">📋 复制 CDN Markdown</button>
-        <a class="btn btn-primary" href="./{{ARTICLE_NAME}}_预览.html" target="_blank">🚀 独立打开公众号预览</a>
       </div>
     </header>
 
@@ -832,20 +914,11 @@
           </div>
         </div>
 
-        <div class="flat-card">
-          <h3>🚀 快速交付说明</h3>
-          <p>全部提示词 (Prompts)、高清配图原图、公众号排版 HTML、小红书图文卡片资产与 Cloudflare R2 CDN 加速链接均已按规范保存到本地同名目录。请从左侧导航栏按阶段目录检视与一键复制资产。</p>
-        </div>
-      </section>
-
-      <!-- 2. Markdown 原文与 CDN 版 -->
-      <section id="tab-markdown" class="tab-content">
-        <h2 class="section-title">📝 Markdown 文章管理与实时渲染</h2>
         <div class="markdown-split-view">
           <!-- 左侧：Markdown 源码与一键复制 -->
           <div class="code-viewer">
             <div class="code-header">
-              <span>CDN 加速版 Markdown ({{CDN_MARKDOWN_FILENAME}})</span>
+              <span>原文 Markdown ({{CDN_MARKDOWN_FILENAME}})</span>
               <button class="btn" onclick="copyContent('cdn-markdown-raw')">📋 一键复制Markdown</button>
             </div>
             <div class="code-content" id="cdn-markdown-raw">{{CDN_MARKDOWN_CONTENT}}</div>
@@ -861,7 +934,7 @@
         </div>
       </section>
 
-      <!-- 3. 合规审查 -->
+      <!-- 2. 合规审查 -->
       <section id="tab-compliance" class="tab-content">
         <h2 class="section-title">🛡️ 01. 敏感词与微信运营合规审查</h2>
         <div class="flat-card">
@@ -929,7 +1002,15 @@
               </tr>
             </thead>
             <tbody>
-              <!-- CDN_TABLE_ROWS_PLACEHOLDER -->
+              <!-- CDN_TABLE_ROWS_PLACEHOLDER
+                   每行格式规范：
+                   <tr>
+                     <td><img src="${cdnUrl}" class="table-thumb" onclick="openLightbox(this.src)" title="点击放大查看" alt="预览缩略图" /></td>
+                     <td><code>${localPath}</code></td>
+                     <td><a href="${cdnUrl}" target="_blank" style="color:var(--primary);">${cdnUrl}</a></td>
+                     <td><button class="btn" style="padding:4px 8px; font-size:12px;" onclick="navigator.clipboard.writeText('${cdnUrl}'); showToast('已复制 CDN 链接');">📋 复制</button></td>
+                   </tr>
+              -->
             </tbody>
           </table>
         </div>
@@ -1009,9 +1090,16 @@
         <div class="flat-card">
           <div class="code-header" style="background: transparent; padding: 0 0 12px 0; border-bottom: 1px solid var(--border-subtle); margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
             <span style="font-size: 14px; font-weight: 600; color: var(--text-main);">📜 黄金短视频分镜脚本 (storyboard.md)</span>
-            <button class="btn" onclick="copyContent('storyboard-raw')">📋 复制分镜脚本</button>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn" id="storyboard-toggle-btn" onclick="toggleStoryboardView()">📝 查看源码</button>
+              <button class="btn" onclick="copyContent('storyboard-raw')">📋 复制分镜脚本</button>
+              <button class="btn" onclick="copyHtmlContent('storyboard-rendered-view')">📋 复制 HTML</button>
+            </div>
           </div>
-          <pre id="storyboard-raw" style="font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; line-height: 1.6; color: var(--text-secondary); background: var(--bg-subtle); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); max-height: 400px; overflow-y: auto; white-space: pre-wrap; margin: 0;">{{STORYBOARD_CONTENT}}</pre>
+          <div id="storyboard-rendered-view" class="markdown-render-body" style="height: auto; max-height: 520px; overflow-y: auto; padding: 20px 24px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: #ffffff;"></div>
+          <div id="storyboard-raw-container" style="display: none;">
+            <pre id="storyboard-raw" style="font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; line-height: 1.6; color: var(--text-secondary); background: var(--bg-subtle); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); max-height: 520px; overflow-y: auto; white-space: pre-wrap; margin: 0;">{{STORYBOARD_CONTENT}}</pre>
+          </div>
         </div>
       </section>
 
@@ -1023,7 +1111,6 @@
             <thead>
               <tr>
                 <th>平台名称</th>
-                <th>发布分类</th>
                 <th>发布模态</th>
                 <th>核心注入资产</th>
                 <th>草稿状态</th>
@@ -1031,14 +1118,30 @@
               </tr>
             </thead>
             <tbody>
-              <!-- PUBLISHES_TABLE_ROWS_PLACEHOLDER -->
+              <!-- PUBLISHES_TABLE_ROWS_PLACEHOLDER
+                   每行格式规范（5 列，已移除技术性发布分类）：
+                   <tr>
+                     <td><strong>${platformName}</strong></td>
+                     <td>${mode}</td>
+                     <td>${assetTitle}</td>
+                     <td><span class="flat-badge flat-badge-success">${status}</span></td>
+                     <td><button class="btn" style="padding:4px 8px; font-size:12px;" onclick="openLightbox('${screenshotUrl}')">📸 查看存证</button></td>
+                   </tr>
+              -->
             </tbody>
           </table>
         </div>
 
         <h3 style="font-size:14px; font-weight:600; margin-bottom:12px;">📸 自动化草稿存证截图</h3>
-        <div class="card-grid">
-          <!-- PUBLISHES_SCREENSHOTS_PLACEHOLDER -->
+        <div>
+          <!-- PUBLISHES_SCREENSHOTS_PLACEHOLDER
+               每个存证卡片遵循标准扁平卡片结构：
+               <div class="flat-card" style="margin-bottom:16px;">
+                 <h4 style="margin-bottom:8px; font-size:14px; font-weight:600;">${platformName} (${mode}) 存证</h4>
+                 <img src="${screenshotPath}" style="width:100%; max-width:720px; border-radius:6px; border:1px solid var(--border-subtle); cursor:pointer;" onclick="openLightbox('${screenshotPath}')" title="点击全屏查看" />
+                 <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">状态: ${status} | 存证路径: ${screenshotPath}</p>
+               </div>
+          -->
         </div>
       </section>
     </div>
@@ -1063,15 +1166,19 @@
       const navItem = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick') && el.getAttribute('onclick').includes(tabId));
       if (navItem) navItem.classList.add('active');
 
-      if (tabId === 'markdown') {
+      if (tabId === 'overview' || tabId === 'markdown') {
         renderMarkdown();
       }
       if (tabId === 'compliance') {
         renderCompliance();
       }
+      if (tabId === 'video') {
+        renderStoryboard();
+      }
     }
 
     function openLightbox(src) {
+      if (!src) return;
       const lb = document.getElementById('lightbox');
       const img = document.getElementById('lightbox-img');
       img.src = src;
@@ -1079,14 +1186,54 @@
     }
 
     function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
+      const lb = document.getElementById('lightbox');
+      if (lb) lb.classList.remove('active');
     }
+
+    // 支持 ESC 键关闭 Lightbox
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+
+    // 全局增强：点击页面上的表格缩略图、Markdown 正文图片或可预览插图，均支持一键放大查看
+    document.addEventListener('click', (e) => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      if (img.id === 'lightbox-img' || img.classList.contains('no-lightbox')) return;
+
+      if (
+        img.classList.contains('table-thumb') ||
+        img.closest('.markdown-preview') ||
+        img.closest('.markdown-rendered') ||
+        img.closest('.table-wrap') ||
+        img.closest('.illustration-card') ||
+        img.closest('.cover-card') ||
+        img.closest('.xhs-card') ||
+        img.closest('.evidence-panel')
+      ) {
+        const onclickAttr = img.getAttribute('onclick') || '';
+        const parentOnclickAttr = img.parentElement ? (img.parentElement.getAttribute('onclick') || '') : '';
+        if (!onclickAttr.includes('openLightbox') && !parentOnclickAttr.includes('openLightbox')) {
+          openLightbox(img.src);
+        }
+      }
+    });
 
     function copyContent(elementId) {
       const el = document.getElementById(elementId);
       if (!el) return;
-      const text = el.innerText || el.textContent;
+      const text = (el.value !== undefined ? el.value : (el.textContent || el.innerText || '')).trim();
       navigator.clipboard.writeText(text).then(() => {
+        showToast('已复制内容到剪贴板！');
+      }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
         showToast('已复制内容到剪贴板！');
       });
     }
@@ -1142,13 +1289,43 @@
       }
     }
 
+    function renderStoryboard() {
+      const rawEl = document.getElementById('storyboard-raw');
+      const targetEl = document.getElementById('storyboard-rendered-view');
+      if (!rawEl || !targetEl) return;
+      const mdContent = rawEl.value !== undefined ? rawEl.value : (rawEl.textContent || rawEl.innerText || '');
+      if (typeof marked !== 'undefined' && marked.parse) {
+        targetEl.innerHTML = marked.parse(mdContent.trim());
+      } else {
+        targetEl.innerHTML = '<pre style="white-space:pre-wrap;">' + mdContent + '</pre>';
+      }
+    }
+
+    function toggleStoryboardView() {
+      const rendered = document.getElementById('storyboard-rendered-view');
+      const raw = document.getElementById('storyboard-raw-container');
+      const btn = document.getElementById('storyboard-toggle-btn');
+      if (!rendered || !raw || !btn) return;
+      if (rendered.style.display === 'none') {
+        rendered.style.display = 'block';
+        raw.style.display = 'none';
+        btn.innerHTML = '📝 查看源码';
+      } else {
+        rendered.style.display = 'none';
+        raw.style.display = 'block';
+        btn.innerHTML = '📖 查看渲染';
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       renderMarkdown();
       renderCompliance();
+      renderStoryboard();
     });
     // 立即尝试解析一次
     renderMarkdown();
     renderCompliance();
+    renderStoryboard();
   </script>
 </body>
 </html>
