@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动发布至各大自媒体与技术社区草稿箱（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-r2、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices、doudou-publish-skills 系列）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-r2、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`doudou-publish-skills`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台草稿箱自动发布**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布存证截图与清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -71,9 +71,9 @@ path/to/article_name/
 │   ├── qa/                               # 逐镜头静帧验收档案 (npx remotion still)
 │   ├── article_name.mp4                  # ⭐ 终渲成片 (按字数规划：每 500 字约 1 分钟，≥ 60s，含配音与 SFX)
 │   └── video_manifest.json               # 视频元数据 (时长、分辨率、分镜清单、镜头卡、音色、渲染耗时)
-└── publishes/                            # 步骤 9：多平台发布存证与状态清单 (doudou-publish-skills)
-    ├── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、草稿状态、时间、截图路径等)
-    └── screenshots/                      # 各平台草稿保存成功的存证截图 (如 weixin_article.png, bilibili.png 等)
+└── publishes/                            # 步骤 9：多平台发布存证与状态清单 (/doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb)
+    ├── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、就绪状态、时间、截图路径等)
+    └── screenshots/                      # 各平台自动填入就绪存证截图 (如 weixin_article.png, bilibili.png 等)
 ```
 
 > **步骤 8 的 Remotion 源码不落在产物目录**：短视频**直接复用仓库根目录既有的 Remotion 工程**（不另建自包含工程、不新装依赖）——镜头与时间线源码写进根 `src/videos/<article_name>/`，静态素材放根 `public/<article_name>/`，Composition 注册在根 `src/Root.tsx`。产物目录只收**产物**：分镜脚本、配音字幕、静帧验收、成片与元数据。
@@ -311,9 +311,9 @@ path/to/article_name/
 
 ---
 
-### 9. 多平台文章与图文发布到草稿箱 (`doudou-publish-skills`)
+### 9. 多平台发布 (`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`)
 
-- **执行目标**：在图文卡片与短视频生成完毕后，调用 `doudou-publish-skills` 套件，基于 `chrome-devtools-mcp` 自动将文章及衍生资产发布至各大自媒体平台与技术社区的草稿箱，并完成状态记录与截屏存证。
+- **执行目标**：在图文卡片与短视频生成完毕后，依次调用所选平台对应的独立发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），基于 `chrome-devtools-mcp` 自动将文章及衍生资产填入各大自媒体平台与技术社区发文页面，完成就绪状态记录与截屏存证。
 
 #### 9.1 支持的 14 大平台矩阵
 
@@ -342,7 +342,7 @@ path/to/article_name/
    - **字面量严格对齐硬规约（严禁任意修改、加后缀或调换顺序）**：在调用 `ask_question` 工具时，`question`、`is_multi_select` 与 `options` **必须 100% 精确按下方字面量参数传参，严禁自定义添加括号英文别名、严禁随意调换次序、严禁遗漏「全选发布」**：
      ```json
      {
-       "question": "短视频及多模态衍生资产已就绪，请选择需要自动发布草稿的平台：",
+       "question": "短视频及多模态衍生资产已就绪，请选择需要自动填入发布的平台：",
        "is_multi_select": true,
        "options": [
          "(Recommended) 全选发布（全部 14 大平台）",
@@ -360,7 +360,7 @@ path/to/article_name/
          "抖音",
          "知乎",
          "烧饼社区",
-         "全部跳过（暂不发布到草稿箱，直接生成全景汇总看板）"
+         "全部跳过（暂不执行平台发布，直接生成全景汇总看板）"
        ]
      }
      ```
@@ -374,33 +374,35 @@ path/to/article_name/
      - 在 `publishes/publish_manifest.json` 中将各平台状态统一记录为 `skipped`（原因：用户主动跳过发布）；
      - 系统直接无缝推进至**步骤 10：生成产物结果汇总看板 (`index.html`)**。
 
-#### 9.3 发布核心规约与执行机制
+#### 9.3 发布技能调用逻辑
 
-1. **真实触发与全自动执行链路（确保发布技能真实调用）**：
-   - 当用户确认目标平台列表后，**必须真实依次调用各平台对应的发布技能**，严禁仅生成静态 JSON 清单而跳过浏览器真实自动化！
-   - **执行流程**：由技能自身决定，不受其他影响。
+当用户确认需要发布的平台后，依次调用对应平台的发布技能，传入给定的 Markdown 文章文件：
 
-2. **单平台故障隔离与容错继续执行（Fail-Safe & Fault-Tolerant Loop）**：
-   - **失败不阻塞**：每个平台的发布流程必须进行独立异常隔离（Try-Catch 保护）。若某一平台因**未登录、风控人机验证码、网络超时或页面 DOM 结构调整**等原因导致发布失败或未完成，**严禁中断整个发布流程**！
-   - **自动跳过并记录**：系统必须将该平台的异常原因结构化记录至 `publishes/publish_manifest.json`（标记为 `needs_login`、`failed` 或 `skipped`），**并立即继续自动推进下一个选定平台的发布**，确保矩阵中的其余平台全部被正常执行并保存草稿。
-   - **全流程汇总汇报**：所有选定平台遍历完毕后，在最终报告与全景看板中清晰列出各平台的实际执行结果（✅ 成功草稿ID / ⚠️ 待登录 / ❌ 失败详情），并展示所有已成功平台的存证截图。
+```text
+/技能 <给定的 Markdown 文章文件>
+```
 
-3. **缩略图优先原则**：
-   - **封面图优先缩略图**：上传封面时，**必须优先选用带有 `_thumb` 后缀的本地缩略图**（如 `cover-2.35x1_thumb.png`、`cover-16x9_thumb.png`，或 `cdn_manifest.json` 中记录的 `thumb_path`）；若无 `_thumb` 缩略图才降级使用原图，规避平台封面上传大小限制并大幅提升上传速度。
-   - **正文配图优先缩略图**：需要向平台转存或上传本地图片的场景，**优先使用 `illustrations/images/*_thumb.png` 缩略图**进行转存注入，避免原图过大导致网络超时或风控阻断。
+**调用映射**：
 
-4. **视频形态平台优先投喂成片**：
-   - 对**抖音、B站、小红书、视频号**等支持视频的平台，优先上传步骤 8 产出的成片 `video/article_name.mp4`（走视频稿投递），配文取分镜脚本的钩子文案与文章摘要，封面沿用 `cover/images/` 的封面图。
-   - 若该平台视频投递失败或未登录，按第 2 条容错规约降级为图文/卡片模式发布，并在清单中记录降级原因。
+- 微信公众平台：`/doudou-weixin <给定的 Markdown 文章文件>`
+- 微信视频号：`/doudou-shipinhao <给定的 Markdown 文章文件>`
+- 今日头条：`/doudou-toutiao <给定的 Markdown 文章文件>`
+- 百家号：`/doudou-baijia <给定的 Markdown 文章文件>`
+- 企鹅号：`/doudou-qiehao <给定的 Markdown 文章文件>`
+- 掘金：`/doudou-juejin <给定的 Markdown 文章文件>`
+- CSDN：`/doudou-csdn <给定的 Markdown 文章文件>`
+- 腾讯云开发者社区：`/doudou-tencent <给定的 Markdown 文章文件>`
+- 阿里云开发者社区：`/doudou-aliyun <给定的 Markdown 文章文件>`
+- 哔哩哔哩 (B站)：`/doudou-bilibili <给定的 Markdown 文章文件>`
+- 小红书：`/doudou-xiaohongshu <给定的 Markdown 文章文件>`
+- 抖音：`/doudou-douyin <给定的 Markdown 文章文件>`
+- 知乎：`/doudou-zhihu <给定的 Markdown 文章文件>`
+- 烧饼社区：`/doudou-linuxsb <给定的 Markdown 文章文件>`
 
-5. **截屏存证与清单记录**：
-   - 每个平台保存草稿后，自动调用 `take_screenshot` 保存存证截图至 `path/to/article_name/publishes/screenshots/[platform]_[mode].png`。
-   - 在 `path/to/article_name/publishes/publish_manifest.json` 中结构化记录各平台发布状态、发布标题（`title`，短视频/图文对应各平台实际填入的标题）、草稿 ID/链接、存证截图路径与耗时。
+#### 9.4 截屏存证与清单记录
 
-6. **发布完成后保留页面（严禁自动关闭）**：
-   - 每个平台发布流程结束后（无论成功保存草稿、待登录还是失败），**严禁调用 `close_page` 或任何形式关闭该平台的浏览器标签页**，必须原样保留页面现场。
-   - 推进下一个平台时应**新开标签页**（如 `new_page`）或切换标签页（如 `select_page`），而非复用并覆盖/关闭已完成平台的页面，确保全部选定平台的发布页面在流程结束后依然全部处于打开状态，便于用户人工复核草稿内容、补充登录或手动点击发布。
-   - 该规约同样适用于容错分支：因未登录、验证码、超时等原因中断的平台页面也必须保留，供用户直接接管处理。
+- 每个平台完成自动保存后，自动调用 `take_screenshot` 保存存证截图至 `path/to/article_name/publishes/screenshots/[platform]_[mode].png`。
+- 在 `path/to/article_name/publishes/publish_manifest.json` 中结构化记录各平台发布状态、发布标题（`title`，短视频/图文对应各平台实际填入的标题）、就绪状态、存证截图路径与耗时。
 
 ---
 
@@ -410,17 +412,17 @@ path/to/article_name/
 - **核心执行原则**：**必须强制读取 `references/dashboard-template.html` 作为唯一种子模版进行占位符插槽填充替换**，产物样式与布局严格与 `mds/RuoYi-SpringBoot3/byeidea/index.html` 保持 100% 一致。模版中已完全模块化预置现代扁平白灰调色彩体系、marked.js 引擎、侧边栏 Tab 切换、ESC 退出与全局图片 Lightbox 放大委托、多平台 5 列表格与一键复制 Toast，**严禁脱离模版手写 HTML/CSS，严禁改动模版核心骨架！**
 - **内容组织规划（按生成的文件夹目录结构划分模块）**：
 
-| 模块标签                           | 对应目录/文件                                                              | 核心展示与交互内容                                                                                                                                                                                                                                                                                |
-| :--------------------------------- | :------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 📊 **全局概览 (Overview)**         | 产物根目录<br>`[article].md`<br>`article_cdn.md`                            | 流程产物交付指标总览（合规状态、配图数、封面数、图文数、短视频终渲状态）；下方直接集成 **Markdown 双栏源码与 marked 实时渲染预览**（左侧 `原文 Markdown ([article]_cdn.md)` 源码高亮+一键复制，右侧 marked 实时解析渲染+一键复制 HTML）。                                                  |
-| 🛡️ **01 内容审查**                 | `01_compliance_report.md`                                                  | 格式化渲染合规审查报告全文，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签，支持一键复制 Markdown。                                                                                                                                                                                   |
-| 🎨 **02 文章插图**                 | `illustrations/`<br>├ `prompts/`<br>└ `images/`                            | 上下流式网格卡片流：每张卡片含 contain 缩略图、点击放大、比例与类型标签、CDN 快速复制；卡片底部为固定高度、带滚动条的绘图提示词 Prompt 代码块，配备一键复制。                                                                                                                                  |
-| 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                                    | 上下流式网格卡片流：2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例陈列；支持大图放大、CDN 复制与底部 5 维设计提示词一键复制。                                                                                                                                                           |
-| 🌐 **04 CDN 映射表**               | `cdn_manifest.json`                                                        | 4 列交互式数据表格：展示图片缩略图（`.table-thumb`，支持点击全屏放大）、原始相对路径、Cloudflare R2 CDN 加速链接与一键复制按钮。                                                                                                                                                                |
-| 📱 **05 公众号排版**               | `[article]_排版_[theme].html`<br>`[article]_预览.html`                     | 嵌入式 iframe 实时渲染公众号排版预览；提供纯排版正文与新标签页打开。                                                                                                                                                                                                                             |
-| 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                               | 3:4 竖版上下流式网格卡片流：展示封面卡、要点卡、总结卡；含高清缩略图预览（点击放大）、3:4 比例标签、CDN URL 与底部提示词 Prompt 一键复制。                                                                                                                                                     |
-| 🎬 **07 短视频成片**               | `video/`<br>├ `storyboard.md`<br>├ `narration/`<br>└ `video_manifest.json` | 内嵌 `<video controls>` 播放器直接播放成片；视频渲染技术参数卡片（分辨率、时长、帧数、文件大小、配音音色）与运镜配方卡标签集；黄金分镜脚本区（支持「📝 查看源码 / 📖 查看渲染」无缝切换、复制分镜脚本与复制 HTML）。                                                                         |
-| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>├ `publish_manifest.json`<br>└ `screenshots/`              | **多平台草稿发布看板**：精简 5 列表格（平台名称、发布模态、**各平台具体发布标题**、草稿状态徽章、📸 查看存证），已隐去内部技术分类；下方垂直流式陈列自动化草稿存证截图画廊（支持全屏 Lightbox 放大审查）。                                                                                  |
+| 模块标签                           | 对应目录/文件                                                              | 核心展示与交互内容                                                                                                                                                                                                                        |
+| :--------------------------------- | :------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📊 **全局概览 (Overview)**         | 产物根目录<br>`[article].md`<br>`article_cdn.md`                           | 流程产物交付指标总览（合规状态、配图数、封面数、图文数、短视频终渲状态）；下方直接集成 **Markdown 双栏源码与 marked 实时渲染预览**（左侧 `原文 Markdown ([article]_cdn.md)` 源码高亮+一键复制，右侧 marked 实时解析渲染+一键复制 HTML）。 |
+| 🛡️ **01 内容审查**                 | `01_compliance_report.md`                                                  | 格式化渲染合规审查报告全文，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签，支持一键复制 Markdown。                                                                                                                           |
+| 🎨 **02 文章插图**                 | `illustrations/`<br>├ `prompts/`<br>└ `images/`                            | 上下流式网格卡片流：每张卡片含 contain 缩略图、点击放大、比例与类型标签、CDN 快速复制；卡片底部为固定高度、带滚动条的绘图提示词 Prompt 代码块，配备一键复制。                                                                             |
+| 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                                    | 上下流式网格卡片流：2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例陈列；支持大图放大、CDN 复制与底部 5 维设计提示词一键复制。                                                                                                    |
+| 🌐 **04 CDN 映射表**               | `cdn_manifest.json`                                                        | 4 列交互式数据表格：展示图片缩略图（`.table-thumb`，支持点击全屏放大）、原始相对路径、Cloudflare R2 CDN 加速链接与一键复制按钮。                                                                                                          |
+| 📱 **05 公众号排版**               | `[article]_排版_[theme].html`<br>`[article]_预览.html`                     | 嵌入式 iframe 实时渲染公众号排版预览；提供纯排版正文与新标签页打开。                                                                                                                                                                      |
+| 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                               | 3:4 竖版上下流式网格卡片流：展示封面卡、要点卡、总结卡；含高清缩略图预览（点击放大）、3:4 比例标签、CDN URL 与底部提示词 Prompt 一键复制。                                                                                                |
+| 🎬 **07 短视频成片**               | `video/`<br>├ `storyboard.md`<br>├ `narration/`<br>└ `video_manifest.json` | 内嵌 `<video controls>` 播放器直接播放成片；视频渲染技术参数卡片（分辨率、时长、帧数、文件大小、配音音色）与运镜配方卡标签集；黄金分镜脚本区（支持「📝 查看源码 / 📖 查看渲染」无缝切换、复制分镜脚本与复制 HTML）。                      |
+| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>├ `publish_manifest.json`<br>└ `screenshots/`              | **多平台发布看板**：精简 5 列表格（平台名称、发布模态、**各平台具体发布标题**、就绪状态徽章、📸 查看存证），已隐去内部技术分类；下方垂直流式陈列自动化填入就绪存证截图画廊（支持全屏 Lightbox 放大审查）。                                |
 
 #### 模版插槽填充规范 (Template Slot Guide)
 
@@ -448,37 +450,109 @@ path/to/article_name/
 3. **模块化 HTML 片段模版（标准结构）**：
    - **`<!-- ILLUSTRATION_CARDS_PLACEHOLDER -->` & `<!-- COVER_CARDS_PLACEHOLDER -->`**（配图与封面卡片流）：
      ```html
-     <div class="flat-card" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 0;">
-       <div style="background: var(--bg-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; overflow: hidden; height: 210px; position: relative; cursor: pointer;" onclick="openLightbox('${imgPath}')" title="点击全屏放大">
-         <img src="${thumbPath}" alt="${filename}" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.2s ease;" />
-         <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(15, 23, 42, 0.65); color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px; backdrop-filter: blur(4px);">🔍 点击放大</span>
+     <div
+       class="flat-card"
+       style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 0;"
+     >
+       <div
+         style="background: var(--bg-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; overflow: hidden; height: 210px; position: relative; cursor: pointer;"
+         onclick="openLightbox('${imgPath}')"
+         title="点击全屏放大"
+       >
+         <img
+           src="${thumbPath}"
+           alt="${filename}"
+           style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.2s ease;"
+         />
+         <span
+           style="position: absolute; bottom: 8px; right: 8px; background: rgba(15, 23, 42, 0.65); color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px; backdrop-filter: blur(4px);"
+           >🔍 点击放大</span
+         >
        </div>
        <div>
-         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-           <h4 style="font-size: 13.5px; font-weight: 600; color: var(--text-main); margin: 0; word-break: break-all;">${filename}</h4>
+         <div
+           style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"
+         >
+           <h4
+             style="font-size: 13.5px; font-weight: 600; color: var(--text-main); margin: 0; word-break: break-all;"
+           >
+             ${filename}
+           </h4>
            <span class="flat-badge">${badge}</span>
          </div>
-         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted);">
-           <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 75%;">CDN: <a href="${cdnUrl}" target="_blank" style="color: var(--primary);">${cdnUrl}</a></span>
-           <button class="btn" style="padding: 2px 8px; font-size: 11.5px;" onclick="copyText('${cdnUrl}')">📋 复制</button>
+         <div
+           style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted);"
+         >
+           <span
+             style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 75%;"
+             >CDN:
+             <a href="${cdnUrl}" target="_blank" style="color: var(--primary);"
+               >${cdnUrl}</a
+             ></span
+           >
+           <button
+             class="btn"
+             style="padding: 2px 8px; font-size: 11.5px;"
+             onclick="copyText('${cdnUrl}')"
+           >
+             📋 复制
+           </button>
          </div>
        </div>
-       <div style="background: var(--bg-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;">
-         <div style="display: flex; justify-content: space-between; align-items: center;">
-           <span style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">📝 绘图提示词 (Prompt)</span>
-           <button class="btn" style="padding: 2px 8px; font-size: 11px;" onclick="copyContent('${promptId}')">📋 复制提示词</button>
+       <div
+         style="background: var(--bg-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;"
+       >
+         <div
+           style="display: flex; justify-content: space-between; align-items: center;"
+         >
+           <span
+             style="font-size: 12px; font-weight: 600; color: var(--text-secondary);"
+             >📝 绘图提示词 (Prompt)</span
+           >
+           <button
+             class="btn"
+             style="padding: 2px 8px; font-size: 11px;"
+             onclick="copyContent('${promptId}')"
+           >
+             📋 复制提示词
+           </button>
          </div>
-         <pre id="${promptId}" style="font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11.5px; line-height: 1.55; color: var(--text-secondary); max-height: 120px; height: 120px; overflow-y: auto; white-space: pre-wrap; margin: 0; padding-right: 4px; word-break: break-word;">${promptText}</pre>
+         <pre
+           id="${promptId}"
+           style="font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11.5px; line-height: 1.55; color: var(--text-secondary); max-height: 120px; height: 120px; overflow-y: auto; white-space: pre-wrap; margin: 0; padding-right: 4px; word-break: break-word;"
+         >
+     ${promptText}</pre
+         >
        </div>
      </div>
      ```
    - **`<!-- CDN_TABLE_ROWS_PLACEHOLDER -->`**（4 列表格行）：
      ```html
      <tr>
-       <td><img src="${cdnUrl}" class="table-thumb" onclick="openLightbox(this.src)" title="点击放大查看" alt="预览缩略图" /></td>
+       <td>
+         <img
+           src="${cdnUrl}"
+           class="table-thumb"
+           onclick="openLightbox(this.src)"
+           title="点击放大查看"
+           alt="预览缩略图"
+         />
+       </td>
        <td><code>${localPath}</code></td>
-       <td><a href="${cdnUrl}" target="_blank" style="color:var(--primary);">${cdnUrl}</a></td>
-       <td><button class="btn" style="padding:4px 8px; font-size:12px;" onclick="navigator.clipboard.writeText('${cdnUrl}'); showToast('已复制 CDN 链接');">📋 复制</button></td>
+       <td>
+         <a href="${cdnUrl}" target="_blank" style="color:var(--primary);"
+           >${cdnUrl}</a
+         >
+       </td>
+       <td>
+         <button
+           class="btn"
+           style="padding:4px 8px; font-size:12px;"
+           onclick="navigator.clipboard.writeText('${cdnUrl}'); showToast('已复制 CDN 链接');"
+         >
+           📋 复制
+         </button>
+       </td>
      </tr>
      ```
    - **`<!-- XHS_CARDS_PLACEHOLDER -->`**：3:4 竖版图文卡片流，卡片内部结构与配图完全一致。
@@ -489,15 +563,32 @@ path/to/article_name/
        <td>${mode}</td>
        <td>${actualPublishTitle}</td>
        <td><span class="flat-badge flat-badge-success">${statusText}</span></td>
-       <td><button class="btn" style="padding:4px 8px; font-size:12px;" onclick="openLightbox('${screenshotPath}')">📸 查看存证</button></td>
+       <td>
+         <button
+           class="btn"
+           style="padding:4px 8px; font-size:12px;"
+           onclick="openLightbox('${screenshotPath}')"
+         >
+           📸 查看存证
+         </button>
+       </td>
      </tr>
      ```
    - **`<!-- PUBLISHES_SCREENSHOTS_PLACEHOLDER -->`**（存证截图画廊）：
      ```html
      <div class="flat-card" style="margin-bottom:16px;">
-       <h4 style="margin-bottom:8px; font-size:14px; font-weight:600;">${platformName} (${mode}) 存证</h4>
-       <img src="${screenshotPath}" style="width:100%; max-width:720px; border-radius:6px; border:1px solid var(--border-subtle); cursor:pointer;" onclick="openLightbox('${screenshotPath}')" title="点击全屏查看" />
-       <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">状态: ${statusText} | 存证路径: ${screenshotPath}</p>
+       <h4 style="margin-bottom:8px; font-size:14px; font-weight:600;">
+         ${platformName} (${mode}) 存证
+       </h4>
+       <img
+         src="${screenshotPath}"
+         style="width:100%; max-width:720px; border-radius:6px; border:1px solid var(--border-subtle); cursor:pointer;"
+         onclick="openLightbox('${screenshotPath}')"
+         title="点击全屏查看"
+       />
+       <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">
+         状态: ${statusText} | 存证路径: ${screenshotPath}
+       </p>
      </div>
      ```
 
@@ -516,7 +607,7 @@ path/to/article_name/
     6. **步骤 6（排版门禁）**：触发 `gzh-design` 的排版主题确认（摸鱼绿、红白色系、石墨极简等），装配 HTML 并同步博客。
     7. **步骤 7（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（策略 A/B/C、风格、布局）。
     8. **步骤 8（短视频门禁）**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、原文字数与规划时长（每 500 字约 1 分钟，≥ 60s）、**每个分镜严格控制在 10 秒以下（≤ 300 帧）及紧凑节奏规划**、**全片每一个分镜（如 S1~S6...）分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`）供用户逐镜自主选择**、**视频画幅由用户自主选择（横屏 1920×1080 (16:9) / 竖屏 1080×1920 (9:16)）**、**配音音色与语速由用户自主选择（提供云扬/晓晓/云希等音色与 1.0x/1.05x 等语速选项）**；用户确认后再执行配音合成、Remotion 工程实现与渲染。
-    9. **步骤 9（多平台发布门禁）**：触发 `doudou-publish-skills` 多平台发布选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 10 生成看板；若勾选了目标平台，则启动浏览器自动化依次将文章、图文与视频资产发布到所选平台草稿箱并保存存证截图。
+    9. **步骤 9（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 10 生成看板；若勾选了目标平台，则启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面并保存就绪存证截图。
     10. **步骤 10**：组装并生成一站式结果汇总看板 `index.html`（含 1~9 阶段完整资产、短视频播放器与多平台发布状态 Tab）。
 - **全自动模式（Explicit Only）**：
   - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~10 全套流程。
@@ -537,4 +628,4 @@ path/to/article_name/
 - 📱 **公众号排版**：`article_name_预览.html` 及纯排版 HTML
 - 📑 **小红书图文**：`xhs_images/` (含 `prompts/` 与 `images/`)
 - 🎬 **短视频成片**：`video/article_name.mp4`（每 500 字约 1 分钟，≥ 60s）及 `video/storyboard.md` 分镜脚本、`video/narration/` 配音与字幕、`video/video_manifest.json` 元数据
-- 🚀 **多平台发布存证**：`publishes/`（含 `publish_manifest.json` 清单与 `screenshots/` 各平台草稿存证截图）
+- 🚀 **多平台发布存证**：`publishes/`（含 `publish_manifest.json` 清单与 `screenshots/` 各平台就绪存证截图）
