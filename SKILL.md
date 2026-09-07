@@ -177,6 +177,7 @@ path/to/article_name/
   4. 生成产物保存至同名目录：
      - 干净正文：`path/to/article_name/article_name_排版_主题(ID).html`
      - 预览页面：`path/to/article_name/article_name_预览.html`（含「复制到公众号」按钮）。
+     - **命名兼容性规约**：若生成的预览或排版文件带有主题后缀（如 `article_name_预览_摸鱼绿(theme-001).html`），建议同步生成或拷贝一份无后缀别名 `article_name_预览.html` 与 `article_name_排版.html`；步骤 10 看板在渲染时也会自动探测包含 `_预览.html` 的文件并赋给 `{{WECHAT_PREVIEW_FILENAME}}`，确保 iframe 预览精准加载。
   5. _博客同步_：若在 `undsky` 仓库环境中，按规范同步至 `blog/<分类>/<文件名>.html` 并更新 `blog/index.html` 的文章列表与分类计数。
 
 ---
@@ -414,7 +415,18 @@ path/to/article_name/
 ### 10. 生成产物结果汇总看板 (`index.html`)
 
 - **执行目标**：在全流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`），用户双击即可一站式审阅、对比与复制全流程 1~9 阶段交付成果。
-- **核心执行原则**：**必须强制读取 `references/dashboard-template.html` 作为唯一种子模版进行占位符插槽填充替换**，产物样式与布局严格与 `mds/RuoYi-SpringBoot3/byeidea/index.html` 保持 100% 一致。模版中已完全模块化预置现代扁平白灰调色彩体系、marked.js 引擎、侧边栏 Tab 切换、ESC 退出与全局图片 Lightbox 放大委托、多平台 5 列表格与一键复制 Toast，**严禁脱离模版手写 HTML/CSS，严禁改动模版核心骨架！**
+- **推荐执行方式（确定性脚本执行）**：
+  为彻底杜绝手动拼装、单次正则替换误匹配以及字符转义导致布局坍塌等问题，**必须优先执行内置确定性渲染脚本**：
+  ```bash
+  node scripts/render_dashboard.mjs path/to/article.md
+  ```
+  该脚本会自动读取产物目录下所有资产、合规报告、分镜脚本、多平台发布清单（`publish_manifest.json`）及存证截图，自动解析公众号预览文件名，并严格按三道防御红线生成 `index.html`。
+- **核心执行原则与三道防御红线**：
+  若自行编写脚本或进行模版渲染，必须强制读取 `references/dashboard-template.html` 作为唯一种子模版进行插槽填充，产物样式与布局严格与规范保持 100% 一致。模版中已完全模块化预置现代扁平白灰调色彩体系、marked.js 引擎、侧边栏 Tab 切换、ESC 退出与全局图片 Lightbox 放大委托、多平台 5 列表格与一键复制 Toast，**严禁脱离模版手写 HTML/CSS，严禁改动模版核心骨架！同时必须严格遵守以下三道防御红线**：
+  1. **【防御红线 1：坚决保证以 `<!DOCTYPE html>` 开头】**：生成的 `index.html` 第一行必须严格为 `<!DOCTYPE html>`，前面严禁存在任何 HTML 注释、空格或换行。严禁将 Markdown 全文（含 `---` 分割线）注入到 HTML 头部注释中，以防注释被提前闭合并泄露为匿名文本节点，导致 Flexbox 布局坍塌和 Quirks 混杂模式。
+  2. **【防御红线 2：容器锚定替换，严禁全局单次粗暴正则】**：模版中的动态卡片与表格已采用清晰注释锚点（如 `<!-- SLOT_ILLUSTRATION_CARDS -->` 等），替换时必须精准匹配对应卡片网格容器（如 `(<section id="tab-illustrations"...<div class="card-grid">)...(</div>)`），杜绝误伤模版其他区域。
+  3. **【防御红线 3：动态解析公众号预览文件名】**：动态探测产物目录下以 `_预览.html` 结尾的文件赋给 `{{WECHAT_PREVIEW_FILENAME}}`（支持 `article_预览_摸鱼绿(theme-001).html` 等动态后缀），确保 iframe 预览正常。
+- **模版详细规范与字段定义**：请参阅 [references/dashboard-template.md](file:///e:/me/doudou-UGC-skill/references/dashboard-template.md)。
 - **内容组织规划（按生成的文件夹目录结构划分模块）**：
 
 | 模块标签                           | 对应目录/文件                                                              | 核心展示与交互内容                                                                                                                                                                                                                        |
@@ -442,6 +454,7 @@ path/to/article_name/
    - `{{CDN_MARKDOWN_CONTENT}}`：`[article]_cdn.md` 的代码全文
    - `{{COMPLIANCE_REPORT_CONTENT}}`：`01_compliance_report.md` 的内容全文
    - `{{ILLUSTRATION_COUNT}}` / `{{COVER_COUNT}}` / `{{CARD_COUNT}}`：插图数 / 封面数 / 小红书卡片数（纯数字）
+   - `{{WECHAT_PREVIEW_FILENAME}}`：公众号预览文件名（如 `claw163_预览.html` 或 `claw163_预览_摸鱼绿(theme-001).html`）
 
 2. **短视频技术参数变量**：
    - `{{VIDEO_POSTER_PATH}}`：视频海报相对路径（优先使用 `_thumb` 封面，如 `./cover/images/cover-16x9_thumb.png`）
@@ -453,7 +466,7 @@ path/to/article_name/
    - `{{STORYBOARD_CONTENT}}`：`video/storyboard.md` 的 Markdown 全文
 
 3. **模块化 HTML 片段模版（标准结构）**：
-   - **`<!-- ILLUSTRATION_CARDS_PLACEHOLDER -->` & `<!-- COVER_CARDS_PLACEHOLDER -->`**（配图与封面卡片流）：
+   - **`<!-- SLOT_ILLUSTRATION_CARDS -->` & `<!-- SLOT_COVER_CARDS -->`**（配图与封面卡片流）：
      ```html
      <div
        class="flat-card"
@@ -531,7 +544,7 @@ path/to/article_name/
        </div>
      </div>
      ```
-   - **`<!-- CDN_TABLE_ROWS_PLACEHOLDER -->`**（4 列表格行）：
+   - **`<!-- SLOT_CDN_TABLE_ROWS -->`**（4 列表格行）：
      ```html
      <tr>
        <td>
@@ -560,8 +573,8 @@ path/to/article_name/
        </td>
      </tr>
      ```
-   - **`<!-- XHS_CARDS_PLACEHOLDER -->`**：3:4 竖版图文卡片流，卡片内部结构与配图完全一致。
-   - **`<!-- PUBLISHES_TABLE_ROWS_PLACEHOLDER -->`**（5 列表格行，**核心注入资产必须填入具体发布标题**，移除技术分类）：
+   - **`<!-- SLOT_XHS_CARDS -->`**：3:4 竖版图文卡片流，卡片内部结构与配图完全一致。
+   - **`<!-- SLOT_PUBLISHES_TABLE_ROWS -->`**（5 列表格行，**核心注入资产必须填入具体发布标题**，移除技术分类）：
      ```html
      <tr>
        <td><strong>${platformName}</strong></td>
@@ -579,7 +592,7 @@ path/to/article_name/
        </td>
      </tr>
      ```
-   - **`<!-- PUBLISHES_SCREENSHOTS_PLACEHOLDER -->`**（存证截图画廊）：
+   - **`<!-- SLOT_PUBLISHES_SCREENSHOTS -->`**（存证截图画廊）：
      ```html
      <div class="flat-card" style="margin-bottom:16px;">
        <h4 style="margin-bottom:8px; font-size:14px; font-weight:600;">

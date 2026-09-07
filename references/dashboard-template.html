@@ -1,48 +1,3 @@
-<!--
-  =============================================================================
-  doudou-UGC 全景交付结果汇总看板种子模版 (dashboard-template.html)
-  
-  【渲染规范】
-  步骤 10 生成 index.html 时，必须读取本文件作为唯一模版，直接对下述占位符进行字符串替换。
-  严禁自行重写 HTML 骨架、严禁自拟 CSS 样式、依赖与 DOM 结构！
-  
-  【全局模版变量字典】
-  - {{ARTICLE_TITLE}}           : 文章主标题
-  - {{GENERATION_TIME}}          : 看板生成时间 (如 2026-09-04 16:15)
-  - {{ARTICLE_FOLDER_PATH}}      : 文章同名产物相对路径 (如 mds/RuoYi-SpringBoot3/byeidea/)
-  - {{ARTICLE_NAME}}             : 文章名称标识 / slug (如 byeidea)
-  - {{CDN_MARKDOWN_FILENAME}}    : CDN 加速版文件名 (如 byeidea_cdn.md)
-  - {{CDN_MARKDOWN_CONTENT}}     : CDN 加速版 Markdown 原文代码内容
-  - {{COMPLIANCE_REPORT_CONTENT}}: 合规报告 Markdown 全文 (01_compliance_report.md)
-  
-  【概览统计指标变量】
-  - {{ILLUSTRATION_COUNT}}       : 文章高清配图总数 (纯数字)
-  - {{COVER_COUNT}}              : 封面图总数 (纯数字)
-  - {{CARD_COUNT}}               : 小红书/社媒卡片总数 (纯数字)
-  
-  【短视频插槽变量】
-  - {{VIDEO_POSTER_PATH}}        : 视频海报图相对路径 (优先 _thumb 缩略图)
-  - {{VIDEO_FILE_PATH}}          : 视频文件相对路径 (如 ./video/byeidea.mp4)
-  - {{VIDEO_RESOLUTION}}         : 分辨率 (如 1920×1080)
-  - {{VIDEO_ASPECT_RATIO}}       : 画幅比例 (如 16:9 横版)
-  - {{VIDEO_DURATION}}           : 总时长 (如 59.67s)
-  - {{VIDEO_FPS}}                : 帧率 (如 30)
-  - {{VIDEO_TOTAL_FRAMES}}       : 总帧数 (如 1790)
-  - {{VIDEO_RENDER_TIME}}        : 渲染耗时 (如 89.2s)
-  - {{VIDEO_FILE_SIZE}}          : 视频大小 (如 40.93)
-  - {{VIDEO_VOICE}}              : 配音音色与语速说明
-  - {{VIDEO_RECIPE_TAGS}}        : 运镜配方卡标签集 HTML (<span class="flat-badge">S1: ...</span>)
-  - {{STORYBOARD_CONTENT}}       : 分镜脚本 Markdown 全文 (storyboard.md)
-  
-  【列表/卡片 HTML 片段插槽】
-  - <!-- ILLUSTRATION_CARDS_PLACEHOLDER --> : 02. 文章配图卡片流 HTML
-  - <!-- COVER_CARDS_PLACEHOLDER -->        : 03. 封面图集卡片流 HTML
-  - <!-- CDN_TABLE_ROWS_PLACEHOLDER -->     : 04. CDN 映射清单表格行 HTML (4 列)
-  - <!-- XHS_CARDS_PLACEHOLDER -->          : 06. 小红书图文卡片流 HTML
-  - <!-- PUBLISHES_TABLE_ROWS_PLACEHOLDER -->: 08. 多平台发布表格行 HTML (5 列)
-  - <!-- PUBLISHES_SCREENSHOTS_PLACEHOLDER -->: 08. 存证截图画廊 HTML
-  =============================================================================
--->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -968,32 +923,7 @@
       <section id="tab-illustrations" class="tab-content">
         <h2 class="section-title">🎨 02. 文章配图与提示词 (illustrations/)</h2>
         <div class="card-grid">
-          <!-- ILLUSTRATION_CARDS_PLACEHOLDER:
-               每个插图卡片遵循标准上下流式结构：
-               <div class="flat-card" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 0;">
-                 <div style="background: var(--bg-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; overflow: hidden; height: 210px; position: relative; cursor: pointer;" onclick="openLightbox('{{FULL_IMAGE_PATH}}')" title="点击全屏放大">
-                   <img src="{{THUMB_IMAGE_PATH}}" alt="{{IMAGE_TITLE}}" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.2s ease;" />
-                   <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(15, 23, 42, 0.65); color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px; backdrop-filter: blur(4px);">🔍 点击放大</span>
-                 </div>
-                 <div>
-                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                     <h4 style="font-size: 13.5px; font-weight: 600; color: var(--text-main); margin: 0; word-break: break-all;">{{IMAGE_FILENAME}}</h4>
-                     <span class="flat-badge">{{IMAGE_BADGE}}</span>
-                   </div>
-                   <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted);">
-                     <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 75%;">CDN: <a href="{{CDN_URL}}" target="_blank" style="color: var(--primary);">{{CDN_URL}}</a></span>
-                     <button class="btn" style="padding: 2px 8px; font-size: 11.5px;" onclick="copyText('{{CDN_URL}}')">📋 复制</button>
-                   </div>
-                 </div>
-                 <div style="background: var(--bg-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;">
-                   <div style="display: flex; justify-content: space-between; align-items: center;">
-                     <span style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">📝 绘图提示词 (Prompt)</span>
-                     <button class="btn" style="padding: 2px 8px; font-size: 11px;" onclick="copyContent('{{PROMPT_ID}}')">📋 复制提示词</button>
-                   </div>
-                   <pre id="{{PROMPT_ID}}" style="font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11.5px; line-height: 1.55; color: var(--text-secondary); max-height: 120px; height: 120px; overflow-y: auto; white-space: pre-wrap; margin: 0; padding-right: 4px; word-break: break-word;">{{PROMPT_CONTENT}}</pre>
-                 </div>
-               </div>
-          -->
+          <!-- SLOT_ILLUSTRATION_CARDS -->
         </div>
       </section>
 
@@ -1001,7 +931,7 @@
       <section id="tab-cover" class="tab-content">
         <h2 class="section-title">🖼️ 03. 封面设计与提示词 (cover/)</h2>
         <div class="card-grid">
-          <!-- COVER_CARDS_PLACEHOLDER: 同上标准卡片结构，完整展示 2.35:1 / 16:9 / 1:1 封面与对应 5 维设计提示词 -->
+          <!-- SLOT_COVER_CARDS -->
         </div>
       </section>
 
@@ -1019,15 +949,7 @@
               </tr>
             </thead>
             <tbody>
-              <!-- CDN_TABLE_ROWS_PLACEHOLDER
-                   每行格式规范：
-                   <tr>
-                     <td><img src="${cdnUrl}" class="table-thumb" onclick="openLightbox(this.src)" title="点击放大查看" alt="预览缩略图" /></td>
-                     <td><code>${localPath}</code></td>
-                     <td><a href="${cdnUrl}" target="_blank" style="color:var(--primary);">${cdnUrl}</a></td>
-                     <td><button class="btn" style="padding:4px 8px; font-size:12px;" onclick="navigator.clipboard.writeText('${cdnUrl}'); showToast('已复制 CDN 链接');">📋 复制</button></td>
-                   </tr>
-              -->
+              <!-- SLOT_CDN_TABLE_ROWS -->
             </tbody>
           </table>
         </div>
@@ -1038,10 +960,10 @@
         <h2 class="section-title">📱 05. 微信公众号排版预览 (gzh-design)</h2>
         <div class="preview-frame-wrap">
           <div class="code-header">
-            <span>实时公众号排版预览 (基于 ./{{ARTICLE_NAME}}_预览.html)</span>
-            <a class="btn" href="./{{ARTICLE_NAME}}_预览.html" target="_blank">🔗 新标签页打开</a>
+            <span>实时公众号排版预览 (基于 ./{{WECHAT_PREVIEW_FILENAME}})</span>
+            <a class="btn" href="./{{WECHAT_PREVIEW_FILENAME}}" target="_blank">🔗 新标签页打开</a>
           </div>
-          <iframe src="./{{ARTICLE_NAME}}_预览.html"></iframe>
+          <iframe src="./{{WECHAT_PREVIEW_FILENAME}}"></iframe>
         </div>
       </section>
 
@@ -1049,7 +971,7 @@
       <section id="tab-xhs" class="tab-content">
         <h2 class="section-title">📑 06. 小红书图文卡片 (xhs_images/)</h2>
         <div class="card-grid">
-          <!-- XHS_CARDS_PLACEHOLDER: 同文章配图与封面图集，遵循标准上下流式卡片结构，完整展示 3:4 竖版图文卡片与对应提示词 -->
+          <!-- SLOT_XHS_CARDS -->
         </div>
       </section>
 
@@ -1135,40 +1057,14 @@
               </tr>
             </thead>
             <tbody>
-              <!-- PUBLISHES_TABLE_ROWS_PLACEHOLDER
-                   每行格式规范（5 列，已移除技术性发布分类）。
-                   按「平台 × 模态」逐条输出：一个平台跑了文章+贴图两个模态就输出两行。
-                   <tr>
-                     <td><strong>${platformName}</strong></td>
-                     <td>${mode}</td>
-                     <td>${assetTitle}</td>
-                     <td><span class="flat-badge ${badgeClass}">${status}</span></td>
-                     <td><button class="btn" style="padding:4px 8px; font-size:12px;" onclick="openLightbox('${screenshotUrl}')">📸 查看存证</button></td>
-                   </tr>
-
-                   badgeClass 必须按真实状态取色，严禁一律用 flat-badge-success：
-                     success     -> flat-badge-success  ✅ 草稿已保存
-                     degraded    -> flat-badge-warning  ⚠️ 已保存（附降级原因，如封面未绑定）
-                     needs_login -> flat-badge-warning  ⚠️ 待登录
-                     failed      -> flat-badge-danger   ❌ 失败（附简短原因）
-                     skipped     -> flat-badge-muted    ⏭️ 已跳过（缺资产）
-                   无存证截图（failed / skipped / needs_login）时，末列改为纯文本占位：
-                     <td><span style="color:var(--text-muted); font-size:12px;">无存证</span></td>
-              -->
+              <!-- SLOT_PUBLISHES_TABLE_ROWS -->
             </tbody>
           </table>
         </div>
 
         <h3 style="font-size:14px; font-weight:600; margin-bottom:12px;">📸 自动化草稿存证截图</h3>
         <div>
-          <!-- PUBLISHES_SCREENSHOTS_PLACEHOLDER
-               每个存证卡片遵循标准扁平卡片结构：
-               <div class="flat-card" style="margin-bottom:16px;">
-                 <h4 style="margin-bottom:8px; font-size:14px; font-weight:600;">${platformName} (${mode}) 存证</h4>
-                 <img src="${screenshotPath}" style="width:100%; max-width:720px; border-radius:6px; border:1px solid var(--border-subtle); cursor:pointer;" onclick="openLightbox('${screenshotPath}')" title="点击全屏查看" />
-                 <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">状态: ${status} | 存证路径: ${screenshotPath}</p>
-               </div>
-          -->
+          <!-- SLOT_PUBLISHES_SCREENSHOTS -->
         </div>
       </section>
     </div>
