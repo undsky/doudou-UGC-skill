@@ -377,12 +377,71 @@ path/to/article_name/
 2. **全部跳过机制 (Skip All)**：
    - 若用户选择「全部跳过」或未勾选任何发布平台：
      - **完全不启动任何浏览器的自动化发布操作**；
-     - 在 `publishes/publish_manifest.json` 中将各平台状态统一记录为 `skipped`（原因：用户主动跳过发布）；
+     - 执行 `node scripts/publish_ledger.mjs skip-all <md> --reason "用户主动跳过发布"`，由脚本把各平台统一登记为 `skipped` 回执并生成 `publish_manifest.json`；
      - 系统直接无缝推进至**步骤 10：生成产物结果汇总看板 (`index.html`)**。
 
-#### 9.3 发布技能调用逻辑
+#### 9.3 串行编排协议：队列 + 栅栏 + 互斥锁（Serial Orchestration）
 
-当用户确认需要发布的平台后，依次调用对应平台的发布技能，传入给定的 Markdown 文章文件：
+> [!IMPORTANT]
+> **【核心铁律】严禁并行发布。**
+> `chrome-devtools-mcp` 是**单浏览器单例**，`pageId` 全局共享。若并发启动多个平台技能，它们会互相抢夺 `select_page` 与页面焦点，把内容注入到别人的编辑器里。
+> **严禁**把多个平台技能作为后台并发子代理同时启动；必须**一次只跑一个平台**，且**上一平台的回执落盘后**才允许启动下一个。
+
+##### 编排状态全部落盘（不依赖任何自然语言判断）
+
+过去「某平台是否已完成」只存在于子技能给用户的自然语言报告里，父级无从校验，才导致无法判断完成、无法可靠顺序执行。现在四份落盘文件即为唯一状态源：
+
+| 文件 | 作用 |
+| :--- | :--- |
+| `publishes/publish_queue.json` | 队列与执行顺序（含每平台的完成断言） |
+| `publishes/.lock` | 互斥锁：进入平台前写入，回执落盘后删除 |
+| `publishes/receipts/<skill>.json` | **单平台回执 = 完成信号**（由各平台技能写入） |
+| `publishes/publish_manifest.json` | 由 `merge` 子命令按队列顺序合并生成 |
+
+##### 调度主循环（严格按此顺序执行，不得跳步）
+
+```bash
+# 1. 初始化队列（传入用户勾选的平台；不传 = 全量 14 平台）
+node scripts/publish_ledger.mjs init <md> [平台标识...]
+
+# 2. 取下一个待执行平台（栅栏）——每次调用平台技能前都必须先跑这一步
+node scripts/publish_ledger.mjs next <md>
+#    blocked=true  => 严禁推进（锁被占用或存在陈旧锁）
+#    done=true     => 全部终结，跳到第 6 步
+#    next.skill    => 本轮要执行的平台技能
+
+# 3. 加锁后调用该平台技能
+node scripts/publish_ledger.mjs lock <md> <skill>
+/<skill> <给定的 Markdown 文章文件>
+
+# 4. 技能收尾自行写 receipts/<skill>.json；父级随后解锁
+node scripts/publish_ledger.mjs unlock <md> <skill>
+#    若该平台没写终态回执，unlock 会报错拒绝 => 说明技能未按协议收尾，需补写回执
+
+# 5. 回到第 2 步，直到 done=true
+
+# 6. 合并回执生成最终清单（统计由脚本计算）
+node scripts/publish_ledger.mjs merge <md> --title "<文章标题>"
+```
+
+`next` 的三种裁决：
+
+- **`blocked: true` + 锁较新** => 上一平台仍在执行，**等待，严禁启动新平台**；
+- **`blocked: true` + `staleLock: true`** => 上一平台异常中断（浏览器崩溃/会话断开）。执行 `node scripts/publish_ledger.mjs backfill <md>` 补写 `failed` 回执并回收锁，再继续；
+- **`blocked: false`** => 按 `next.skill` 启动该平台。
+
+##### 断点续跑与幂等（天然获得）
+
+`init` **保留已有终态回执**，`next` 只返回「无终态回执」的平台。因此中断后重跑同一条命令即自动从断点继续，已完成的平台不会被重复发布。需要强制重发某平台时才加 `--force`：
+
+```bash
+node scripts/publish_ledger.mjs status <md>                       # 查看逐平台进度与待执行清单
+node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重置掘金后重发
+```
+
+##### 平台技能调用映射
+
+当用户确认需要发布的平台后，按队列顺序**逐个**调用对应平台的发布技能，传入给定的 Markdown 文章文件：
 
 ```text
 /技能 <给定的 Markdown 文章文件>
@@ -405,10 +464,42 @@ path/to/article_name/
 - 知乎：`/doudou-zhihu <给定的 Markdown 文章文件>`
 - 烧饼社区：`/doudou-linuxsb <给定的 Markdown 文章文件>`
 
-#### 9.4 截屏存证与清单记录
+#### 9.4 完成断言、存证截图与回执清单
 
-- 每个平台完成自动保存后，自动调用 `take_screenshot` 保存存证截图至 `path/to/article_name/publishes/screenshots/[platform]_[mode].png`。
-- 在 `path/to/article_name/publishes/publish_manifest.json` 中结构化记录各平台发布状态、发布标题（`title`，短视频/图文对应各平台实际填入的标题）、就绪状态、存证截图路径与耗时。
+##### 完成判定必须客观可断言
+
+「静候平台原生自动保存」是**等待动作，不是验收条件**。每个平台技能必须以**可求值的完成断言**判定完成，在 **45 秒窗口内以 1.5 秒轮询**；超时按 `timeout` 登记，**严禁谎报成功**。各平台断言已内置于 `publish_queue.json` 的 `completionAssertion` 字段：
+
+| 平台 | 完成断言 |
+| :--- | :--- |
+| 掘金 | URL 匹配 `/editor/drafts/\d+`（非 `new`） |
+| CSDN | URL 出现 `articleId=\d+` |
+| 腾讯云开发者社区 | URL 出现 `draftId=\d+` |
+| 知乎 | URL 匹配 `/p/\d+/edit` |
+| 微信公众平台 | URL 出现 `appmsgid=` 或页面出现「已保存」 |
+| 百家号 | URL 出现 `article_id=` 或页面出现「已保存草稿」 |
+| 烧饼社区 | 标题非空 + 预览区渲染非空（平台禁止自动保存 => `ready_for_review`） |
+| 其余平台 | 见 `publish_queue.json` 的 `completionAssertion` |
+
+##### 六个终态（统一枚举）
+
+`success`（已保存且断言通过）、`ready_for_review`（已填入就绪、平台禁止自动保存）、`needs_login`（待补登）、`failed`（明确失败）、`timeout`（断言超时未成立）、`skipped`（资产缺失或用户跳过）。
+
+##### 存证截图统一命名
+
+统一存至 `path/to/article_name/publishes/screenshots/<platformSlug>_<mode>.png`（如 `juejin_article.png`、`bilibili_video.png`）。**严禁**各技能另用 `*_draft_proof.png` / `*_ready.png` 等私有命名——父级看板按统一命名反查存证。
+
+##### 回执清单由脚本合并（严禁手写汇总）
+
+- 各平台技能收尾**必须**写 `publishes/receipts/<skill>.json`（成功、失败、待登录、超时、跳过一律要写）。
+- 全部平台终结后，由脚本按队列顺序合并并**自动计算各状态计数**：
+
+  ```bash
+  node scripts/publish_ledger.mjs merge <md> --title "<文章标题>"
+  ```
+
+- **严禁由模型手写 `publish_manifest.json` 或手算 `successfulCount`**。手写汇总曾导致 `successfulCount` 声明 13 而实际 `success` 仅 12（`ready_for_review` 被并进成功数）这类不自洽错误。
+- 合并产物含 `counts`（六态逐项计数）与 `incompletePlatforms`（未写回执的平台），供步骤 10 看板与用户复核使用。
 
 ---
 

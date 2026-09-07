@@ -189,12 +189,14 @@ export function renderDashboard(targetInput) {
     ready_for_review: 'flat-badge-success',
     degraded: 'flat-badge-warning',
     needs_login: 'flat-badge-warning',
+    timeout: 'flat-badge-warning',
     failed: 'flat-badge-danger',
     skipped: 'flat-badge-muted'
   };
 
   const publishRowsHtml = (publishManifest.results || []).map(r => {
-    const badgeClass = badgeMap[r.status] || 'flat-badge-success';
+    // 未知状态一律按中性徽章渲染，严禁默认落到 success 造成「静默谎报成功」
+    const badgeClass = badgeMap[r.status] || 'flat-badge-muted';
     const screenshotBtn = r.screenshot 
       ? `<button class="btn" style="padding:4px 8px; font-size:12px;" onclick="openLightbox('./publishes/${r.screenshot}')">📸 查看存证</button>`
       : `<span style="color:var(--text-muted); font-size:12px;">无存证</span>`;
