@@ -6,6 +6,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /**
+ * 看板展示用的产物目录路径：以命令执行目录（通常为仓库根）为基准推导，
+ * 不假设 `mds/` 之类的固定前缀与目录层级。
+ * 产物目录位于执行目录之外时退化为目录名，避免出现 `../../` 噪声。
+ * @param {string} baseDir - 产物同名目录绝对路径
+ * @returns {string} 形如 `mds/AICoding/claw163/` 的相对路径（POSIX 分隔符，带尾斜杠）
+ */
+function toDisplayFolderPath(baseDir) {
+  const rel = path.relative(process.cwd(), baseDir);
+  if (!rel || rel.startsWith('..') || path.isAbsolute(rel)) {
+    return `${path.basename(baseDir)}/`;
+  }
+  return `${rel.replace(/\\/g, '/')}/`;
+}
+
+/**
  * 标准看板渲染入口
  * @param {string} targetInput - 目标文章路径 (如 mds/AICoding/claw163.md) 或同名目录
  */
@@ -233,7 +248,7 @@ export function renderDashboard(targetInput) {
   const replacements = {
     '{{ARTICLE_TITLE}}': articleTitle,
     '{{GENERATION_TIME}}': formatTime,
-    '{{ARTICLE_FOLDER_PATH}}': `mds/${path.relative(path.resolve(baseDir, '../../'), baseDir).replace(/\\/g, '/')}/`,
+    '{{ARTICLE_FOLDER_PATH}}': toDisplayFolderPath(baseDir),
     '{{ARTICLE_NAME}}': articleName,
     '{{CDN_MARKDOWN_FILENAME}}': `${articleName}_cdn.md`,
     '{{CDN_MARKDOWN_CONTENT}}': cdnMarkdown,

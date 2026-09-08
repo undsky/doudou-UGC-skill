@@ -517,7 +517,7 @@ node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重
   1. **【防御红线 1：坚决保证以 `<!DOCTYPE html>` 开头】**：生成的 `index.html` 第一行必须严格为 `<!DOCTYPE html>`，前面严禁存在任何 HTML 注释、空格或换行。严禁将 Markdown 全文（含 `---` 分割线）注入到 HTML 头部注释中，以防注释被提前闭合并泄露为匿名文本节点，导致 Flexbox 布局坍塌和 Quirks 混杂模式。
   2. **【防御红线 2：容器锚定替换，严禁全局单次粗暴正则】**：模版中的动态卡片与表格已采用清晰注释锚点（如 `<!-- SLOT_ILLUSTRATION_CARDS -->` 等），替换时必须精准匹配对应卡片网格容器（如 `(<section id="tab-illustrations"...<div class="card-grid">)...(</div>)`），杜绝误伤模版其他区域。
   3. **【防御红线 3：动态解析公众号预览文件名】**：动态探测产物目录下以 `_预览.html` 结尾的文件赋给 `{{WECHAT_PREVIEW_FILENAME}}`（支持 `article_预览_摸鱼绿(theme-001).html` 等动态后缀），确保 iframe 预览正常。
-- **模版详细规范与字段定义**：请参阅 [references/dashboard-template.md](file:///e:/me/doudou-UGC-skill/references/dashboard-template.md)。
+- **模版详细规范与字段定义**：请参阅 [references/dashboard-template.md](references/dashboard-template.md)。
 - **内容组织规划（按生成的文件夹目录结构划分模块）**：
 
 | 模块标签                           | 对应目录/文件                                                              | 核心展示与交互内容                                                                                                                                                                                                                        |
