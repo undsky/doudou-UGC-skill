@@ -162,7 +162,7 @@ path/to/article_name/
 - **调用逻辑**：
   1. 调用 `doudou-r2` 上传脚本将 `illustrations/images/` 和 `cover/images/` 下的所有图片上传至 R2。**严禁携带 `--original`、`--no-compress` 或 `--resize 0` 参数**，必须走默认上传逻辑（由 n8n 服务端自动压缩并将宽 ≥ 1000 的图片等比缩小至 600px），以确保 CDN 处理产物为真正的轻量缩略图。
   2. 获取公开访问 CDN URL，生成映射清单保存至 `path/to/article_name/cdn_manifest.json`。
-  3. **下载缩略图到本地**：上传成功后，将 CDN 返回的处理后图片下载保存至原图所在同级目录，命名为：`原图名_thumb`（保留原扩展名，例如 `illustrations/images/01-arch.png` 对应下载为 `illustrations/images/01-arch_thumb.png`，封面 `cover-2.35x1.png` 对应下载为 `cover-2.35x1_thumb.png`）。
+  3. **下载缩略图到本地**：上传成功后，将 CDN 返回的处理后图片下载保存至原图所在同级目录，命名为：`原图名_thumb`（保留原扩展名，生成规则为 `原文件名_thumb`）。
   4. 将原 Markdown 中的本地图片引用替换为对应的公开 CDN URL，生成图床化文章文件 `path/to/article_name/article_name_cdn.md`（后续排版、卡片制作及多平台发布均以该 CDN 版为基准输入）。
 
 ---
@@ -261,7 +261,7 @@ path/to/article_name/
    ```
 
 4. **音色与语速两步独立自主选择规约（严禁捆绑，强制正交）**：
-   - **两步独立设问硬规约**：在步骤 8 门禁（`ask_question`）中，**必须将「配音音色」与「朗读语速」严格拆分为两个独立的单选题**分别向用户设问，**严禁将音色与语速拼凑捆绑为单一复合选项**（例如禁止出现“云扬 1.05x”或“晓晓 1.0x”这类打包选项），确保用户能够按需自由进行正交组合（如“云扬 + 1.0x”或“晓晓 + 1.05x”）：
+   - **两步独立设问硬规约**：在步骤 8 门禁（`ask_question`）中，**必须将「配音音色」与「朗读语速」严格拆分为两个独立的单选题**分别向用户设问，**严禁将音色与语速拼凑捆绑为单一复合选项**，确保用户能够按需自由进行正交组合（如“云扬 + 1.0x”或“晓晓 + 1.05x”）：
      - **题项 1：【配音音色自主选择】**：
        - `(Recommended) 云扬（男声，专业可靠、科技干货/新闻播报首选，推荐）`
        - `晓晓（女声，亲和生动、清晰流畅、科普种草风）`
@@ -489,6 +489,12 @@ node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重
 
 统一存至 `path/to/article_name/publishes/screenshots/<platformSlug>_<mode>.png`（如 `juejin_article.png`、`bilibili_video.png`）。**严禁**各技能另用 `*_draft_proof.png` / `*_ready.png` 等私有命名——父级看板按统一命名反查存证。
 
+##### 临时脚本与中间文件存放规约（严禁污染工作区根目录）
+
+- **统一落盘位置**：自动化发文执行过程中，凡需生成的任何临时注入脚本（如浏览器富文本注入 `.mjs` / `.js`）、临时数据载荷（如 `--payload-file <json>`）、调试脚本或中间辅助文件，**严禁放置在当前工作区根目录、项目根目录或技能目录中**！
+- **强制同名资产目录**：所有临时文件**必须统一放置在目标 Markdown 文章对应的同名资产目录下**（即去除 `.md` 后缀的同名资产目录），文件名建议统一以 `scratch_` 为前缀。
+- **可追溯与可清理**：执行完毕且回执落盘后，临时中间文件安全留存于同名资产目录供事后复核排查，或由清理指令统一清空，彻底避免根目录污染。
+
 ##### 回执清单由脚本合并（严禁手写汇总）
 
 - 各平台技能收尾**必须**写 `publishes/receipts/<skill>.json`（成功、失败、待登录、超时、跳过一律要写）。
@@ -539,9 +545,9 @@ node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重
 1. **全局与概览统计变量**：
    - `{{ARTICLE_TITLE}}`：文章主标题
    - `{{GENERATION_TIME}}`：生成时间（`YYYY-MM-DD HH:mm`）
-   - `{{ARTICLE_FOLDER_PATH}}`：产物同名目录相对路径（如 `mds/RuoYi-SpringBoot3/byeidea/`）
-   - `{{ARTICLE_NAME}}`：文章标识/slug（如 `byeidea`）
-   - `{{CDN_MARKDOWN_FILENAME}}`：CDN 加速版文件名（如 `byeidea_cdn.md`）
+   - `{{ARTICLE_FOLDER_PATH}}`：产物同名目录相对路径（格式 `mds/<分类>/<slug>/`）
+   - `{{ARTICLE_NAME}}`：文章标识/slug（格式 `<slug>`）
+   - `{{CDN_MARKDOWN_FILENAME}}`：CDN 加速版文件名（格式 `<slug>_cdn.md`）
    - `{{CDN_MARKDOWN_CONTENT}}`：`[article]_cdn.md` 的代码全文
    - `{{COMPLIANCE_REPORT_CONTENT}}`：`01_compliance_report.md` 的内容全文
    - `{{ILLUSTRATION_COUNT}}` / `{{COVER_COUNT}}` / `{{CARD_COUNT}}`：插图数 / 封面数 / 小红书卡片数（纯数字）
