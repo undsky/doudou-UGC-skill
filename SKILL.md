@@ -381,76 +381,23 @@ path/to/article_name/
 2. **全部跳过机制 (Skip All)**：
    - 若用户选择「全部跳过」或未勾选任何发布平台：
      - **完全不启动任何浏览器的自动化发布操作**；
-     - 执行 `node scripts/publish_ledger.mjs skip-all <md> --reason "用户主动跳过发布"`，由脚本把各平台统一登记为 `skipped` 回执并生成 `publish_manifest.json`；
+     - 在 `publishes/publish_manifest.json` 中将各平台统一登记为 `skipped`；
      - 系统直接无缝推进至**步骤 10：生成产物结果汇总看板 (`index.html`)**。
 
-#### 9.3 串行编排协议：队列 + 栅栏 + 互斥锁（Serial Orchestration）
+#### 9.3 串行发布执行规范
 
 > [!IMPORTANT]
 > **【核心铁律】严禁并行发布。**
-> `chrome-devtools-mcp` 是**单浏览器单例**，`pageId` 全局共享。若并发启动多个平台技能，它们会互相抢夺 `select_page` 与页面焦点，把内容注入到别人的编辑器里。
-> **严禁**把多个平台技能作为后台并发子代理同时启动；必须**一次只跑一个平台**，且**上一平台的回执落盘后**才允许启动下一个。
+> `chrome-devtools-mcp` 是**单浏览器单例**，`pageId` 全局共享。若并发启动多个平台技能，会抢夺页面焦点并将内容注入错误标签页。
+> 必须按顺序**一次只执行一个平台**，前序平台资产填入完成后，再启动下一个平台。
 
-##### 编排状态全部落盘（不依赖任何自然语言判断）
+##### 资产填入后直接判定完成
 
-过去「某平台是否已完成」只存在于子技能给用户的自然语言报告里，父级无从校验，才导致无法判断完成、无法可靠顺序执行。现在四份落盘文件即为唯一状态源：
-
-| 文件 | 作用 |
-| :--- | :--- |
-| `publishes/publish_queue.json` | 队列与执行顺序 |
-| `publishes/.lock` | 互斥锁：进入平台前写入，回执落盘后删除 |
-| `publishes/receipts/<skill>.json` | **单平台回执 = 完成信号**（由各平台技能写入） |
-| `publishes/publish_manifest.json` | 由 `merge` 子命令按队列顺序合并生成 |
-
-##### 调度主循环（严格按此顺序执行，不得跳步）
-
-```bash
-# 1. 初始化队列（传入用户勾选的平台；不传 = 全量 14 平台）
-node scripts/publish_ledger.mjs init <md> [平台标识...]
-
-# 2. 取下一个待执行平台（栅栏）——每次调用平台技能前都必须先跑这一步
-node scripts/publish_ledger.mjs next <md>
-#    blocked=true  => 严禁推进（锁被占用或存在陈旧锁）
-#    done=true     => 全部终结，跳到第 6 步
-#    next.skill    => 本轮要执行的平台技能
-
-# 3. 加锁后调用该平台技能（资产填入后直接判定完成，原样保留页面现场）
-node scripts/publish_ledger.mjs lock <md> <skill>
-/<skill> <给定的 Markdown 文章文件>
-
-# 4. 技能完成后直接记账并释放锁
-node scripts/publish_ledger.mjs record <md> <skill> success --title "<文章标题>"
-
-# 5. 回到第 2 步，直到 done=true
-
-# 6. 合并回执生成最终清单（统计由脚本计算）
-node scripts/publish_ledger.mjs merge <md> --title "<文章标题>"
-```
-
-`next` 的三种裁决：
-
-- **`blocked: true` + 锁较新** => 上一平台仍在执行，**等待，严禁启动新平台**；
-- **`blocked: true` + `staleLock: true`** => 上一平台异常中断（浏览器崩溃/会话断开）。执行 `node scripts/publish_ledger.mjs backfill <md>` 补写 `failed` 回执并回收锁，再继续；
-- **`blocked: false`** => 按 `next.skill` 启动该平台。
-
-##### 断点续跑与幂等（天然获得）
-
-`init` **保留已有终态回执**，`next` 只返回「无终态回执」的平台。因此中断后重跑同一条命令即自动从断点继续，已完成的平台不会被重复发布。需要强制重发某平台时才加 `--force`：
-
-```bash
-node scripts/publish_ledger.mjs status <md>                       # 查看逐平台进度与待执行清单
-node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重置掘金后重发
-```
+所有平台在文章（标题、正文、封面）、图文（标题、简介、图片）、视频（标题、简介、视频）资产填入完成后，**直接判定完成**，无需任何等待或轮询。原样保留当前浏览器发文页面现场供人工复核与发布，**严禁调用 `close_page`**。
 
 ##### 平台技能调用映射
 
-当用户确认需要发布的平台后，按队列顺序**逐个**调用对应平台的发布技能，传入给定的 Markdown 文章文件：
-
-```text
-/技能 <给定的 Markdown 文章文件>
-```
-
-**调用映射**：
+当用户确认需要发布的平台后，按序**逐个**调用对应平台的发布技能：
 
 - 微信公众平台：`/doudou-weixin <给定的 Markdown 文章文件>`
 - 微信视频号：`/doudou-shipinhao <给定的 Markdown 文章文件>`
@@ -467,33 +414,30 @@ node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重
 - 知乎：`/doudou-zhihu <给定的 Markdown 文章文件>`
 - 烧饼社区：`/doudou-linuxsb <给定的 Markdown 文章文件>`
 
-#### 9.4 完成判定与回执清单
+#### 9.4 结果汇总清单 (`publish_manifest.json`)
 
-##### 资产填入后直接判定完成
-
-所有平台在文章（标题、文章内容、封面图）、图文（标题、简介、图片）、视频（标题、简介、视频）资产填入完成后，**直接判定完成**，无需任何等待或轮询。原样保留当前浏览器标签页现场供人工复核与发布，**严禁调用 `close_page`**。
-
-##### 状态定义（统一枚举）
-
-`success`（填入完成并就绪）、`needs_login`（待补登）、`failed`（明确失败）、`skipped`（资产缺失或用户跳过）。
-
-##### 临时脚本与中间文件存放规约（严禁污染工作区根目录）
-
-- **统一落盘位置**：自动化发文执行过程中，凡需生成的任何临时注入脚本（如浏览器富文本注入 `.mjs` / `.js`）、临时数据载荷（如 `--payload-file <json>`）、调试脚本或中间辅助文件，**严禁放置在当前工作区根目录、项目根目录或技能目录中**！
-- **强制同名资产目录**：所有临时文件**必须统一放置在目标 Markdown 文章对应的同名资产目录下**（即去除 `.md` 后缀的同名资产目录），文件名建议统一以 `scratch_` 为前缀。
-- **可追溯与可清理**：执行完毕且回执落盘后，临时中间文件安全留存于同名资产目录供事后复核排查，或由清理指令统一清空，彻底避免根目录污染。
-
-##### 回执清单由脚本合并（严禁手写汇总）
-
-- 各平台技能收尾**必须**写 `publishes/receipts/<skill>.json`（成功、失败、待登录、超时、跳过一律要写）。
-- 全部平台终结后，由脚本按队列顺序合并并**自动计算各状态计数**：
-
-  ```bash
-  node scripts/publish_ledger.mjs merge <md> --title "<文章标题>"
+全部所选平台执行完成后，将各平台就绪状态统一写入 `publishes/publish_manifest.json`：
+- **状态定义**：`success`（填入完成并就绪）、`needs_login`（待补登）、`failed`（明确失败）、`skipped`（资产缺失或用户跳过）。
+- **清单结构**：
+  ```json
+  {
+    "articleTitle": "文章标题",
+    "publishTime": "2026-09-09T16:00:00.000Z",
+    "totalPlatforms": 14,
+    "successfulCount": 14,
+    "results": [
+      {
+        "platform": "微信公众平台",
+        "skill": "doudou-weixin",
+        "mode": "article",
+        "modeDesc": "图文文章",
+        "status": "success",
+        "statusText": "已就绪"
+      }
+    ]
+  }
   ```
-
-- **严禁由模型手写 `publish_manifest.json` 或手算 `successfulCount`**。手写汇总曾导致 `successfulCount` 声明 13 而实际 `success` 仅 12（`ready_for_review` 被并进成功数）这类不自洽错误。
-- 合并产物含 `counts`（六态逐项计数）与 `incompletePlatforms`（未写回执的平台），供步骤 10 看板与用户复核使用。
+- 供**步骤 10 看板渲染脚本**直接读取呈现。
 
 ---
 
