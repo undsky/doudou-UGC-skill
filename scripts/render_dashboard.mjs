@@ -198,7 +198,7 @@ export function renderDashboard(targetInput) {
     }, idx, 'xhs', 'xhs_images');
   }).join('\n');
 
-  // 9. 装配多平台发布表格与截图
+  // 9. 装配多平台发布表格
   const badgeMap = {
     success: 'flat-badge-success',
     ready_for_review: 'flat-badge-success',
@@ -212,26 +212,13 @@ export function renderDashboard(targetInput) {
   const publishRowsHtml = (publishManifest.results || []).map(r => {
     // 未知状态一律按中性徽章渲染，严禁默认落到 success 造成「静默谎报成功」
     const badgeClass = badgeMap[r.status] || 'flat-badge-muted';
-    const screenshotBtn = r.screenshot 
-      ? `<button class="btn" style="padding:4px 8px; font-size:12px;" onclick="openLightbox('./publishes/${r.screenshot}')">📸 查看存证</button>`
-      : `<span style="color:var(--text-muted); font-size:12px;">无存证</span>`;
     const title = r.title || articleTitle;
     return `              <tr>
                 <td><strong>${r.platform}</strong></td>
                 <td>${r.modeDesc || r.mode}</td>
                 <td>${title}</td>
                 <td><span class="flat-badge ${badgeClass}">${r.statusText || '已就绪'}</span></td>
-                <td>${screenshotBtn}</td>
               </tr>`;
-  }).join('\n');
-
-  const publishScreenshotsHtml = (publishManifest.results || []).filter(r => r.screenshot).map(r => {
-    const screenPath = `./publishes/${r.screenshot}`;
-    return `          <div class="flat-card" style="margin-bottom:16px;">
-            <h4 style="margin-bottom:8px; font-size:14px; font-weight:600;">${r.platform} (${r.modeDesc || r.mode}) 存证</h4>
-            <img src="${screenPath}" style="width:100%; max-width:720px; border-radius:6px; border:1px solid var(--border-subtle); cursor:pointer;" onclick="openLightbox('${screenPath}')" title="点击全屏查看" />
-            <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">状态: ${r.statusText || r.status} | 存证路径: ${screenPath}</p>
-          </div>`;
   }).join('\n');
 
   // 10. 解析公众号预览文件名（支持主题后缀）
@@ -281,7 +268,6 @@ export function renderDashboard(targetInput) {
   html = html.replace(/(<section id="tab-cdn" class="tab-content">[\s\S]*?<tbody>)[\s\S]*?(<\/tbody>)/, (m, p1, p2) => `${p1}\n${cdnRowsHtml}\n            ${p2}`);
   html = html.replace(/(<section id="tab-xhs" class="tab-content">[\s\S]*?<div class="card-grid">)[\s\S]*?(<\/div>\s*<\/section>)/, (m, p1, p2) => `${p1}\n${xhsCardsHtml}\n        ${p2}`);
   html = html.replace(/(<section id="tab-publishes" class="tab-content">[\s\S]*?<tbody>)[\s\S]*?(<\/tbody>)/, (m, p1, p2) => `${p1}\n${publishRowsHtml}\n            ${p2}`);
-  html = html.replace(/(<h3 style="font-size:14px; font-weight:600; margin-bottom:12px;">📸 自动化草稿存证截图<\/h3>\s*<div>)[\s\S]*?(<\/div>\s*<\/section>)/, (m, p1, p2) => `${p1}\n${publishScreenshotsHtml}\n        ${p2}`);
 
   const outputPath = path.join(baseDir, 'index.html');
   fs.writeFileSync(outputPath, html, 'utf-8');

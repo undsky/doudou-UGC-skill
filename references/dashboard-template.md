@@ -26,7 +26,6 @@
      - CDN 资源清单：`#tab-cdn tbody` 或 `<!-- SLOT_CDN_TABLE_ROWS -->`
      - 小红书卡片流：`#tab-xhs .card-grid` 或 `<!-- SLOT_XHS_CARDS -->`
      - 多平台表格：`#tab-publishes tbody` 或 `<!-- SLOT_PUBLISHES_TABLE_ROWS -->`
-     - 存证截图画廊：`#tab-publishes` 截图容器或 `<!-- SLOT_PUBLISHES_SCREENSHOTS -->`
    - **违规后果**：松散的正则（如简单的单次 `.replace(/<!-- ILLUSTRATION_CARDS_PLACEHOLDER[\s\S]*?-->/, ...)`）极易受外部输入污染或首项误伤，导致核心卡片未渲染而残留未解析的占位符。
 
 3. **红线 3（Markdown 源码严禁放入 HTML 注释内）**：
@@ -112,24 +111,12 @@
 </tr>
 ```
 
-### 3. 多平台发布表格行（5 列）
+### 3. 多平台发布表格行（4 列）
 ```html
 <tr>
   <td><strong>${platformName}</strong></td>
   <td>${modeDesc}</td>
   <td>${actualPublishTitle}</td>
   <td><span class="flat-badge ${badgeClass}">${statusText}</span></td>
-  <td>
-    ${hasScreenshot ? `<button class="btn" style="padding:4px 8px; font-size:12px;" onclick="openLightbox('${screenshotPath}')">📸 查看存证</button>` : `<span style="color:var(--text-muted); font-size:12px;">无存证</span>`}
-  </td>
 </tr>
-```
-
-### 4. 存证截图画廊卡片
-```html
-<div class="flat-card" style="margin-bottom:16px;">
-  <h4 style="margin-bottom:8px; font-size:14px; font-weight:600;">${platformName} (${modeDesc}) 存证</h4>
-  <img src="${screenshotPath}" style="width:100%; max-width:720px; border-radius:6px; border:1px solid var(--border-subtle); cursor:pointer;" onclick="openLightbox('${screenshotPath}')" title="点击全屏查看" />
-  <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">状态: ${statusText} | 存证路径: ${screenshotPath}</p>
-</div>
 ```

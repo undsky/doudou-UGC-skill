@@ -7,7 +7,7 @@ description: 针对给定的 Markdown 文章文件，一站式全流程依次执
 
 针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn` / `doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
-**核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布存证截图与清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
+**核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布状态清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
 ---
 
@@ -48,7 +48,7 @@ node <doudou-image技能目录>/scripts/generate.mjs \
 
 ```text
 path/to/article_name/
-├── index.html                            # 步骤 10：一站式产物结果汇总看板 (HTML Dashboard，含视频播放器、多平台发布状态与存证)
+├── index.html                            # 步骤 10：一站式产物结果汇总看板 (HTML Dashboard，含视频播放器、多平台发布状态)
 ├── 01_compliance_report.md              # 步骤 1：合规性与敏感词审查报告 (text-check-skill)
 ├── illustrations/                        # 步骤 3：文章插图资产 (baoyu-article-illustrator)
 │   ├── prompts/                          # 插图 Prompt 文件 (如 01-infographic-arch.md)
@@ -71,9 +71,8 @@ path/to/article_name/
 │   ├── qa/                               # 逐镜头静帧验收档案 (npx remotion still)
 │   ├── article_name.mp4                  # ⭐ 终渲成片 (按字数规划：每 500 字约 1 分钟，≥ 60s，含配音与 SFX)
 │   └── video_manifest.json               # 视频元数据 (时长、分辨率、分镜清单、镜头卡、音色、渲染耗时)
-└── publishes/                            # 步骤 9：多平台发布存证与状态清单 (/doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb)
-    ├── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、就绪状态、时间、截图路径等)
-    └── screenshots/                      # 各平台自动填入就绪存证截图 (如 weixin_article.png, bilibili.png 等)
+└── publishes/                            # 步骤 9：多平台发布状态清单 (/doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb)
+    └── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、就绪状态、时间等)
 ```
 
 > **步骤 8 的 Remotion 源码不落在产物目录**：短视频**直接复用仓库根目录既有的 Remotion 工程**（不另建自包含工程、不新装依赖）——镜头与时间线源码写进根 `src/videos/<article_name>/`，静态素材放根 `public/<article_name>/`，Composition 注册在根 `src/Root.tsx`。产物目录只收**产物**：分镜脚本、配音字幕、静帧验收、成片与元数据。
@@ -87,7 +86,7 @@ path/to/article_name/
 ### 0. 准备同名工作目录
 
 - 获取目标文件所在目录与主文件名（如 `mds/AICoding/article.md` -> `mds/AICoding/article/`）。
-- 创建同名产物目录及相关子目录（`illustrations/prompts`、`illustrations/images`、`cover/prompts`、`cover/images`、`xhs_images/prompts`、`xhs_images/images`、`publishes/screenshots`）。
+- 创建同名产物目录及相关子目录（`illustrations/prompts`、`illustrations/images`、`cover/prompts`、`cover/images`、`xhs_images/prompts`、`xhs_images/images`、`publishes`）。
 
 ---
 
@@ -331,26 +330,19 @@ path/to/article_name/
 
 ### 9. 多平台发布 (`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`)
 
-- **执行目标**：在图文卡片与短视频生成完毕后，依次调用所选平台对应的独立发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），基于 `chrome-devtools-mcp` 自动将文章及衍生资产填入各大自媒体平台与技术社区发文页面，完成就绪状态记录与截屏存证。
+- **执行目标**：在图文卡片与短视频生成完毕后，依次调用所选平台对应的独立发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），基于 `chrome-devtools-mcp` 自动将文章及衍生资产填入各大自媒体平台与技术社区发文页面，完成就绪状态记录并保持页面打开供人工复核与发布。
 
 #### 9.1 支持的 14 大平台矩阵
 
-| 平台名称             | 技能名称              |
-| :------------------- | :-------------------- |
-| **微信公众平台**     | `/doudou-weixin`      |
-| **微信视频号**       | `/doudou-shipinhao`   |
-| **今日头条**         | `/doudou-toutiao`     |
-| **百家号**           | `/doudou-baijia`      |
-| **企鹅号**           | `/doudou-qiehao`      |
-| **掘金**             | `/doudou-juejin`      |
-| **CSDN**             | `/doudou-csdn`        |
-| **腾讯云开发者社区** | `/doudou-tencent`     |
-| **阿里云开发者社区** | `/doudou-aliyun`      |
-| **哔哩哔哩 (B站)**   | `/doudou-bilibili`    |
-| **小红书**           | `/doudou-xiaohongshu` |
-| **抖音**             | `/doudou-douyin`      |
-| **知乎**             | `/doudou-zhihu`       |
-| **烧饼社区**         | `/doudou-linuxsb`     |
+| 平台名称 | 技能名称 | 平台名称 | 技能名称 |
+| :--- | :--- | :--- | :--- |
+| **微信公众平台** | `/doudou-weixin` | **腾讯云开发者社区** | `/doudou-tencent` |
+| **微信视频号** | `/doudou-shipinhao` | **阿里云开发者社区** | `/doudou-aliyun` |
+| **今日头条** | `/doudou-toutiao` | **哔哩哔哩 (B站)** | `/doudou-bilibili` |
+| **百家号** | `/doudou-baijia` | **小红书** | `/doudou-xiaohongshu` |
+| **企鹅号** | `/doudou-qiehao` | **抖音** | `/doudou-douyin` |
+| **掘金** | `/doudou-juejin` | **知乎** | `/doudou-zhihu` |
+| **CSDN** | `/doudou-csdn` | **烧饼社区** | `/doudou-linuxsb` |
 
 #### 9.2 用户平台选择与跳过机制 (Interactive Selection & Skip)
 
@@ -405,7 +397,7 @@ path/to/article_name/
 
 | 文件 | 作用 |
 | :--- | :--- |
-| `publishes/publish_queue.json` | 队列与执行顺序（含每平台的完成断言） |
+| `publishes/publish_queue.json` | 队列与执行顺序 |
 | `publishes/.lock` | 互斥锁：进入平台前写入，回执落盘后删除 |
 | `publishes/receipts/<skill>.json` | **单平台回执 = 完成信号**（由各平台技能写入） |
 | `publishes/publish_manifest.json` | 由 `merge` 子命令按队列顺序合并生成 |
@@ -422,13 +414,12 @@ node scripts/publish_ledger.mjs next <md>
 #    done=true     => 全部终结，跳到第 6 步
 #    next.skill    => 本轮要执行的平台技能
 
-# 3. 加锁后调用该平台技能
+# 3. 加锁后调用该平台技能（资产填入后直接判定完成，原样保留页面现场）
 node scripts/publish_ledger.mjs lock <md> <skill>
 /<skill> <给定的 Markdown 文章文件>
 
-# 4. 技能收尾自行写 receipts/<skill>.json；父级随后解锁
-node scripts/publish_ledger.mjs unlock <md> <skill>
-#    若该平台没写终态回执，unlock 会报错拒绝 => 说明技能未按协议收尾，需补写回执
+# 4. 技能完成后直接记账并释放锁
+node scripts/publish_ledger.mjs record <md> <skill> success --title "<文章标题>"
 
 # 5. 回到第 2 步，直到 done=true
 
@@ -476,30 +467,15 @@ node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重
 - 知乎：`/doudou-zhihu <给定的 Markdown 文章文件>`
 - 烧饼社区：`/doudou-linuxsb <给定的 Markdown 文章文件>`
 
-#### 9.4 完成断言、存证截图与回执清单
+#### 9.4 完成判定与回执清单
 
-##### 完成判定必须客观可断言
+##### 资产填入后直接判定完成
 
-「静候平台原生自动保存」是**等待动作，不是验收条件**。每个平台技能必须以**可求值的完成断言**判定完成，在 **45 秒窗口内以 1.5 秒轮询**；超时按 `timeout` 登记，**严禁谎报成功**。各平台断言已内置于 `publish_queue.json` 的 `completionAssertion` 字段：
+所有平台在文章（标题、文章内容、封面图）、图文（标题、简介、图片）、视频（标题、简介、视频）资产填入完成后，**直接判定完成**，无需任何等待或轮询。原样保留当前浏览器标签页现场供人工复核与发布，**严禁调用 `close_page`**。
 
-| 平台 | 完成断言 |
-| :--- | :--- |
-| 掘金 | URL 匹配 `/editor/drafts/\d+`（非 `new`） |
-| CSDN | URL 出现 `articleId=\d+` |
-| 腾讯云开发者社区 | URL 出现 `draftId=\d+` |
-| 知乎 | URL 匹配 `/p/\d+/edit` |
-| 微信公众平台 | URL 出现 `appmsgid=` 或页面出现「已保存」 |
-| 百家号 | URL 出现 `article_id=` 或页面出现「已保存草稿」 |
-| 烧饼社区 | 标题非空 + 预览区渲染非空（平台禁止自动保存 => `ready_for_review`） |
-| 其余平台 | 见 `publish_queue.json` 的 `completionAssertion` |
+##### 状态定义（统一枚举）
 
-##### 六个终态（统一枚举）
-
-`success`（已保存且断言通过）、`ready_for_review`（已填入就绪、平台禁止自动保存）、`needs_login`（待补登）、`failed`（明确失败）、`timeout`（断言超时未成立）、`skipped`（资产缺失或用户跳过）。
-
-##### 存证截图统一命名
-
-统一存至 `path/to/article_name/publishes/screenshots/<platformSlug>_<mode>.png`（如 `juejin_article.png`、`bilibili_video.png`）。**严禁**各技能另用 `*_draft_proof.png` / `*_ready.png` 等私有命名——父级看板按统一命名反查存证。
+`success`（填入完成并就绪）、`needs_login`（待补登）、`failed`（明确失败）、`skipped`（资产缺失或用户跳过）。
 
 ##### 临时脚本与中间文件存放规约（严禁污染工作区根目录）
 
@@ -529,9 +505,9 @@ node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重
   ```bash
   node scripts/render_dashboard.mjs path/to/article.md
   ```
-  该脚本会自动读取产物目录下所有资产、合规报告、分镜脚本、多平台发布清单（`publish_manifest.json`）及存证截图，自动解析公众号预览文件名，并严格按三道防御红线生成 `index.html`。
+  该脚本会自动读取产物目录下所有资产、合规报告、分镜脚本、多平台发布清单（`publish_manifest.json`），自动解析公众号预览文件名，并严格按三道防御红线生成 `index.html`。
 - **核心执行原则与三道防御红线**：
-  若自行编写脚本或进行模版渲染，必须强制读取 `references/dashboard-template.html` 作为唯一种子模版进行插槽填充，产物样式与布局严格与规范保持 100% 一致。模版中已完全模块化预置现代扁平白灰调色彩体系、marked.js 引擎、侧边栏 Tab 切换、ESC 退出与全局图片 Lightbox 放大委托、多平台 5 列表格与一键复制 Toast，**严禁脱离模版手写 HTML/CSS，严禁改动模版核心骨架！同时必须严格遵守以下三道防御红线**：
+  若自行编写脚本或进行模版渲染，必须强制读取 `references/dashboard-template.html` 作为唯一种子模版进行插槽填充，产物样式与布局严格与规范保持 100% 一致。模版中已完全模块化预置现代扁平白灰调色彩体系、marked.js 引擎、侧边栏 Tab 切换、ESC 退出与全局图片 Lightbox 放大委托、多平台 4 列表格与一键复制 Toast，**严禁脱离模版手写 HTML/CSS，严禁改动模版核心骨架！同时必须严格遵守以下三道防御红线**：
   1. **【防御红线 1：坚决保证以 `<!DOCTYPE html>` 开头】**：生成的 `index.html` 第一行必须严格为 `<!DOCTYPE html>`，前面严禁存在任何 HTML 注释、空格或换行。严禁将 Markdown 全文（含 `---` 分割线）注入到 HTML 头部注释中，以防注释被提前闭合并泄露为匿名文本节点，导致 Flexbox 布局坍塌和 Quirks 混杂模式。
   2. **【防御红线 2：容器锚定替换，严禁全局单次粗暴正则】**：模版中的动态卡片与表格已采用清晰注释锚点（如 `<!-- SLOT_ILLUSTRATION_CARDS -->` 等），替换时必须精准匹配对应卡片网格容器（如 `(<section id="tab-illustrations"...<div class="card-grid">)...(</div>)`），杜绝误伤模版其他区域。
   3. **【防御红线 3：动态解析公众号预览文件名】**：动态探测产物目录下以 `_预览.html` 结尾的文件赋给 `{{WECHAT_PREVIEW_FILENAME}}`（支持 `article_预览_摸鱼绿(theme-001).html` 等动态后缀），确保 iframe 预览正常。
@@ -548,7 +524,7 @@ node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重
 | 📱 **05 公众号排版**               | `[article]_排版_[theme].html`<br>`[article]_预览.html`                     | 嵌入式 iframe 实时渲染公众号排版预览；提供纯排版正文与新标签页打开。                                                                                                                                                                      |
 | 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                               | 3:4 竖版上下流式网格卡片流：展示遵循“痛点—成因—拆解—解决方案”模型的封面痛点卡、根因剖析卡、核心拆解卡与落地总结卡；含高清缩略图预览（点击放大）、3:4 比例标签、CDN URL 与底部提示词 Prompt 一键复制。 |
 | 🎬 **07 短视频成片**               | `video/`<br>├ `storyboard.md`<br>├ `narration/`<br>└ `video_manifest.json` | 内嵌 `<video controls>` 播放器直接播放成片；视频渲染技术参数卡片（分辨率、时长、帧数、文件大小、配音音色）与运镜配方卡标签集；黄金分镜脚本区（支持「📝 查看源码 / 📖 查看渲染」无缝切换、复制分镜脚本与复制 HTML）。                      |
-| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>├ `publish_manifest.json`<br>└ `screenshots/`              | **多平台发布看板**：精简 5 列表格（平台名称、发布模态、**各平台具体发布标题**、就绪状态徽章、📸 查看存证），已隐去内部技术分类；下方垂直流式陈列自动化填入就绪存证截图画廊（支持全屏 Lightbox 放大审查）。                                |
+| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>└ `publish_manifest.json`                                  | **多平台发布看板**：精简 4 列表格（平台名称、发布模态、**各平台具体发布标题**、就绪状态徽章），已隐去内部技术分类。                                                                                                                      |
 
 #### 模版插槽填充规范 (Template Slot Guide)
 
@@ -683,40 +659,14 @@ node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重
      </tr>
      ```
    - **`<!-- SLOT_XHS_CARDS -->`**：3:4 竖版图文卡片流，卡片内部结构与配图完全一致。
-   - **`<!-- SLOT_PUBLISHES_TABLE_ROWS -->`**（5 列表格行，**核心注入资产必须填入具体发布标题**，移除技术分类）：
+   - **`<!-- SLOT_PUBLISHES_TABLE_ROWS -->`**（4 列表格行，**核心注入资产必须填入具体发布标题**）：
      ```html
      <tr>
        <td><strong>${platformName}</strong></td>
        <td>${mode}</td>
        <td>${actualPublishTitle}</td>
        <td><span class="flat-badge flat-badge-success">${statusText}</span></td>
-       <td>
-         <button
-           class="btn"
-           style="padding:4px 8px; font-size:12px;"
-           onclick="openLightbox('${screenshotPath}')"
-         >
-           📸 查看存证
-         </button>
-       </td>
      </tr>
-     ```
-   - **`<!-- SLOT_PUBLISHES_SCREENSHOTS -->`**（存证截图画廊）：
-     ```html
-     <div class="flat-card" style="margin-bottom:16px;">
-       <h4 style="margin-bottom:8px; font-size:14px; font-weight:600;">
-         ${platformName} (${mode}) 存证
-       </h4>
-       <img
-         src="${screenshotPath}"
-         style="width:100%; max-width:720px; border-radius:6px; border:1px solid var(--border-subtle); cursor:pointer;"
-         onclick="openLightbox('${screenshotPath}')"
-         title="点击全屏查看"
-       />
-       <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">
-         状态: ${statusText} | 存证路径: ${screenshotPath}
-       </p>
-     </div>
      ```
 
 ---
@@ -734,7 +684,7 @@ node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重
     6. **步骤 6（排版门禁）**：触发 `gzh-design` 的排版主题确认（摸鱼绿、红白色系、石墨极简等），装配 HTML 并同步博客。
     7. **步骤 7（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（基于“痛点—成因—拆解—解决方案”模型规划卡片大纲，确认风格、布局与策略）。
     8. **步骤 8（短视频门禁）**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、原文字数与规划时长（每 500 字约 1 分钟，≥ 60s）、**每个分镜严格控制在 10 秒以下（≤ 300 帧）及紧凑节奏规划**、**全片每一个分镜（如 S1~S6...）分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`）供用户逐镜自主选择**、**视频画幅由用户自主选择（横屏 1920×1080 (16:9) / 竖屏 1080×1920 (9:16)）**、**配音音色与语速由用户自主选择（提供云扬/晓晓/云希等音色与 1.0x/1.05x 等语速选项）**；用户确认后再执行配音合成、Remotion 工程实现与渲染。
-    9. **步骤 9（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 10 生成看板；若勾选了目标平台，则启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面并保存就绪存证截图。
+    9. **步骤 9（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 10 生成看板；若勾选了目标平台，则启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面，直接判定完成，原样保留当前标签页现场供人工复核与发布，严禁调用 `close_page`。
     10. **步骤 10**：组装并生成一站式结果汇总看板 `index.html`（含 1~9 阶段完整资产、短视频播放器与多平台发布状态 Tab）。
 - **全自动模式（Explicit Only）**：
   - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~10 全套流程。
@@ -755,4 +705,4 @@ node scripts/publish_ledger.mjs init <md> doudou-juejin --force   # 仅强制重
 - 📱 **公众号排版**：`article_name_预览.html` 及纯排版 HTML
 - 📑 **小红书图文**：`xhs_images/` (含 `prompts/` 与 `images/`)
 - 🎬 **短视频成片**：`video/article_name.mp4`（每 500 字约 1 分钟，≥ 60s）及 `video/storyboard.md` 分镜脚本、`video/narration/` 配音与字幕、`video/video_manifest.json` 元数据
-- 🚀 **多平台发布存证**：`publishes/`（含 `publish_manifest.json` 清单与 `screenshots/` 各平台就绪存证截图）
+- 🚀 **多平台发布清单**：`publishes/`（含 `publish_manifest.json` 清单）
