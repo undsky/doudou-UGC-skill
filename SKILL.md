@@ -58,7 +58,7 @@ path/to/article_name/
 │   └── images/                           # 生成的封面图 (2.35:1 / 16:9 / 1:1 及步骤 5 下载的 _thumb 缩略图)
 ├── cdn_manifest.json                     # 步骤 5：CDN 上传清单与 URL 映射表 (doudou-cdn / doudou-r2)
 ├── article_name_cdn.md                   # 步骤 5：已将本地图片无缝替换为 CDN URL 的 Markdown
-├── article_name_排版_摸鱼绿(fish-green).html # 步骤 6：公众号纯排版正文片段 (gzh-design)
+├── article_name_排版.html                # 步骤 6：公众号纯排版正文片段 (gzh-design)
 ├── article_name_预览.html                # 步骤 6：带一键复制功能的公众号预览页
 ├── xhs_images/                           # 步骤 7：小红书/微信图文卡片 (baoyu-xhs-images)
 │   ├── prompts/                          # 小红书卡片 Prompt 文件
@@ -185,10 +185,10 @@ path/to/article_name/
   1. 依据文章题材推荐或选用契合的主题样式（如摸鱼绿、石墨极简、红白色系、留白禅意等）。
   2. 套用主题组件库装配公众号专用的 `<section>` 正文片段。
   3. 运行 HTML 规范校验脚本（确保禁用标签及半角标点清零）。
-  4. 生成产物保存至同名目录：
-     - 干净正文：`path/to/article_name/article_name_排版_主题(ID).html`
-     - 预览页面：`path/to/article_name/article_name_预览.html`（含「复制到公众号」按钮）。
-     - **命名兼容性规约**：若生成的预览或排版文件带有主题后缀（如 `article_name_预览_摸鱼绿(theme-001).html`），建议同步生成或拷贝一份无后缀别名 `article_name_预览.html` 与 `article_name_排版.html`；步骤 10 看板在渲染时也会自动探测包含 `_预览.html` 的文件并赋给 `{{WECHAT_PREVIEW_FILENAME}}`，确保 iframe 预览精准加载。
+  4. 生成产物保存至同名目录（统一命名规范）：
+     - 干净正文：`path/to/article_name/article_name_排版.html`（公众号纯排版 `<section>` 正文片段）。
+     - 预览页面：`path/to/article_name/article_name_预览.html`（含「复制到公众号」按钮的完整预览页）。
+     - **统一命名规约**：排版产物统一规范命名为 `path/to/article_name/article_name_排版.html` 与 `path/to/article_name/article_name_预览.html`；若底层生成工具输出了带有主题后缀的文件（如 `article_name_排版_主题(ID).html` 或 `article_name_预览_主题(ID).html`），须规范化重命名或同步输出标准命名的 `article_name_排版.html` 与 `article_name_预览.html`，确保步骤 10 看板与后续流程直接精准引用。
   5. _博客同步_：若在 `undsky` 仓库环境中，按规范同步至 `blog/<分类>/<文件名>.html` 并更新 `blog/index.html` 的文章列表与分类计数。
 
 ---
@@ -343,15 +343,15 @@ path/to/article_name/
 
 #### 9.1 支持的 14 大平台矩阵
 
-| 平台名称 | 技能名称 | 平台名称 | 技能名称 |
-| :--- | :--- | :--- | :--- |
-| **微信公众平台** | `/doudou-weixin` | **腾讯云开发者社区** | `/doudou-tencent` |
-| **微信视频号** | `/doudou-shipinhao` | **阿里云开发者社区** | `/doudou-aliyun` |
-| **今日头条** | `/doudou-toutiao` | **哔哩哔哩 (B站)** | `/doudou-bilibili` |
-| **百家号** | `/doudou-baijia` | **小红书** | `/doudou-xiaohongshu` |
-| **企鹅号** | `/doudou-qiehao` | **抖音** | `/doudou-douyin` |
-| **掘金** | `/doudou-juejin` | **知乎** | `/doudou-zhihu` |
-| **CSDN** | `/doudou-csdn` | **烧饼社区** | `/doudou-linuxsb` |
+| 平台名称         | 技能名称            | 平台名称             | 技能名称              |
+| :--------------- | :------------------ | :------------------- | :-------------------- |
+| **微信公众平台** | `/doudou-weixin`    | **腾讯云开发者社区** | `/doudou-tencent`     |
+| **微信视频号**   | `/doudou-shipinhao` | **阿里云开发者社区** | `/doudou-aliyun`      |
+| **今日头条**     | `/doudou-toutiao`   | **哔哩哔哩 (B站)**   | `/doudou-bilibili`    |
+| **百家号**       | `/doudou-baijia`    | **小红书**           | `/doudou-xiaohongshu` |
+| **企鹅号**       | `/doudou-qiehao`    | **抖音**             | `/doudou-douyin`      |
+| **掘金**         | `/doudou-juejin`    | **知乎**             | `/doudou-zhihu`       |
+| **CSDN**         | `/doudou-csdn`      | **烧饼社区**         | `/doudou-linuxsb`     |
 
 #### 9.2 用户平台选择与跳过机制 (Interactive Selection & Skip)
 
@@ -426,6 +426,7 @@ path/to/article_name/
 #### 9.4 结果汇总清单 (`publish_manifest.json`)
 
 全部所选平台执行完成后，将各平台就绪状态统一写入 `publishes/publish_manifest.json`：
+
 - **状态定义**：`success`（填入完成并就绪）、`needs_login`（待补登）、`failed`（明确失败）、`skipped`（资产缺失或用户跳过）。
 - **清单结构**：
   ```json
@@ -463,7 +464,7 @@ path/to/article_name/
   若自行编写脚本或进行模版渲染，必须强制读取 `references/dashboard-template.html` 作为唯一种子模版进行插槽填充，产物样式与布局严格与规范保持 100% 一致。模版中已完全模块化预置现代扁平白灰调色彩体系、marked.js 引擎、侧边栏 Tab 切换、ESC 退出与全局图片 Lightbox 放大委托、多平台 4 列表格与一键复制 Toast，**严禁脱离模版手写 HTML/CSS，严禁改动模版核心骨架！同时必须严格遵守以下三道防御红线**：
   1. **【防御红线 1：坚决保证以 `<!DOCTYPE html>` 开头】**：生成的 `index.html` 第一行必须严格为 `<!DOCTYPE html>`，前面严禁存在任何 HTML 注释、空格或换行。严禁将 Markdown 全文（含 `---` 分割线）注入到 HTML 头部注释中，以防注释被提前闭合并泄露为匿名文本节点，导致 Flexbox 布局坍塌和 Quirks 混杂模式。
   2. **【防御红线 2：容器锚定替换，严禁全局单次粗暴正则】**：模版中的动态卡片与表格已采用清晰注释锚点（如 `<!-- SLOT_ILLUSTRATION_CARDS -->` 等），替换时必须精准匹配对应卡片网格容器（如 `(<section id="tab-illustrations"...<div class="card-grid">)...(</div>)`），杜绝误伤模版其他区域。
-  3. **【防御红线 3：动态解析公众号预览文件名】**：动态探测产物目录下以 `_预览.html` 结尾的文件赋给 `{{WECHAT_PREVIEW_FILENAME}}`（支持 `article_预览_摸鱼绿(theme-001).html` 等动态后缀），确保 iframe 预览正常。
+  3. **【防御红线 3：动态解析公众号预览文件名】**：动态探测产物目录下以 `_预览.html` 结尾的文件赋给 `{{WECHAT_PREVIEW_FILENAME}}`，确保 iframe 预览正常。
 - **模版详细规范与字段定义**：请参阅 [references/dashboard-template.md](references/dashboard-template.md)。
 - **内容组织规划（按生成的文件夹目录结构划分模块）**：
 
@@ -473,11 +474,11 @@ path/to/article_name/
 | 🛡️ **01 内容审查**                 | `01_compliance_report.md`                                                  | 格式化渲染合规审查报告全文，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签，支持一键复制 Markdown。                                                                                                                           |
 | 🎨 **02 文章插图**                 | `illustrations/`<br>├ `prompts/`<br>└ `images/`                            | 上下流式网格卡片流：每张卡片含 contain 缩略图、点击放大、比例与类型标签、CDN 快速复制；卡片底部为固定高度、带滚动条的绘图提示词 Prompt 代码块，配备一键复制。                                                                             |
 | 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                                    | 上下流式网格卡片流：2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例陈列；支持大图放大、CDN 复制与底部 5 维设计提示词一键复制。                                                                                                    |
-| 🌐 **04 CDN 映射表**               | `cdn_manifest.json`                                                        | 4 列交互式数据表格：展示图片缩略图（`.table-thumb`，支持点击全屏放大）、原始相对路径、CDN 加速链接与一键复制按钮。                                                                                                          |
-| 📱 **05 公众号排版**               | `[article]_排版_[theme].html`<br>`[article]_预览.html`                     | 嵌入式 iframe 实时渲染公众号排版预览；提供纯排版正文与新标签页打开。                                                                                                                                                                      |
-| 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                               | 3:4 竖版上下流式网格卡片流：展示遵循“痛点—成因—拆解—解决方案”模型的封面痛点卡、根因剖析卡、核心拆解卡与落地总结卡；含高清缩略图预览（点击放大）、3:4 比例标签、CDN URL 与底部提示词 Prompt 一键复制。 |
+| 🌐 **04 CDN 映射表**               | `cdn_manifest.json`                                                        | 4 列交互式数据表格：展示图片缩略图（`.table-thumb`，支持点击全屏放大）、原始相对路径、CDN 加速链接与一键复制按钮。                                                                                                                        |
+| 📱 **05 公众号排版**               | `[article]_排版.html`<br>`[article]_预览.html`                             | 嵌入式 iframe 实时渲染公众号排版预览；提供纯排版正文与新标签页打开。                                                                                                                                                                      |
+| 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                               | 3:4 竖版上下流式网格卡片流：展示遵循“痛点—成因—拆解—解决方案”模型的封面痛点卡、根因剖析卡、核心拆解卡与落地总结卡；含高清缩略图预览（点击放大）、3:4 比例标签、CDN URL 与底部提示词 Prompt 一键复制。                                     |
 | 🎬 **07 短视频成片**               | `video/`<br>├ `storyboard.md`<br>├ `narration/`<br>└ `video_manifest.json` | 内嵌 `<video controls>` 播放器直接播放成片；视频渲染技术参数卡片（分辨率、时长、帧数、文件大小、配音音色）与运镜配方卡标签集；黄金分镜脚本区（支持「📝 查看源码 / 📖 查看渲染」无缝切换、复制分镜脚本与复制 HTML）。                      |
-| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>└ `publish_manifest.json`                                  | **多平台发布看板**：精简 4 列表格（平台名称、发布模态、**各平台具体发布标题**、就绪状态徽章），已隐去内部技术分类。                                                                                                                      |
+| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>└ `publish_manifest.json`                                  | **多平台发布看板**：精简 4 列表格（平台名称、发布模态、**各平台具体发布标题**、就绪状态徽章），已隐去内部技术分类。                                                                                                                       |
 
 #### 模版插槽填充规范 (Template Slot Guide)
 
@@ -492,7 +493,7 @@ path/to/article_name/
    - `{{CDN_MARKDOWN_CONTENT}}`：`[article]_cdn.md` 的代码全文
    - `{{COMPLIANCE_REPORT_CONTENT}}`：`01_compliance_report.md` 的内容全文
    - `{{ILLUSTRATION_COUNT}}` / `{{COVER_COUNT}}` / `{{CARD_COUNT}}`：插图数 / 封面数 / 小红书卡片数（纯数字）
-   - `{{WECHAT_PREVIEW_FILENAME}}`：公众号预览文件名（如 `claw163_预览.html` 或 `claw163_预览_摸鱼绿(theme-001).html`）
+   - `{{WECHAT_PREVIEW_FILENAME}}`：公众号预览文件名（ `[article]_预览.html`）
 
 2. **短视频技术参数变量**：
    - `{{VIDEO_POSTER_PATH}}`：视频海报相对路径（优先使用 `_thumb` 封面，如 `./cover/images/cover-16x9_thumb.png`）
@@ -655,7 +656,7 @@ path/to/article_name/
 - 🎨 **文章插图**：`illustrations/` (含 `prompts/` 与 `images/`)
 - 🖼️ **封面图片**：`cover/` (含 `prompts/` 与 `images/`)
 - 🌐 **CDN 文章与映射**：`article_name_cdn.md`、`cdn_manifest.json` 及本地缩略图备份 (`_thumb`)
-- 📱 **公众号排版**：`article_name_预览.html` 及纯排版 HTML
+- 📱 **公众号排版**：`article_name_排版.html` 及 `article_name_预览.html`
 - 📑 **小红书图文**：`xhs_images/` (含 `prompts/` 与 `images/`)
 - 🎬 **短视频成片**：`video/article_name.mp4`（每 500 字约 1 分钟，≥ 60s）及 `video/storyboard.md` 分镜脚本、`video/narration/` 配音与字幕、`video/video_manifest.json` 元数据
 - 🚀 **多平台发布清单**：`publishes/`（含 `publish_manifest.json` 清单）
