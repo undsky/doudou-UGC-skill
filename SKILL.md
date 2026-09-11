@@ -189,7 +189,7 @@ path/to/article_name/
      - 干净正文：`path/to/article_name/article_name_排版.html`（公众号纯排版 `<section>` 正文片段）。
      - 预览页面：`path/to/article_name/article_name_预览.html`（含「复制到公众号」按钮的完整预览页）。
      - **统一命名规约**：排版产物统一规范命名为 `path/to/article_name/article_name_排版.html` 与 `path/to/article_name/article_name_预览.html`；若底层生成工具输出了带有主题后缀的文件（如 `article_name_排版_主题(ID).html` 或 `article_name_预览_主题(ID).html`），须规范化重命名或同步输出标准命名的 `article_name_排版.html` 与 `article_name_预览.html`，确保步骤 10 看板与后续流程直接精准引用。
-  5. _博客同步_：若在 `undsky` 仓库环境中，按规范同步至 `blog/<分类>/<文件名>.html` 并更新 `blog/index.html` 的文章列表与分类计数。
+  5. _博客同步_：若项目根目录下存在 `blog/` 目录，则按规范同步至 `blog/<分类>/<文件名>.html` 并更新 `blog/index.html` 的文章列表与分类计数。
 
 ---
 
