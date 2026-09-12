@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、doudou-r2、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn` / `doudou-r2`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布状态清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -28,7 +28,7 @@ node <doudou-image技能目录>/scripts/generate.mjs \
   -o path/to/article_name/.../images/NN-xxx.png
 ```
 
-- 图片始终落本地文件；**不要**在生图阶段上传 CDN。公开链接仍由步骤 5 统一处理（默认调用 `/doudou-cdn`，用户明确要求时走 `/doudou-r2`）。
+- 图片始终落本地文件；**不要**在生图阶段上传 CDN。公开链接仍由步骤 5 统一调用 `/doudou-cdn` 处理。
 - 默认不传 `--model`；禁止手拼 curl 调生图接口。
 - 比例 / 画幅写进 Prompt 正文（该脚本无独立宽高参数）。
 
@@ -56,7 +56,7 @@ path/to/article_name/
 ├── cover/                                # 步骤 4：封面图资产 (baoyu-cover-image)
 │   ├── prompts/                          # 封面 Prompt 文件
 │   └── images/                           # 生成的封面图 (2.35:1 / 16:9 / 1:1 及步骤 5 下载的 _thumb 缩略图)
-├── cdn_manifest.json                     # 步骤 5：CDN 上传清单与 URL 映射表 (doudou-cdn / doudou-r2)
+├── cdn_manifest.json                     # 步骤 5：CDN 上传清单与 URL 映射表 (doudou-cdn)
 ├── article_name_cdn.md                   # 步骤 5：已将本地图片无缝替换为 CDN URL 的 Markdown
 ├── article_name_排版.html                # 步骤 6：公众号纯排版正文片段 (gzh-design)
 ├── article_name_预览.html                # 步骤 6：带一键复制功能的公众号预览页
@@ -155,26 +155,44 @@ path/to/article_name/
 
 ---
 
-### 5. 图片上传到 CDN 与缩略图同步 (`/doudou-cdn` 或 `/doudou-r2`)
+### 5. 图片上传到 CDN 与缩略图同步 (`/doudou-cdn`)
 
 - **执行目标**：将生成的本地配图与封面图批量同步至 CDN 图床，实现 CDN 加速并回填 Markdown，同时下载 CDN 处理后的图片到本地作为缩略图。
-- **技能选择与调用优先级（默认图床 vs 指定 R2）**：
-  - **默认调用 `/doudou-cdn`**：默认一律优先调用 `/doudou-cdn`（通过公共图床 API 或 GitHub 仓库通道上传，Fastly jsDelivr CDN 加速）。
-  - **指定使用 `/doudou-r2`**：**仅当用户在对话中明确且主动要求使用 R2 / Cloudflare R2 时**，才切换调用 `/doudou-r2`。
+- **统一使用 `/doudou-cdn` 技能**：
+  - **由技能自主决定**：上传通道与模式由技能 `/doudou-cdn` 自主决定与调度。
+  - **显式指定通道**：用户若明确指定通道，可直接传入通道参数（`-r` 强制走 Cloudflare R2 直传，`-g` 强制走 GitHub 直传，`-a` 强制走公共 API）。
 - **调用逻辑**：
   1. **执行上传**：
-     - **默认模式 (`/doudou-cdn`)**：调用 `doudou-cdn` 上传脚本将 `illustrations/images/` 和 `cover/images/` 下的所有图片上传至 CDN 图床：
+     调用 `/doudou-cdn` 技能上传脚本将 `illustrations/images/` 和 `cover/images/` 下的所有图片上传至 CDN：
+
+     ```bash
+     node <doudou-cdn技能目录>/scripts/upload.mjs <图片文件...> --format json
+     ```
+
+     - 默认由 `doudou-cdn` 技能自主决定最优上传通道；
+     - 若用户显式要求使用 Cloudflare R2 存储桶，添加 `-r` 参数：
        ```bash
-       node <doudou-cdn技能目录>/scripts/upload.mjs <图片文件...> --format json
+       node <doudou-cdn技能目录>/scripts/upload.mjs <图片文件...> -r --format json
        ```
-       或通过批量传递图片路径执行上传并解析公开 CDN URL。
-     - **R2 模式 (`/doudou-r2`)**：当用户明确要求使用 R2 时，调用 `doudou-r2` 上传脚本。**严禁携带 `--original`、`--no-compress` 或 `--resize 0` 参数**，必须走默认上传逻辑（由 n8n 服务端自动压缩并将宽 ≥ 1000 的图片等比缩小至 600px），以确保 CDN 处理产物为真正的轻量缩略图：
+     - 若用户显式要求使用 GitHub 仓库图床，添加 `-g` 参数：
        ```bash
-       node <doudou-r2技能目录>/scripts/upload.mjs <图片文件...> --json
+       node <doudou-cdn技能目录>/scripts/upload.mjs <图片文件...> -g --format json
        ```
-  2. 获取公开访问 CDN URL，生成映射清单保存至 `path/to/article_name/cdn_manifest.json`。
+
+  2. **解析公开 CDN 链接并生成清单**：
+     解析命令返回的 JSON 结构，获取各图片的公开 CDN 链接，生成映射清单保存至 `path/to/article_name/cdn_manifest.json`：
+     ```json
+     {
+       "files": [
+         {
+           "local_path": "illustrations/images/01-framework.png",
+           "cdn_url": "https://..."
+         }
+       ]
+     }
+     ```
   3. **下载缩略图到本地**：上传成功后，将 CDN 返回的处理后图片下载保存至原图所在同级目录，命名为：`原图名_thumb`（保留原扩展名，生成规则为 `原文件名_thumb`）。若图床服务未做等比缩小处理，则在本地保持原图拷贝或生成轻量缩略图。
-  4. 将原 Markdown 中的本地图片引用替换为对应的公开 CDN URL，生成图床化文章文件 `path/to/article_name/article_name_cdn.md`（后续排版、卡片制作及多平台发布均以该 CDN 版为基准输入）。
+  4. **回填 CDN Markdown**：将原 Markdown 中的本地图片引用替换为对应的公开 CDN URL，生成图床化文章文件 `path/to/article_name/article_name_cdn.md`（后续公众号排版、小红书图文卡片制作及多平台发布均以该 CDN 版为基准输入）。
 
 ---
 
@@ -634,7 +652,7 @@ path/to/article_name/
     2. **步骤 2（外链引用追加）**：合规审查通过后，自动扫描提取外链并在目标 Markdown 文件尾部追加标准引用链接（默认首项 `https://www.undsky.com`）。
     3. **步骤 3（插图门禁）**：触发 `baoyu-article-illustrator` 的插图选项确认（类型/预设、密度、渲染风格、配色）。
     4. **步骤 4（封面门禁）**：触发 `baoyu-cover-image` 的 5 维封面参数确认（视觉类型、配色方案、渲染风格、文字密度、比例）。
-    5. **步骤 5**：执行图片 CDN 上传（默认调用 `/doudou-cdn`，用户明确要求时调用 `/doudou-r2`）并回填 Markdown。
+    5. **步骤 5**：执行图片 CDN 上传（统一调用 `/doudou-cdn` 智能调度或指定通道）并回填 Markdown。
     6. **步骤 6（排版门禁）**：动态读取 `gzh-design` 技能的 `references/theme-index.md` 获取当前全部已注册主题列表（含内置主题与已注册的自定义主题，严禁硬编码枚举），结合文章题材智能分析并推荐最契合主题（置顶标注「（推荐）」），使用 `ask_question` 呈现给用户选择确认；用户确认后装配 HTML 并同步博客。
     7. **步骤 7（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（基于“痛点—成因—拆解—解决方案”模型规划卡片大纲，确认风格、布局与策略）。
     8. **步骤 8（短视频门禁）**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、原文字数与规划时长（每 500 字约 1 分钟，≥ 60s）、**每个分镜严格控制在 10 秒以下（≤ 300 帧）及紧凑节奏规划**、**全片每一个分镜（如 S1~S6...）分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`）供用户逐镜自主选择**、**视频画幅由用户自主选择（横屏 1920×1080 (16:9) / 竖屏 1080×1920 (9:16)）**、**配音音色与语速由用户自主选择（提供云扬/晓晓/云希等音色与 1.0x/1.05x 等语速选项）**；用户确认后再执行配音合成、Remotion 工程实现与渲染。
@@ -643,7 +661,7 @@ path/to/article_name/
 - **全自动模式（Explicit Only）**：
   - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~10 全套流程。
 - **断点/单步执行**：
-  - 支持用户指定执行特定步骤（如仅执行 `/doudou-cdn` 或 `/doudou-r2`、单独发布到指定平台如 `/doudou-bilibili`、或重新生成 `index.html` 汇总看板），直接复用同名目录下的已有资产。
+  - 支持用户指定执行特定步骤（如仅执行 `/doudou-cdn`、单独发布到指定平台如 `/doudou-bilibili`、或重新生成 `index.html` 汇总看板），直接复用同名目录下的已有资产。
 
 ---
 
