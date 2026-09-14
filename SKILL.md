@@ -157,9 +157,9 @@ path/to/article_name/
 
 ### 5. 图片上传到 CDN 与缩略图同步 (`/doudou-cdn`)
 
-- **执行目标**：将生成的本地配图与封面图批量同步至 CDN 图床，实现 CDN 加速并回填 Markdown，同时下载 CDN 处理后的图片到本地作为缩略图。
+- **执行目标**：将生成的本地配图与封面图批量同步至 CDN 图床，实现 CDN 加速并回填 Markdown，缩略图生成由 `doudou-cdn` 技能自身全权控制。
 - **统一使用 `/doudou-cdn` 技能**：
-  - **由技能自主决定**：上传通道与模式由技能 `/doudou-cdn` 自主决定与调度。
+  - **由技能自主决定**：上传通道、模式与缩略图生成由技能 `/doudou-cdn` 自身全权控制与调度。
   - **显式指定通道**：用户若明确指定通道，可直接传入通道参数（`-r` 强制走 Cloudflare R2 直传，`-g` 强制走 GitHub 直传，`-a` 强制走公共 API）。
 - **调用逻辑**：
   1. **执行上传**：
@@ -169,7 +169,7 @@ path/to/article_name/
      node <doudou-cdn技能目录>/scripts/upload.mjs <图片文件...> --format json
      ```
 
-     - 默认由 `doudou-cdn` 技能自主决定最优上传通道；
+     - 默认由 `doudou-cdn` 技能自主决定最优上传通道并控制缩略图生成；
      - 若用户显式要求使用 Cloudflare R2 存储桶，添加 `-r` 参数：
        ```bash
        node <doudou-cdn技能目录>/scripts/upload.mjs <图片文件...> -r --format json
@@ -186,12 +186,13 @@ path/to/article_name/
        "files": [
          {
            "local_path": "illustrations/images/01-framework.png",
-           "cdn_url": "https://..."
+           "cdn_url": "https://...",
+           "thumb_path": "illustrations/images/01-framework_thumb.png"
          }
        ]
      }
      ```
-  3. **下载缩略图到本地**：上传成功后，将 CDN 返回的处理后图片下载保存至原图所在同级目录，命名为：`原图名_thumb`（保留原扩展名，生成规则为 `原文件名_thumb`）。若图床服务未做等比缩小处理，则在本地保持原图拷贝或生成轻量缩略图。
+  3. **缩略图由 `doudou-cdn` 自身全权控制**：缩略图生成逻辑与规则完全交由 `doudou-cdn` 技能自身控制与落盘（自动在原图同级目录生成 `<原名>_thumb` 轻量缩略图并返回元信息），UGC 流程严禁在本地强行拷贝原图作为缩略图或添加任何冗余约束，直接消费 `doudou-cdn` 输出的资产。
   4. **回填 CDN Markdown**：将原 Markdown 中的本地图片引用替换为对应的公开 CDN URL，生成图床化文章文件 `path/to/article_name/article_name_cdn.md`（后续公众号排版、小红书图文卡片制作及多平台发布均以该 CDN 版为基准输入）。
 
 ---
