@@ -41,7 +41,7 @@ An all-in-one UGC content automation pipeline skill library for local Markdown a
 
 <p align="center">
   <a href="./assets/doudou-ugc-workflow.html" title="Click to open interactive panoramic workflow">
-    <img src="./assets/workflow.png" alt="Doudou All-in-One UGC Content Generation & Publishing Workflow" width="100%" />
+    <img src="./assets/workflow.gif" alt="Doudou All-in-One UGC Content Generation & Publishing Workflow" width="100%" />
   </a>
 </p>
 

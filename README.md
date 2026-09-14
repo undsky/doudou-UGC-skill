@@ -4,7 +4,7 @@
   <b>简体中文</b> | <a href="README_EN.md">English</a>
 </p>
 
-一站式全流程依次执行**内容合规检测 → 外链标准化引用追加 → 文章高清配图生成 → 质感封面图生成 → 图片 CDN 图床上传与回写 → 微信公众号精美排版 → 小红书图文卡片生成 → Remotion 电影感短视频制作 → 全网 14 大主流平台自动化填入与发布就绪**，并在产物根目录生成**全景交互式 HTML 结果汇总看板**。
+一站式全流程依次执行**内容合规检测 → 外链标准化引用追加 → 文章高清配图生成 → 质感封面图生成 → 图片 CDN 图床上传与回写 → 微信公众号精美排版 → 小红书图文卡片生成 → Remotion 电影感短视频制作 → 全网 14 大主流平台自动化填入与发布就绪**，并生成**结果汇总看板**。
 
 <p align="center">
   <img src="./assets/cover_thumb.png" alt="豆豆自媒体全流程加工技能库 Banner" width="100%" />
@@ -28,9 +28,7 @@
 ## 🔄 全流程工序流水线
 
 <p align="center">
-  <a href="./assets/doudou-ugc-workflow.html" title="点击查看可交互全景流程图">
-    <img src="./assets/workflow.png" alt="豆豆一站式自媒体全流程加工流水线" width="100%" />
-  </a>
+  <img src="./assets/workflow.gif" alt="豆豆一站式自媒体全流程加工流水线" width="100%" />
 </p>
 
 ---
