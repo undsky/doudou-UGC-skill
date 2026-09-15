@@ -58,8 +58,8 @@ path/to/article_name/
 │   └── images/                           # 生成的封面图 (2.35:1 / 16:9 / 1:1 及步骤 5 下载的 _thumb 缩略图)
 ├── cdn_manifest.json                     # 步骤 5：CDN 上传清单与 URL 映射表 (doudou-cdn)
 ├── article_name_cdn.md                   # 步骤 5：已将本地图片无缝替换为 CDN URL 的 Markdown
-├── article_name_排版.html                # 步骤 6：公众号纯排版正文片段 (gzh-design)
-├── article_name_预览.html                # 步骤 6：带一键复制功能的公众号预览页
+├── article_name_排版_{主题中文名}({英文标识}).html   # 步骤 6：公众号纯排版正文片段 (gzh-design 原生产物)
+├── article_name_排版_{主题中文名}({英文标识})_预览.html # 步骤 6：带一键复制功能的公众号预览页 (gzh-design 原生产物)
 ├── xhs_images/                           # 步骤 7：小红书/微信图文卡片 (baoyu-xhs-images)
 │   ├── prompts/                          # 小红书卡片 Prompt 文件
 │   └── images/                           # 生成的 3:4 图文卡片
@@ -204,11 +204,11 @@ path/to/article_name/
   1. **动态发现与交互确认排版主题（强交互门禁）**：严禁硬编码枚举主题列表，严禁擅自替用户做主直接生成！必须先动态读取 `gzh-design` 技能的 `references/theme-index.md`（主题索引单一来源表），获取当前所有已注册主题（包括系统内置主题以及已沉淀登记的自定义主题）及其元数据（中文名、主色、适用场景、组件库路径等）。依据当前文章题材与内容类型，将最契合的主题排在第一位并标注 `(Recommended)`，**必须调用 `ask_question` 工具弹出主题单选列表**供用户确认选择；只有在用户选定确认后，才允许进入下一步的组件库装配与排版生成。
   2. **读取组件库与装配**：依据所选主题动态读取其专属组件库（`references/theme-{标识}.md`）及通用增量库（`references/common-components.md`），装配公众号专用的 `<section>` 正文片段。
   3. 运行 HTML 规范校验脚本（确保禁用标签及半角标点清零）。
-  4. 生成产物保存至同名目录（统一命名规范）：
-     - 干净正文：`path/to/article_name/article_name_排版.html`（公众号纯排版 `<section>` 正文片段）。
-     - 预览页面：`path/to/article_name/article_name_预览.html`（含「复制到公众号」按钮的完整预览页）。
-     - **统一命名规约**：排版产物统一规范命名为 `path/to/article_name/article_name_排版.html` 与 `path/to/article_name/article_name_预览.html`；若底层生成工具输出了带有主题后缀的文件（如 `article_name_排版_主题(ID).html` 或 `article_name_预览_主题(ID).html`），须规范化重命名或同步输出标准命名的 `article_name_排版.html` 与 `article_name_预览.html`，确保步骤 10 看板与后续流程直接精准引用。
-  5. _博客同步_：若项目根目录下存在 `blog/` 目录，则按规范同步至 `blog/<分类>/<文件名>.html` 并更新 `blog/index.html` 的文章列表与分类计数。
+  4. **生成产物直接保存至同名目录（直接使用 `gzh-design` 原生产物，严禁重命名或重复生成多余副本）**：
+     - **干净正文**：`path/to/article_name/article_name_排版_{主题中文名}({英文标识}).html`（公众号纯排版 `<section>` 正文片段）。
+     - **预览页面**：`path/to/article_name/article_name_排版_{主题中文名}({英文标识})_预览.html`（通过 `<gzh-design>/scripts/wrap_preview.py` 生成的含「复制到公众号」按钮的完整预览页）。
+     - **直接消费原生规约**：直接使用 `gzh-design` 产出的带主题标识的原生文件名，严禁生成冗余副本。步骤 10 看板（动态探测匹配 `*_排版_*_预览.html`）与后续多平台发布（如微信公众号发布脚本自动筛选 `_排版_*.html` 纯正文）均原生兼容并直接精准引用。
+  5. _博客同步_：若项目根目录下存在 `blog/` 目录，则以产物同名目录下的纯排版干净正文 HTML（`article_name_排版_{主题中文名}({英文标识}).html`，切勿使用带复制工具栏的预览页）为正文，按规范同步至 `blog/<分类>/<文件名>.html` 并更新 `blog/index.html` 的文章列表与分类计数。
 
 ---
 
@@ -420,6 +420,7 @@ path/to/article_name/
 > 必须按顺序**一次只执行一个平台**，前序平台资产填入完成后，再启动下一个平台。
 >
 > **⚠️ 强制串行执行约束**：
+>
 > - **绝对禁止将多个平台的 Skill 调用放在同一个工具调用块中**（这会导致 Claude Code 自动并发执行）
 > - **必须在每个平台 Skill 调用完成并收到结果后，再发起下一个平台的调用**
 > - **每个平台之间必须等待前序平台完全完成（收到成功/失败响应），严禁提前调用下一个**
@@ -435,6 +436,7 @@ path/to/article_name/
 当用户确认需要发布的平台后，**必须严格按照下列顺序逐个串行调用**对应平台的发布技能（每次只调用一个，等待其完成后再调用下一个）：
 
 **执行顺序（1-14，严格串行）**：
+
 1. 微信公众平台：`/doudou-weixin <给定的 Markdown 文章文件>` → **等待完成**
 2. 微信视频号：`/doudou-shipinhao <给定的 Markdown 文章文件>` → **等待完成**
 3. 今日头条：`/doudou-toutiao <给定的 Markdown 文章文件>` → **等待完成**
@@ -451,6 +453,7 @@ path/to/article_name/
 14. 烧饼社区：`/doudou-linuxsb <给定的 Markdown 文章文件>` → **等待完成**
 
 **执行进度提示**：在调用每个平台前，向用户输出清晰的进度提示：
+
 ```
 正在发布到第 X/N 个平台：【平台名称】...
 ```
@@ -500,17 +503,17 @@ path/to/article_name/
 - **模版详细规范与字段定义**：请参阅 [references/dashboard-template.md](references/dashboard-template.md)。
 - **内容组织规划（按生成的文件夹目录结构划分模块）**：
 
-| 模块标签                           | 对应目录/文件                                                              | 核心展示与交互内容                                                                                                                                                                                                                        |
-| :--------------------------------- | :------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 📊 **全局概览 (Overview)**         | 产物根目录<br>`[article].md`<br>`article_cdn.md`                           | 流程产物交付指标总览（合规状态、配图数、封面数、图文数、短视频终渲状态）；下方直接集成 **Markdown 双栏源码与 marked 实时渲染预览**（左侧 `原文 Markdown ([article]_cdn.md)` 源码高亮+一键复制，右侧 marked 实时解析渲染+一键复制 HTML）。 |
-| 🛡️ **01 内容审查**                 | `01_compliance_report.md`                                                  | 格式化渲染合规审查报告全文，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签，支持一键复制 Markdown。                                                                                                                           |
-| 🎨 **02 文章插图**                 | `illustrations/`<br>├ `prompts/`<br>└ `images/`                            | 上下流式网格卡片流：每张卡片含 contain 缩略图、点击放大、比例与类型标签、CDN 快速复制；卡片底部为固定高度、带滚动条的绘图提示词 Prompt 代码块，配备一键复制。                                                                             |
-| 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                                    | 上下流式网格卡片流：2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例陈列；支持大图放大、CDN 复制与底部 5 维设计提示词一键复制。                                                                                                    |
-| 🌐 **04 CDN 映射表**               | `cdn_manifest.json`                                                        | 4 列交互式数据表格：展示图片缩略图（`.table-thumb`，支持点击全屏放大）、原始相对路径、CDN 加速链接与一键复制按钮。                                                                                                                        |
-| 📱 **05 公众号排版**               | `[article]_排版.html`<br>`[article]_预览.html`                             | 嵌入式 iframe 实时渲染公众号排版预览；提供纯排版正文与新标签页打开。                                                                                                                                                                      |
-| 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                               | 3:4 竖版上下流式网格卡片流：展示遵循“痛点—成因—拆解—解决方案”模型的封面痛点卡、根因剖析卡、核心拆解卡与落地总结卡；含高清缩略图预览（点击放大）、3:4 比例标签、CDN URL 与底部提示词 Prompt 一键复制。                                     |
-| 🎬 **07 短视频成片**               | `video/`<br>├ `storyboard.md`<br>├ `narration/`<br>└ `video_manifest.json` | 内嵌 `<video controls>` 播放器直接播放成片；视频渲染技术参数卡片（分辨率、时长、帧数、文件大小、配音音色）与运镜配方卡标签集；黄金分镜脚本区（支持「📝 查看源码 / 📖 查看渲染」无缝切换、复制分镜脚本与复制 HTML）。                      |
-| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>└ `publish_manifest.json`                                  | **多平台发布看板**：精简 4 列表格（平台名称、发布模态、**各平台具体发布标题**、就绪状态徽章），已隐去内部技术分类。                                                                                                                       |
+| 模块标签                           | 对应目录/文件                                                                                               | 核心展示与交互内容                                                                                                                                                                                                                           |
+| :--------------------------------- | :---------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📊 **全局概览 (Overview)**         | 产物根目录<br>`article_name.md`<br>`article_name_cdn.md`                                                    | 流程产物交付指标总览（合规状态、配图数、封面数、图文数、短视频终渲状态）；下方直接集成 **Markdown 双栏源码与 marked 实时渲染预览**（左侧 `原文 Markdown (article_name_cdn.md)` 源码高亮+一键复制，右侧 marked 实时解析渲染+一键复制 HTML）。 |
+| 🛡️ **01 内容审查**                 | `01_compliance_report.md`                                                                                   | 格式化渲染合规审查报告全文，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签，支持一键复制 Markdown。                                                                                                                              |
+| 🎨 **02 文章插图**                 | `illustrations/`<br>├ `prompts/`<br>└ `images/`                                                             | 上下流式网格卡片流：每张卡片含 contain 缩略图、点击放大、比例与类型标签、CDN 快速复制；卡片底部为固定高度、带滚动条的绘图提示词 Prompt 代码块，配备一键复制。                                                                                |
+| 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                                                                     | 上下流式网格卡片流：2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例陈列；支持大图放大、CDN 复制与底部 5 维设计提示词一键复制。                                                                                                       |
+| 🌐 **04 CDN 映射表**               | `cdn_manifest.json`                                                                                         | 4 列交互式数据表格：展示图片缩略图（`.table-thumb`，支持点击全屏放大）、原始相对路径、CDN 加速链接与一键复制按钮。                                                                                                                           |
+| 📱 **05 公众号排版**               | `article_name_排版_{主题中文名}({英文标识}).html`<br>`article_name_排版_{主题中文名}({英文标识})_预览.html` | 嵌入式 iframe 实时渲染公众号排版预览（直接使用 `gzh-design` 原生预览产物）；提供纯排版正文与新标签页打开。                                                                                                                                   |
+| 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                                                                | 3:4 竖版上下流式网格卡片流：展示遵循“痛点—成因—拆解—解决方案”模型的封面痛点卡、根因剖析卡、核心拆解卡与落地总结卡；含高清缩略图预览（点击放大）、3:4 比例标签、CDN URL 与底部提示词 Prompt 一键复制。                                        |
+| 🎬 **07 短视频成片**               | `video/`<br>├ `storyboard.md`<br>├ `narration/`<br>└ `video_manifest.json`                                  | 内嵌 `<video controls>` 播放器直接播放成片；视频渲染技术参数卡片（分辨率、时长、帧数、文件大小、配音音色）与运镜配方卡标签集；黄金分镜脚本区（支持「📝 查看源码 / 📖 查看渲染」无缝切换、复制分镜脚本与复制 HTML）。                         |
+| 🚀 **08 多平台发布 (Publish Hub)** | `publishes/`<br>└ `publish_manifest.json`                                                                   | **多平台发布看板**：精简 4 列表格（平台名称、发布模态、**各平台具体发布标题**、就绪状态徽章），已隐去内部技术分类。                                                                                                                          |
 
 #### 模版插槽填充规范 (Template Slot Guide)
 
@@ -519,17 +522,17 @@ path/to/article_name/
 1. **全局与概览统计变量**：
    - `{{ARTICLE_TITLE}}`：文章主标题
    - `{{GENERATION_TIME}}`：生成时间（`YYYY-MM-DD HH:mm`）
-   - `{{ARTICLE_FOLDER_PATH}}`：产物同名目录相对路径（格式 `mds/<分类>/<slug>/`）
-   - `{{ARTICLE_NAME}}`：文章标识/slug（格式 `<slug>`）
-   - `{{CDN_MARKDOWN_FILENAME}}`：CDN 加速版文件名（格式 `<slug>_cdn.md`）
-   - `{{CDN_MARKDOWN_CONTENT}}`：`[article]_cdn.md` 的代码全文
+   - `{{ARTICLE_FOLDER_PATH}}`：产物同名目录相对路径（格式 `mds/<分类>/article_name/`）
+   - `{{ARTICLE_NAME}}`：文章标识/slug（格式 `article_name`）
+   - `{{CDN_MARKDOWN_FILENAME}}`：CDN 加速版文件名（格式 `article_name_cdn.md`）
+   - `{{CDN_MARKDOWN_CONTENT}}`：`article_name_cdn.md` 的代码全文
    - `{{COMPLIANCE_REPORT_CONTENT}}`：`01_compliance_report.md` 的内容全文
    - `{{ILLUSTRATION_COUNT}}` / `{{COVER_COUNT}}` / `{{CARD_COUNT}}`：插图数 / 封面数 / 小红书卡片数（纯数字）
-   - `{{WECHAT_PREVIEW_FILENAME}}`：公众号预览文件名（ `[article]_预览.html`）
+   - `{{WECHAT_PREVIEW_FILENAME}}`：公众号预览文件名（直接使用 `gzh-design` 产物，如 `article_name_排版_{主题中文名}({英文标识})_预览.html`）
 
 2. **短视频技术参数变量**：
    - `{{VIDEO_POSTER_PATH}}`：视频海报相对路径（优先使用 `_thumb` 封面，如 `./cover/images/cover-16x9_thumb.png`）
-   - `{{VIDEO_FILE_PATH}}`：视频文件相对路径（如 `./video/[article].mp4`）
+   - `{{VIDEO_FILE_PATH}}`：视频文件相对路径（如 `./video/article_name.mp4`）
    - `{{VIDEO_RESOLUTION}}` 与 `{{VIDEO_ASPECT_RATIO}}`：分辨率与画幅（如 `1920×1080`、`16:9 横版`）
    - `{{VIDEO_DURATION}}`、`{{VIDEO_FPS}}`、`{{VIDEO_TOTAL_FRAMES}}`、`{{VIDEO_RENDER_TIME}}`、`{{VIDEO_FILE_SIZE}}`：时长(s)、帧率(fps)、总帧数、渲染耗时(s)、体积(MB)
    - `{{VIDEO_VOICE}}`：配音音色与语速说明（如 `zh-CN-YunyangNeural (云扬 1.05x)`）
@@ -688,7 +691,7 @@ path/to/article_name/
 - 🎨 **文章插图**：`illustrations/` (含 `prompts/` 与 `images/`)
 - 🖼️ **封面图片**：`cover/` (含 `prompts/` 与 `images/`)
 - 🌐 **CDN 文章与映射**：`article_name_cdn.md`、`cdn_manifest.json` 及本地缩略图备份 (`_thumb`)
-- 📱 **公众号排版**：`article_name_排版.html` 及 `article_name_预览.html`
+- 📱 **公众号排版**：`article_name_排版_{主题中文名}({英文标识}).html` 及 `article_name_排版_{主题中文名}({英文标识})_预览.html`
 - 📑 **小红书图文**：`xhs_images/` (含 `prompts/` 与 `images/`)
 - 🎬 **短视频成片**：`video/article_name.mp4`（每 500 字约 1 分钟，≥ 60s）及 `video/storyboard.md` 分镜脚本、`video/narration/` 配音与字幕、`video/video_manifest.json` 元数据
 - 🚀 **多平台发布清单**：`publishes/`（含 `publish_manifest.json` 清单）

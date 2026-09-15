@@ -37,19 +37,19 @@
 
 ## 二、全局模版变量字典
 
-| 占位符变量                      | 类型     | 说明与示例                                                         |
-| :------------------------------ | :------- | :----------------------------------------------------------------- |
-| `{{ARTICLE_TITLE}}`             | 文本     | 文章主标题（如 `连买域名的钱都省了！将 ClawEmail 打造成临时邮箱`） |
-| `{{GENERATION_TIME}}`           | 文本     | 看板生成时间（格式 `YYYY-MM-DD HH:mm`，如 `2026-09-07 09:25`）     |
-| `{{ARTICLE_FOLDER_PATH}}`       | 路径     | 文章同名产物相对路径（如 `mds/AICoding/claw163/`）                 |
-| `{{ARTICLE_NAME}}`              | 标识     | 文章标识 / slug（如 `claw163`）                                    |
-| `{{CDN_MARKDOWN_FILENAME}}`     | 文件名   | CDN 加速版文件名（如 `claw163_cdn.md`）                            |
-| `{{CDN_MARKDOWN_CONTENT}}`      | 代码全文 | `[article]_cdn.md` 的 Markdown 原文内容                            |
-| `{{COMPLIANCE_REPORT_CONTENT}}` | 内容全文 | `01_compliance_report.md` 的 Markdown 原文内容                     |
-| `{{ILLUSTRATION_COUNT}}`        | 纯数字   | 文章高清配图总数（如 `3`）                                         |
-| `{{COVER_COUNT}}`               | 纯数字   | 封面图总数（如 `1`）                                               |
-| `{{CARD_COUNT}}`                | 纯数字   | 小红书/社媒卡片总数（如 `5`）                                      |
-| `{{WECHAT_PREVIEW_FILENAME}}`   | 文件名   | 公众号排版预览文件名（统一规范为 `[article]_预览.html`）           |
+| 占位符变量                      | 类型     | 说明与示例                                                                                |
+| :------------------------------ | :------- | :---------------------------------------------------------------------------------------- |
+| `{{ARTICLE_TITLE}}`             | 文本     | 文章主标题                                                                                |
+| `{{GENERATION_TIME}}`           | 文本     | 看板生成时间（格式 `YYYY-MM-DD HH:mm`，如 `2026-09-07 09:25`）                            |
+| `{{ARTICLE_FOLDER_PATH}}`       | 路径     | 文章同名产物相对路径（格式 `path/to/article_name/` 或 `mds/<分类>/article_name/`）       |
+| `{{ARTICLE_NAME}}`              | 标识     | 文章标识 / slug（格式 `article_name`）                                                    |
+| `{{CDN_MARKDOWN_FILENAME}}`     | 文件名   | CDN 加速版文件名（格式 `article_name_cdn.md`）                                            |
+| `{{CDN_MARKDOWN_CONTENT}}`      | 代码全文 | `article_name_cdn.md` 的 Markdown 原文内容                                                |
+| `{{COMPLIANCE_REPORT_CONTENT}}` | 内容全文 | `01_compliance_report.md` 的 Markdown 原文内容                                            |
+| `{{ILLUSTRATION_COUNT}}`        | 纯数字   | 文章高清配图总数（如 `3`）                                                                |
+| `{{COVER_COUNT}}`               | 纯数字   | 封面图总数（如 `1`）                                                                      |
+| `{{CARD_COUNT}}`                | 纯数字   | 小红书/社媒卡片总数（如 `5`）                                                             |
+| `{{WECHAT_PREVIEW_FILENAME}}`   | 文件名   | 公众号排版预览文件名（直接使用 `gzh-design` 产物，如 `article_name_排版_{主题中文名}({英文标识})_预览.html`） |
 
 ---
 
@@ -58,7 +58,7 @@
 | 占位符变量               | 说明与示例                                                                              |
 | :----------------------- | :-------------------------------------------------------------------------------------- |
 | `{{VIDEO_POSTER_PATH}}`  | 视频封面海报相对路径（优先使用 `_thumb` 缩略图，如 `./cover/images/cover.png`）         |
-| `{{VIDEO_FILE_PATH}}`    | 视频成片文件相对路径（如 `./video/claw163.mp4`）                                        |
+| `{{VIDEO_FILE_PATH}}`    | 视频成片文件相对路径（如 `./video/article_name.mp4`）                                   |
 | `{{VIDEO_RESOLUTION}}`   | 分辨率（如 `1920×1080`）                                                                |
 | `{{VIDEO_ASPECT_RATIO}}` | 画幅比例（如 `16:9 横版` 或 `9:16 竖版`）                                               |
 | `{{VIDEO_DURATION}}`     | 视频时长（如 `71.9`）                                                                   |

@@ -221,10 +221,13 @@ export function renderDashboard(targetInput) {
               </tr>`;
   }).join('\n');
 
-  // 10. 解析公众号预览文件名（支持主题后缀）
+  // 10. 解析公众号预览文件名（直接使用 gzh-design 产物，优先匹配带主题标识的预览文件）
   let wechatPreviewFilename = `${articleName}_预览.html`;
   const existingPreviews = fs.readdirSync(baseDir).filter(f => f.endsWith('_预览.html'));
-  if (existingPreviews.length > 0) {
+  const themePreview = existingPreviews.find(f => f.includes('_排版_') && f.endsWith('_预览.html'));
+  if (themePreview) {
+    wechatPreviewFilename = themePreview;
+  } else if (existingPreviews.length > 0) {
     wechatPreviewFilename = existingPreviews[0];
   }
 
