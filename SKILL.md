@@ -418,29 +418,42 @@ path/to/article_name/
 > **【核心铁律】严禁并行发布。**
 > `chrome-devtools-mcp` 是**单浏览器单例**，`pageId` 全局共享。若并发启动多个平台技能，会抢夺页面焦点并将内容注入错误标签页。
 > 必须按顺序**一次只执行一个平台**，前序平台资产填入完成后，再启动下一个平台。
+>
+> **⚠️ 强制串行执行约束**：
+> - **绝对禁止将多个平台的 Skill 调用放在同一个工具调用块中**（这会导致 Claude Code 自动并发执行）
+> - **必须在每个平台 Skill 调用完成并收到结果后，再发起下一个平台的调用**
+> - **每个平台之间必须等待前序平台完全完成（收到成功/失败响应），严禁提前调用下一个**
+> - 执行模式示例（**正确**）：调用平台 1 → 等待完成 → 调用平台 2 → 等待完成 → 调用平台 3
+> - 执行模式示例（**错误**）：同时调用平台 1、2、3 → ❌ 会导致页面冲突与状态混乱
 
 ##### 资产填入后直接判定完成
 
 所有平台在文章（标题、正文、封面）、图文（标题、简介、图片）、视频（标题、简介、视频）资产填入完成后，**直接判定完成**，无需任何等待或轮询。原样保留当前浏览器发文页面现场供人工复核与发布，**严禁调用 `close_page`**。
 
-##### 平台技能调用映射
+##### 平台技能调用映射与执行顺序
 
-当用户确认需要发布的平台后，按序**逐个**调用对应平台的发布技能：
+当用户确认需要发布的平台后，**必须严格按照下列顺序逐个串行调用**对应平台的发布技能（每次只调用一个，等待其完成后再调用下一个）：
 
-- 微信公众平台：`/doudou-weixin <给定的 Markdown 文章文件>`
-- 微信视频号：`/doudou-shipinhao <给定的 Markdown 文章文件>`
-- 今日头条：`/doudou-toutiao <给定的 Markdown 文章文件>`
-- 百家号：`/doudou-baijia <给定的 Markdown 文章文件>`
-- 企鹅号：`/doudou-qiehao <给定的 Markdown 文章文件>`
-- 掘金：`/doudou-juejin <给定的 Markdown 文章文件>`
-- CSDN：`/doudou-csdn <给定的 Markdown 文章文件>`
-- 腾讯云开发者社区：`/doudou-tencent <给定的 Markdown 文章文件>`
-- 阿里云开发者社区：`/doudou-aliyun <给定的 Markdown 文章文件>`
-- 哔哩哔哩 (B站)：`/doudou-bilibili <给定的 Markdown 文章文件>`
-- 小红书：`/doudou-xiaohongshu <给定的 Markdown 文章文件>`
-- 抖音：`/doudou-douyin <给定的 Markdown 文章文件>`
-- 知乎：`/doudou-zhihu <给定的 Markdown 文章文件>`
-- 烧饼社区：`/doudou-linuxsb <给定的 Markdown 文章文件>`
+**执行顺序（1-14，严格串行）**：
+1. 微信公众平台：`/doudou-weixin <给定的 Markdown 文章文件>` → **等待完成**
+2. 微信视频号：`/doudou-shipinhao <给定的 Markdown 文章文件>` → **等待完成**
+3. 今日头条：`/doudou-toutiao <给定的 Markdown 文章文件>` → **等待完成**
+4. 百家号：`/doudou-baijia <给定的 Markdown 文章文件>` → **等待完成**
+5. 企鹅号：`/doudou-qiehao <给定的 Markdown 文章文件>` → **等待完成**
+6. 掘金：`/doudou-juejin <给定的 Markdown 文章文件>` → **等待完成**
+7. CSDN：`/doudou-csdn <给定的 Markdown 文章文件>` → **等待完成**
+8. 腾讯云开发者社区：`/doudou-tencent <给定的 Markdown 文章文件>` → **等待完成**
+9. 阿里云开发者社区：`/doudou-aliyun <给定的 Markdown 文章文件>` → **等待完成**
+10. 哔哩哔哩 (B站)：`/doudou-bilibili <给定的 Markdown 文章文件>` → **等待完成**
+11. 小红书：`/doudou-xiaohongshu <给定的 Markdown 文章文件>` → **等待完成**
+12. 抖音：`/doudou-douyin <给定的 Markdown 文章文件>` → **等待完成**
+13. 知乎：`/doudou-zhihu <给定的 Markdown 文章文件>` → **等待完成**
+14. 烧饼社区：`/doudou-linuxsb <给定的 Markdown 文章文件>` → **等待完成**
+
+**执行进度提示**：在调用每个平台前，向用户输出清晰的进度提示：
+```
+正在发布到第 X/N 个平台：【平台名称】...
+```
 
 #### 9.4 结果汇总清单 (`publish_manifest.json`)
 
@@ -657,7 +670,7 @@ path/to/article_name/
     6. **步骤 6（排版门禁）**：动态读取 `gzh-design` 技能的 `references/theme-index.md` 获取当前全部已注册主题列表（含内置主题与已注册的自定义主题，严禁硬编码枚举），结合文章题材智能分析并推荐最契合主题（置顶标注「（推荐）」），使用 `ask_question` 呈现给用户选择确认；用户确认后装配 HTML 并同步博客。
     7. **步骤 7（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（基于“痛点—成因—拆解—解决方案”模型规划卡片大纲，确认风格、布局与策略）。
     8. **步骤 8（短视频门禁）**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、原文字数与规划时长（每 500 字约 1 分钟，≥ 60s）、**每个分镜严格控制在 10 秒以下（≤ 300 帧）及紧凑节奏规划**、**全片每一个分镜（如 S1~S6...）分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`）供用户逐镜自主选择**、**视频画幅由用户自主选择（横屏 1920×1080 (16:9) / 竖屏 1080×1920 (9:16)）**、**配音音色与语速由用户自主选择（提供云扬/晓晓/云希等音色与 1.0x/1.05x 等语速选项）**；用户确认后再执行配音合成、Remotion 工程实现与渲染。
-    9. **步骤 9（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 10 生成看板；若勾选了目标平台，则启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面，直接判定完成，原样保留当前标签页现场供人工复核与发布，严禁调用 `close_page`。
+    9. **步骤 9（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 10 生成看板；若勾选了目标平台，则**必须严格串行执行**——每次只调用一个平台 skill，等待其完成后再调用下一个（绝对禁止在同一个工具调用块中同时发起多个平台 skill 调用，这会导致并发执行与页面冲突），启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面，直接判定完成，原样保留当前标签页现场供人工复核与发布，严禁调用 `close_page`。
     10. **步骤 10**：组装并生成一站式结果汇总看板 `index.html`（含 1~9 阶段完整资产、短视频播放器与多平台发布状态 Tab）。
 - **全自动模式（Explicit Only）**：
   - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~10 全套流程。
