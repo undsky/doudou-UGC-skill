@@ -20,6 +20,16 @@ function toDisplayFolderPath(baseDir) {
   return `${rel.replace(/\\/g, '/')}/`;
 }
 
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 /**
  * 标准看板渲染入口
  * @param {string} targetInput - 目标文章路径 (如 mds/AICoding/claw163.md) 或同名目录
@@ -82,7 +92,8 @@ export function renderDashboard(targetInput) {
   const cdnManifestFile = path.join(baseDir, 'cdn_manifest.json');
   const cdnManifest = fs.existsSync(cdnManifestFile)
     ? JSON.parse(fs.readFileSync(cdnManifestFile, 'utf-8'))
-    : { files: [] };
+    : {};
+  const cdnList = cdnManifest.files || cdnManifest.images || [];
 
   const publishManifestFile = path.join(baseDir, 'publishes', 'publish_manifest.json');
   const publishManifest = fs.existsSync(publishManifestFile)
@@ -98,13 +109,14 @@ export function renderDashboard(targetInput) {
   const titleMatch = cdnMarkdown.match(/^#\s+(.+)$/m);
   const articleTitle = publishManifest.articleTitle || (titleMatch ? titleMatch[1].trim() : articleName);
 
-  // 2. 统计数据
+  // 2. 统计数据（过滤 _thumb 缩略图文件，避免卡片与计数重复）
+  const isImageFile = f => (f.endsWith('.png') || f.endsWith('.jpg') || f.endsWith('.jpeg') || f.endsWith('.webp')) && !f.includes('_thumb');
   const illDir = path.join(baseDir, 'illustrations', 'images');
-  const illFiles = fs.existsSync(illDir) ? fs.readdirSync(illDir).filter(f => f.endsWith('.png') || f.endsWith('.jpg')) : [];
+  const illFiles = fs.existsSync(illDir) ? fs.readdirSync(illDir).filter(isImageFile) : [];
   const coverDir = path.join(baseDir, 'cover', 'images');
-  const coverFiles = fs.existsSync(coverDir) ? fs.readdirSync(coverDir).filter(f => f.endsWith('.png') || f.endsWith('.jpg')) : [];
+  const coverFiles = fs.existsSync(coverDir) ? fs.readdirSync(coverDir).filter(isImageFile) : [];
   const xhsDir = path.join(baseDir, 'xhs_images', 'images');
-  const xhsFiles = fs.existsSync(xhsDir) ? fs.readdirSync(xhsDir).filter(f => f.endsWith('.png') || f.endsWith('.jpg')) : [];
+  const xhsFiles = fs.existsSync(xhsDir) ? fs.readdirSync(xhsDir).filter(isImageFile) : [];
 
   // 3. 运镜配方标签
   let recipeTags = '';
@@ -118,20 +130,29 @@ export function renderDashboard(targetInput) {
   function buildCardHtml(item, index, prefix, folder) {
     const promptId = `${prefix}-prompt-${index + 1}`;
     const fullPath = `./${folder}/images/${item.file}`;
-    const thumbPath = fullPath;
+    // 优先使用缩略图作为预览图以降低首屏流量；大图全屏仍使用原始高清图
+    const thumbFile = item.file.replace(/(\.[^.]+)$/, '_thumb$1');
+    const localThumbPath = path.join(baseDir, folder, 'images', thumbFile);
+    const thumbPath = fs.existsSync(localThumbPath) ? `./${folder}/images/${thumbFile}` : fullPath;
+    const safePrompt = escapeHtml(item.prompt.trim());
+    const safeCdn = escapeHtml(item.cdn);
+    const safeFile = escapeHtml(item.file);
+    const safeTitle = escapeHtml(item.title);
+    const safeBadge = escapeHtml(item.badge);
+
     return `          <div class="flat-card" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 0;">
             <div style="background: var(--bg-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; overflow: hidden; height: 210px; position: relative; cursor: pointer;" onclick="openLightbox('${fullPath}')" title="点击全屏放大">
-              <img src="${thumbPath}" alt="${item.title}" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.2s ease;" />
+              <img src="${thumbPath}" alt="${safeTitle}" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.2s ease;" />
               <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(15, 23, 42, 0.65); color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px; backdrop-filter: blur(4px);">🔍 点击放大</span>
             </div>
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                <h4 style="font-size: 13.5px; font-weight: 600; color: var(--text-main); margin: 0; word-break: break-all;">${item.file}</h4>
-                <span class="flat-badge">${item.badge}</span>
+                <h4 style="font-size: 13.5px; font-weight: 600; color: var(--text-main); margin: 0; word-break: break-all;">${safeFile}</h4>
+                <span class="flat-badge">${safeBadge}</span>
               </div>
               <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted);">
-                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 75%;">CDN: <a href="${item.cdn}" target="_blank" style="color: var(--primary);">${item.cdn}</a></span>
-                <button class="btn" style="padding: 2px 8px; font-size: 11.5px;" onclick="copyText('${item.cdn}')">📋 复制</button>
+                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 75%;">CDN: <a href="${safeCdn}" target="_blank" style="color: var(--primary);">${safeCdn}</a></span>
+                <button class="btn" style="padding: 2px 8px; font-size: 11.5px;" onclick="copyText('${safeCdn}')">📋 复制</button>
               </div>
             </div>
             <div style="background: var(--bg-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;">
@@ -139,7 +160,7 @@ export function renderDashboard(targetInput) {
                 <span style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">📝 绘图提示词 (Prompt)</span>
                 <button class="btn" style="padding: 2px 8px; font-size: 11px;" onclick="copyContent('${promptId}')">📋 复制提示词</button>
               </div>
-              <pre id="${promptId}" style="font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11.5px; line-height: 1.55; color: var(--text-secondary); max-height: 120px; height: 120px; overflow-y: auto; white-space: pre-wrap; margin: 0; padding-right: 4px; word-break: break-word;">${item.prompt.trim()}</pre>
+              <pre id="${promptId}" style="font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11.5px; line-height: 1.55; color: var(--text-secondary); max-height: 120px; height: 120px; overflow-y: auto; white-space: pre-wrap; margin: 0; padding-right: 4px; word-break: break-word;">${safePrompt}</pre>
             </div>
           </div>`;
   }
@@ -149,12 +170,15 @@ export function renderDashboard(targetInput) {
     const slug = f.replace(/\.[^.]+$/, '');
     const pFile = path.join(baseDir, 'illustrations', 'prompts', `${slug}.md`);
     const prompt = fs.existsSync(pFile) ? fs.readFileSync(pFile, 'utf-8') : `Illustration: ${f}`;
-    const cdnObj = (cdnManifest.files || []).find(x => x.local_path && x.local_path.includes(f));
+    const cdnObj = cdnList.find(x => {
+      const p = x.local_path || x.localPath || '';
+      return p.includes(f);
+    });
     return buildCardHtml({
       file: f,
       title: slug,
       badge: '16:9 · 插图',
-      cdn: cdnObj ? cdnObj.cdn_url : `./illustrations/images/${f}`,
+      cdn: cdnObj ? (cdnObj.cdn_url || cdnObj.cdnUrl) : `./illustrations/images/${f}`,
       prompt
     }, idx, 'ill', 'illustrations');
   }).join('\n');
@@ -164,23 +188,30 @@ export function renderDashboard(targetInput) {
     const slug = f.replace(/\.[^.]+$/, '');
     const pFile = path.join(baseDir, 'cover', 'prompts', `${slug}.md`);
     const prompt = fs.existsSync(pFile) ? fs.readFileSync(pFile, 'utf-8') : `Cover: ${f}`;
-    const cdnObj = (cdnManifest.files || []).find(x => x.local_path && x.local_path.includes(f));
+    const cdnObj = cdnList.find(x => {
+      const p = x.local_path || x.localPath || '';
+      return p.includes(f);
+    });
     return buildCardHtml({
       file: f,
       title: slug,
       badge: '主封面',
-      cdn: cdnObj ? cdnObj.cdn_url : `./cover/images/${f}`,
+      cdn: cdnObj ? (cdnObj.cdn_url || cdnObj.cdnUrl) : `./cover/images/${f}`,
       prompt
     }, idx, 'cov', 'cover');
   }).join('\n');
 
-  // 7. 装配 CDN 映射表
-  const cdnRowsHtml = (cdnManifest.files || []).map(f => {
+  // 7. 装配 CDN 映射表（兼容 files 与 images，兼容 localPath/local_path 与 cdnUrl/cdn_url）
+  const cdnRowsHtml = cdnList.map(f => {
+    const cdnUrl = f.cdn_url || f.cdnUrl || '';
+    const localPath = f.local_path || f.localPath || '';
+    const safeCdn = escapeHtml(cdnUrl);
+    const safeLocalPath = escapeHtml(localPath);
     return `              <tr>
-                <td><img src="${f.cdn_url}" class="table-thumb" onclick="openLightbox(this.src)" title="点击放大查看" alt="预览缩略图" /></td>
-                <td><code>${f.local_path}</code></td>
-                <td><a href="${f.cdn_url}" target="_blank" style="color:var(--primary);">${f.cdn_url}</a></td>
-                <td><button class="btn" style="padding:4px 8px; font-size:12px;" onclick="navigator.clipboard.writeText('${f.cdn_url}'); showToast('已复制 CDN 链接');">📋 复制</button></td>
+                <td><img src="${safeCdn}" class="table-thumb" onclick="openLightbox(this.src)" title="点击放大查看" alt="预览缩略图" /></td>
+                <td><code>${safeLocalPath}</code></td>
+                <td><a href="${safeCdn}" target="_blank" style="color:var(--primary);">${safeCdn}</a></td>
+                <td><button class="btn" style="padding:4px 8px; font-size:12px;" onclick="copyText('${safeCdn}')">📋 复制</button></td>
               </tr>`;
   }).join('\n');
 
@@ -212,12 +243,15 @@ export function renderDashboard(targetInput) {
   const publishRowsHtml = (publishManifest.results || []).map(r => {
     // 未知状态一律按中性徽章渲染，严禁默认落到 success 造成「静默谎报成功」
     const badgeClass = badgeMap[r.status] || 'flat-badge-muted';
-    const title = r.title || articleTitle;
+    const platform = escapeHtml(r.platform || r.platformName || '');
+    const mode = escapeHtml(r.modeDesc || r.mode || '');
+    const title = escapeHtml(r.title || r.actualPublishTitle || articleTitle);
+    const statusText = escapeHtml(r.statusText || '已就绪');
     return `              <tr>
-                <td><strong>${r.platform}</strong></td>
-                <td>${r.modeDesc || r.mode}</td>
+                <td><strong>${platform}</strong></td>
+                <td>${mode}</td>
                 <td>${title}</td>
-                <td><span class="flat-badge ${badgeClass}">${r.statusText || '已就绪'}</span></td>
+                <td><span class="flat-badge ${badgeClass}">${statusText}</span></td>
               </tr>`;
   }).join('\n');
 
@@ -231,10 +265,21 @@ export function renderDashboard(targetInput) {
     wechatPreviewFilename = existingPreviews[0];
   }
 
-  // 11. 全局变量安全替换字典
+  // 11. 全局变量安全替换字典（同时兼容驼峰与下划线命名规范）
   const now = new Date();
   const formatTime = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   
+  const posterPath = videoManifest.posterPath || videoManifest.poster || (fs.existsSync(path.join(baseDir, 'cover', 'images', 'cover-16x9_thumb.png')) ? './cover/images/cover-16x9_thumb.png' : './cover/images/cover.png');
+  const videoFilePath = videoManifest.videoPath || videoManifest.video_file || `./video/${articleName}.mp4`;
+  const videoResolution = videoManifest.resolution || '1920×1080';
+  const videoAspectRatio = videoManifest.aspectRatio || videoManifest.aspect_ratio || '16:9 横版';
+  const videoDuration = String(videoManifest.durationSeconds || videoManifest.duration_seconds || '60.0');
+  const videoFps = String(videoManifest.fps || '30');
+  const videoTotalFrames = String(videoManifest.totalFrames || videoManifest.total_frames || '1800');
+  const videoRenderTime = String(videoManifest.renderTime || videoManifest.render_time || '80.0');
+  const videoFileSize = String(videoManifest.fileSizeMb || videoManifest.file_size_mb || '45.0');
+  const videoVoice = videoManifest.voice || 'zh-CN-XiaoxiaoNeural (晓晓 1.05x)';
+
   const replacements = {
     '{{ARTICLE_TITLE}}': articleTitle,
     '{{GENERATION_TIME}}': formatTime,
@@ -247,16 +292,16 @@ export function renderDashboard(targetInput) {
     '{{COVER_COUNT}}': String(coverFiles.length),
     '{{CARD_COUNT}}': String(xhsFiles.length),
     '{{WECHAT_PREVIEW_FILENAME}}': wechatPreviewFilename,
-    '{{VIDEO_POSTER_PATH}}': videoManifest.poster || './cover/images/cover.png',
-    '{{VIDEO_FILE_PATH}}': videoManifest.video_file || `./video/${articleName}.mp4`,
-    '{{VIDEO_RESOLUTION}}': videoManifest.resolution || '1920×1080',
-    '{{VIDEO_ASPECT_RATIO}}': videoManifest.aspect_ratio || '16:9 横版',
-    '{{VIDEO_DURATION}}': String(videoManifest.duration_seconds || '60.0'),
-    '{{VIDEO_FPS}}': String(videoManifest.fps || '30'),
-    '{{VIDEO_TOTAL_FRAMES}}': String(videoManifest.total_frames || '1800'),
-    '{{VIDEO_RENDER_TIME}}': String(videoManifest.render_time || '80.0'),
-    '{{VIDEO_FILE_SIZE}}': String(videoManifest.file_size_mb || '45.0'),
-    '{{VIDEO_VOICE}}': videoManifest.voice || 'zh-CN-XiaoxiaoNeural (晓晓 1.05x)',
+    '{{VIDEO_POSTER_PATH}}': posterPath,
+    '{{VIDEO_FILE_PATH}}': videoFilePath,
+    '{{VIDEO_RESOLUTION}}': videoResolution,
+    '{{VIDEO_ASPECT_RATIO}}': videoAspectRatio,
+    '{{VIDEO_DURATION}}': videoDuration,
+    '{{VIDEO_FPS}}': videoFps,
+    '{{VIDEO_TOTAL_FRAMES}}': videoTotalFrames,
+    '{{VIDEO_RENDER_TIME}}': videoRenderTime,
+    '{{VIDEO_FILE_SIZE}}': videoFileSize,
+    '{{VIDEO_VOICE}}': videoVoice,
     '{{VIDEO_RECIPE_TAGS}}': recipeTags,
     '{{STORYBOARD_CONTENT}}': storyboard
   };

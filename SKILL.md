@@ -492,7 +492,7 @@ path/to/article_name/
 - **推荐执行方式（确定性脚本执行）**：
   为彻底杜绝手动拼装、单次正则替换误匹配以及字符转义导致布局坍塌等问题，**必须优先执行内置确定性渲染脚本**：
   ```bash
-  node scripts/render_dashboard.mjs path/to/article.md
+  node <doudou-UGC技能目录>/scripts/render_dashboard.mjs path/to/article.md
   ```
   该脚本会自动读取产物目录下所有资产、合规报告、分镜脚本、多平台发布清单（`publish_manifest.json`），自动解析公众号预览文件名，并严格按三道防御红线生成 `index.html`。
 - **核心执行原则与三道防御红线**：

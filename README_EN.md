@@ -4,7 +4,7 @@
   <a href="README.md">简体中文</a> | <b>English</b>
 </p>
 
-An all-in-one UGC content automation pipeline skill library for local Markdown articles. Automatically executes **content compliance screening → external link standard referencing → article illustration generation → 5D cover design → image CDN upload & backfilling → WeChat official account formatting → Xiaohongshu 4-tier infographic cards → Remotion cinematic short video creation → automated publishing readiness across 14 mainstream media platforms**, while generating a **panoramic interactive HTML result dashboard** in the output directory.
+End-to-end all-in-one automated execution of **Content Compliance Screening → External Link Standardization → High-Definition Article Illustrations → 5D Cover Image Design → Image CDN Acceleration & Backfilling → WeChat Official Account Formatting → Xiaohongshu 4-Tier Infographic Cards → Remotion Cinematic Short Video Creation → Automated Publishing Readiness Across 14 Mainstream Media Platforms**, while generating an interactive **Panoramic Results Dashboard**.
 
 <p align="center">
   <img src="./assets/cover_thumb.png" alt="Doudou All-in-One UGC Content Generation & Publishing Skill Banner" width="100%" />
@@ -14,7 +14,6 @@ An all-in-one UGC content automation pipeline skill library for local Markdown a
 
 ## 📑 Table of Contents
 
-- [✨ Key Features](#-key-features)
 - [🔄 End-to-End Pipeline Workflow](#-end-to-end-pipeline-workflow)
 - [📖 User Guide](#-user-guide)
   - [1. Installation](#1-installation)
@@ -26,61 +25,23 @@ An all-in-one UGC content automation pipeline skill library for local Markdown a
 
 ---
 
-## ✨ Key Features
-
-- **🚀 End-to-End Automation Pipeline**: Driven by a single local Markdown document, seamlessly coordinating 10 distinct phases without tedious manual switching between tools.
-- **🛡️ Strict Compliance & Standard Referencing**: Built-in sensitive word filtering and WeChat Official Accounts Operations Specification checks, automatically extracting all external links to append standardized references.
-- **🎨 High-Quality Visual Assets**: Article structured illustrations (infographics/frameworks/flowcharts) and 5-dimensional tailored cover images (2.35:1 / 16:9 / 1:1), paired with Xiaohongshu 4-tier ("Pain Point — Root Cause — Breakdown — Solution") infographic card series.
-- **🎬 Remotion Cinematic Short Videos**: Golden Hook opening principles, dynamically selecting shot recipe cards from `video-shotcraft` and `video-talkcraft`, unified with `edge-tts` voiceover and character-aligned SRT subtitles to render production-grade MP4 videos.
-- **🌐 14 Mainstream Media Platforms Ready**: Full coverage for WeChat MP / Pin, WeChat Channels, Toutiao, Baijiahao, Penguin (QQ OM), Juejin, CSDN, Tencent Cloud, Aliyun, Bilibili, Xiaohongshu, Douyin, Zhihu, and LinuxSB.
-- **📊 Panoramic Interactive Dashboard**: Automatically outputs a standalone interactive `index.html` dashboard in the asset root directory, complete with embedded video players, illustration galleries, and multi-platform publishing status.
-
----
-
 ## 🔄 End-to-End Pipeline Workflow
 
 <p align="center">
-  <a href="./assets/doudou-ugc-workflow.html" title="Click to open interactive panoramic workflow">
-    <img src="./assets/workflow.gif" alt="Doudou All-in-One UGC Content Generation & Publishing Workflow" width="100%" />
-  </a>
+  <img src="./assets/workflow.gif" alt="Doudou All-in-One UGC Content Generation & Publishing Pipeline" width="100%" />
 </p>
-
-> 💡 **Interactive Diagram**: Open **[assets/doudou-ugc-workflow.html](./assets/doudou-ugc-workflow.html)** directly in your browser to experience animated trace execution, multi-chapter view modes, and light/dark theme switching.
-
-<details>
-<summary><b>📋 View Mermaid Topology</b></summary>
-
-```mermaid
-flowchart TD
-    MD[📄 Markdown Article] --> S1[1. Compliance & Sensitivity Audit\ntext-check-skill]
-    S1 -->|Approved| S2[2. External Link Standardization\nRef Appending]
-    S1 -.->|Violation| GATE[⚠️ Gate Block & Manual Revision]
-    GATE -.->|Revised| S1
-    S2 --> S3[3. Key Article Illustrations\nbaoyu-article-illustrator]
-    S3 --> S4[4. 5D Cover Image Design\nbaoyu-cover-image]
-    S4 --> S5[5. Image CDN Upload & Backfill\ndoudou-cdn]
-    S5 --> S6[6. WeChat MP Formatting\ngzh-design]
-    S5 --> S7[7. Xiaohongshu 4-Tier Cards\nbaoyu-xhs-images]
-    S5 --> S8[8. Remotion Cinematic Video\nshotcraft + talkcraft + tts]
-    S6 --> S9[9. 14 Platforms Draft Readiness\ndoudou-publish-skills]
-    S7 --> S9
-    S8 --> S9
-    S9 ==> S10[10. Panoramic Interactive Dashboard\nindex.html Dashboard]
-```
-
-</details>
 
 ---
 
 ## 📖 User Guide
 
-This skill library serves as an **automated UGC media production expert for AI Agents** (compatible with Antigravity, Claude Code, OpenCode, etc.).
+This skill library serves as an **automated UGC media production expert for AI Agents** (supporting Antigravity, Claude Code, OpenCode, etc.).
 
 ---
 
 ### 1. Installation
 
-Install into any target project root via the command line:
+Install into any target project root via command line:
 
 ```bash
 npx skills add undsky/doudou-UGC-skill --yes
@@ -90,16 +51,10 @@ npx skills add undsky/doudou-UGC-skill --yes
 
 ### 2. Usage
 
-Simply instruct the AI in natural language to process your Markdown article:
+Simply trigger with the command and your Markdown post to start the pipeline:
 
 ```text
-Process mds/AICoding/deepseek-guide.md through the full UGC pipeline and generate the dashboard
-```
-
-Or prepare full-platform publication readiness:
-
-```text
-Generate full UGC production assets and ready drafts across all platforms for articles/my-post.md
+/doudou-UGC articles/my-post.md
 ```
 
 ---
@@ -108,11 +63,11 @@ Generate full UGC production assets and ready drafts across all platforms for ar
 
 | Asset Showcase | Asset Showcase |
 | :---: | :---: |
-| **Panoramic Interactive HTML Dashboard**<br><br>![Panoramic Dashboard](./assets/1.png) | **01. Compliance & Sensitivity Audit Report**<br><br>![Compliance Audit](./assets/2.png) |
-| **02. Article Illustrations & Prompts**<br><br>![Article Illustrations](./assets/3.png) | **03. Tailored Cover Design Gallery**<br><br>![Cover Design](./assets/4.png) |
-| **04. CDN Asset Manifest & URL Mapping**<br><br>![CDN Asset Manifest](./assets/5.png) | **05. WeChat Formatting Preview**<br><br>![WeChat Formatting](./assets/6.png) |
-| **06. Xiaohongshu Infographic Cards**<br><br>![Infographic Cards](./assets/7.png) | **07. Remotion Short Video & Storyboard**<br><br>![Remotion Video](./assets/8.png) |
-| **08. Multi-Platform Publishing Matrix**<br><br>![Publishing Matrix](./assets/9.png) | |
+| **Panoramic Interactive Results Dashboard**<br><br>![Panoramic Interactive Results Dashboard](./assets/1.png) | **01. Content Compliance Audit Report**<br><br>![Content Compliance Audit Report](./assets/2.png) |
+| **02. Article Illustrations & Prompts**<br><br>![Article Illustrations & Prompts](./assets/3.png) | **03. Tailored Cover Design & Prompts**<br><br>![Tailored Cover Design & Prompts](./assets/4.png) |
+| **04. CDN Asset Manifest & URL Mapping**<br><br>![CDN Asset Manifest & URL Mapping](./assets/5.png) | **05. WeChat Formatting Effect**<br><br>![WeChat Formatting Effect](./assets/6.png) |
+| **06. Xiaohongshu / WeChat Infographic Cards**<br><br>![Xiaohongshu Infographic Cards](./assets/7.png) | **07. Remotion Short Video & Storyboard**<br><br>![Remotion Short Video & Storyboard](./assets/8.png) |
+| **08. Multi-Platform Publishing Matrix**<br><br>![Multi-Platform Publishing Matrix](./assets/9.png) | |
 
 ---
 
