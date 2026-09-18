@@ -63,14 +63,18 @@ path/to/article_name/
 ├── xhs_images/                           # 步骤 7：小红书/微信图文卡片 (baoyu-xhs-images)
 │   ├── prompts/                          # 小红书卡片 Prompt 文件
 │   └── images/                           # 生成的 3:4 图文卡片
-├── video/                                # 步骤 8：Remotion 短视频资产 (video-shotcraft + video-talkcraft + doudou-tts)
-│   ├── storyboard.md                     # 分镜脚本 (黄金钩子开场 + 镜头卡映射表 + 帧级时间轴)
+├── video/                                # 步骤 8：Remotion 短视频资产 (video-shotcraft + video-talkcraft + doudou-tts + 动画生态库)
+│   ├── storyboard.md                     # 分镜脚本 (黄金钩子开场 + 镜头卡映射表 + 帧级时间轴 + 素材与动效定义)
+│   ├── assets/                           # 视频专用素材库 (严禁挪用 cover/ 与 xhs_images/)
+│   │   ├── svg/                          # 分镜量身定制的矢量 SVG 图形/架构图/图标 (配合 @remotion/paths 路径动画)
+│   │   ├── images/                       # 分镜专属 AI 配图 (针对性提示词生图)
+│   │   └── prompts/                      # 专属生图提示词记录
 │   ├── narration/                        # edge-tts 配音与字幕
 │   │   ├── shot_NN.mp3                   # 各分镜配音音频 (edge-tts，云扬/晓晓等音色)
 │   │   └── shot_NN.srt                   # 与音频对齐的 SRT 字幕 (--srt 产出)
 │   ├── qa/                               # 逐镜头静帧验收档案 (npx remotion still)
 │   ├── article_name.mp4                  # ⭐ 终渲成片 (按字数规划：每 500 字约 1 分钟，≥ 60s，含配音与 SFX)
-│   └── video_manifest.json               # 视频元数据 (时长、分辨率、分镜清单、镜头卡、音色、渲染耗时)
+│   └── video_manifest.json               # 视频元数据 (时长、分辨率、分镜清单、镜头卡、动画生态库、音色、渲染耗时)
 └── publishes/                            # 步骤 9：多平台发布状态清单 (/doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb)
     └── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、就绪状态、时间等)
 ```
@@ -227,19 +231,25 @@ path/to/article_name/
 
 ---
 
-### 8. 生成 Remotion 短视频 (`/video-shotcraft` + `/video-talkcraft` + `/doudou-tts` + `/remotion-best-practices`)
+### 8. 生成 Remotion 短视频 (`/video-shotcraft` + `/video-talkcraft` + `/doudou-tts` + `/remotion-best-practices` + 动画生态库)
 
-- **执行目标**：综合分析**目标 Markdown 原文**与**同名产物目录下已生成的全部资料**（`illustrations/`、`cover/`、`xhs_images/` 及各自的 Prompt——**深度分析 Prompt 的核心目的是理解图像语义与构图特征，精准判断每张图片能否以及如何有机融入到对应分镜的画面中**），**根据目标 Markdown 原文字数规划视频时长（每 500 字生成 1 分钟左右的视频，且总时长不小于 60 秒）**，制作解说短视频。
+- **执行目标**：综合分析**目标 Markdown 原文**核心叙事，**根据目标 Markdown 原文字数规划视频时长（每 500 字生成 1 分钟左右的视频，且总时长不小于 60 秒）**，制作极具动态质感、信息密集与电影级视觉冲击力的解说短视频。
+- **素材来源升级规约（严禁挪用 `cover/` 与 `xhs_images/`）**：
+  - ❌ **绝对禁止从 `cover/` 或 `xhs_images/` 中获取或拼凑视频素材**：封面图（大横版/方形）与小红书图文卡片（3:4 竖版且包含大段排版文本）是专为静态社交媒体设计的，直接硬塞入视频分镜会导致严重的“PPT 盆景效应”、画面版式割裂、大面积黑边或文字冗余定格。
+  - ✅ **分镜量身定制双轨制素材体系**：全片每个分镜的视觉资产必须根据分镜脚本需求量身打造，采用以下双轨制生成并严格归档到 `video/assets/`：
+    1. **矢量 SVG 动态素材（高频首选）**：针对技术架构、系统拓扑、执行时序、核心概念对比、步骤拆解、关键数据看板及指示图标，直接根据分镜需求生成高质量纯矢量 SVG 素材（或封装为 React SVG 组件），保存至 `video/assets/svg/`。SVG 具备无限放大不失真、极小体积、原生支持 CSS/Tailwind 样式，并能与 `@remotion/paths` 完美融合，实现**路径描边生长（Path drawing）**、**形状形变过渡（Morphing）**与**连线脉冲光效**；
+    2. **分镜专属定制生图（氛围与视觉焦点）**：针对需要具象画面、概念场景隐喻、戏剧化冲突或高冲击力视觉中心的分镜，使用生图工具（优先使用 **`generate_image`**，无可用时使用 **`/doudou-image`** `--prompt-file` + `-o`）根据该分镜的景别（特写/中景/全景）、构图与专属提示词针对性生成，保存至 `video/assets/images/`（生图提示词统一记录于 `video/assets/prompts/`）。真正做到一镜一图、景画交融。
 - **遵循 Remotion 最佳实践**：全程严格遵循 Remotion 最佳实践（`/remotion-best-practices`），确保组件架构、动效计算、确定性渲染与工程化规范达标。
 - **画幅与分辨率自主选择规约（横屏 vs 竖屏）**：
   - 生成的视频画幅规格**必须由用户在步骤 8 门禁中自主选择**：
     - 🖥️ **横屏（16:9，1920×1080）**
     - 📱 **竖屏（9:16，1080×1920）**
-- **技能协同分工**：
+- **技能与技术栈协同分工**：
   - **最佳实践规范**：`/remotion-best-practices`：遵循 Remotion 官方架构规范、组件生命周期、动画计算准则、确定性渲染与工程化最佳实践。
   - **分镜与镜头动效（双引擎协同）**：
     - `/video-shotcraft`：提供电影感与产品镜头配方卡库（附 demo 源码与动态样片画廊）、Ink Press 模板、可复用组件（PageCam / ClipCard / Caption 等）与声明式钉帧音效库。
     - `/video-talkcraft`：提供口播/解说动效配方卡库、七层反 PPT 运镜系统（CameraRig/视差/让位/环境）、SHOTBOOK 三面分层工作单、Apple 视觉范式与字级时间戳节拍锚定。
+  - **动画生态库全家桶深度赋能（`undsky/package.json:L10-L27`）**：全面激活项目已安装的 16 个动画与视觉增强库（`@remotion/paths`、`@remotion/rough-notation`、`@remotion/mac-cursors`、`@remotion/motion-blur`、`@remotion/noise`、`@remotion/shapes`、`@remotion/three`、`@remotion/effects`、`@remotion/captions` 等），构建全景动画赋能矩阵。
   - **配音与字幕**：`/doudou-tts` 的 **edge-tts** 引擎（`scripts/edgetts.py`），**必须使用 edge-tts，不使用 cosyvoice**（后者慢到分钟级、且本流程无音色克隆需求）。
   - **渲染引擎**：Remotion（30fps；按用户选定的横屏 1920×1080 或竖屏 1080×1920 注册 Composition 并渲染输出）。
 
@@ -252,7 +262,15 @@ path/to/article_name/
    - 钩子的三种可选句式（择一，取自文章原文的真实冲突）：**痛点直击**（"在我电脑上明明是好的"）、**反常识断言**（"工具换了一轮又一轮，其实都是在换马甲"）、**代价前置**（"少了这一步，客户后端直接 JSON 解析报错"）。
    - 钩子镜头结束时必须给出**本片承诺**（观众看完能得到什么），承诺随后必须在正文段被兑现。
 2. **叙事骨架（钩子之后）**：按「**冲突 → 拆解 → 兑现 → 收束**」推进——痛点冲突段（问题有多贵）→ 方法拆解段（核心架构 / 原则，对应文章主干小节）→ 价值兑现段（能换来什么结果）→ 品牌收束段（字标落定 + 引导关注）。
-3. **分镜表（四列，与 video-shotcraft 阶段 3 对齐）**：`| # | 时间(帧) | 镜头卡 | 关键动效与画面内容 |`，另附**帧级时间轴** `| shot | from | duration | 内容 |`，并逐镜标注：解说文案（口播原文）、字幕、素材来源（引用产物目录中的具体图片路径，基于 Prompt 图像语义与构图分析判断其能否以及如何融入当前分镜）、转场与 SFX。
+3. **分镜表与素材动效标注（与两大技能及动画库深度对齐）**：
+   - 分镜表结构：`| # | 时间(帧) | 镜头卡 | 关键动效与画面内容 | 素材形式与路径 | 调用的动效库 |`
+   - 另附**帧级时间轴** `| shot | from | duration | 内容 |`
+   - 逐镜必须详细标注：
+     - **解说文案**（口播原文）
+     - **字幕**（6~14 字精悍短句）
+     - **素材来源**：明确标注为【专属定制 SVG】（附 SVG 结构构想、路径连线设计）或【专属 AI 生图】（附生图 Prompt、景别、构图主体与视觉焦点），**严禁引用 cover/ 或 xhs_images/**；
+     - **调用的动效库**：明确标注当前镜头使用了哪些已安装库（如 `@remotion/paths` 路径生长 + `@remotion/rough-notation` 下划线 + `@remotion/mac-cursors` 点击 + `@remotion/motion-blur` 残影）；
+     - **转场与 SFX**（钉帧音效与运镜转场）。
 4. **单分镜时长红线（硬约束，≤ 10 秒）**：
    - **单镜严格控制在 10 秒以下**：**全片每一个分镜的时长必须严格控制在 10 秒以下（≤ 300 帧，推荐黄金区间为 3~7 秒）**，杜绝任何单镜超时拖沓。
    - **长文案拆解切镜**：若某个核心论点、架构拆解或操作演示的口播文案较长（超过 10 秒），**严禁单镜头超时死扛，必须拆解为多个连贯递进的子镜头或独立分镜（如 S2a/S2b 或 S2/S3）**，通过切换视角、局部特写、动效变体或卡片递进，实现高频切镜与信息高动态刷新。
@@ -260,9 +278,9 @@ path/to/article_name/
    - **紧凑节奏**：全片节奏保持利落紧凑，信息密度饱满。**特别是镜头与段落转场时，绝对不要出现长时间停顿**（音频结束与下一镜头切入之间的间隙严格控制在 0.1~0.25 秒 / 3~8 帧以内，紧密咬合，严禁黑屏死等或静止空镜拖沓）。
    - **全片时长规划**：视频总时长根据目标 Markdown 原文字数规划，每 500 字生成 1 分钟左右的视频（总时长原则上不小于 60 秒，30fps 即每分钟约 1800 帧），全片由多个 ≤ 10 秒的高频短分镜组合构成。
    - **呼吸位克制**：品牌字标落定 hold 0.5s~0.8s 即可，批量动效收尾留 0.3s 缓冲；**全片绝对不要出现超过 3 秒画面一直不变的情况**（长镜头中必须持续注入微运镜推拉、慢速平移、视差浮动、文字逐行/逐词浮现或光效流动，杜绝死板定格）。
-6. **一镜一动效**：同一种动画手法（飞入 / 堆叠 / 翻页）全片只当一次主角，重复镜头与重复 tagline 一律删。
+6. **一镜一核心动效**：同一种动画手法（飞入 / 堆叠 / 翻页）全片只当一次主角，重复镜头与重复 tagline 一律删。
 
-#### 8.2 镜头与动效配方卡挑选（从双技能动态检索）
+#### 8.2 镜头与动效配方挑选及动画全家桶赋能
 
 1. **从双技能库动态检索配方卡**：
    - 在为分镜挑选镜头动效时，**必须直接从两大动效技能中动态检索最新卡库**：
@@ -274,14 +292,39 @@ path/to/article_name/
        - **总纲体系与全景速查**：动态读取 `<video-talkcraft技能目录>/references/taxonomy.md`（包含全部分类与配方卡的完整体系清单、解决问题、一句话动作与命门纪律）。
        - **单卡技术规范与避坑**：直接读取 `<video-talkcraft技能目录>/references/cards/<slug>.md`。
        - **Remotion 参考实现源码**：直接定位并读取 `<video-talkcraft技能目录>/template/cards/<slug>.tsx`。
-2. **逐镜独立推荐与自主选择规约（硬约束）**：
+
+2. **已安装 Remotion 动画库全景赋能矩阵（`undsky/package.json:L10-L27`）**：
+   在分镜组件实现中，必须按分镜叙事形态灵活编排下列 16 个已安装的生态库，极大拓展动态表现力：
+
+   | 依赖包名称 | 核心能力定位 | 在视频分镜中的高阶动画实践与视觉赋能 | 典型适用分镜与场景 |
+   | :--- | :--- | :--- | :--- |
+   | **`@remotion/paths`** | SVG 路径动画与形变 | • 使用 `evolvePath()` 驱动 SVG 架构拓扑连线、业务流程图、连接箭头的**动态逐段描边生长**<br>• 使用 `getPointAtLength()` 驱动光标、脉冲光点沿路径游走导航<br>• 路径变形（Path morphing）实现图表形态平滑过渡 | 架构拆解、流程链路、数据折线图 |
+   | **`@remotion/rough-notation`** | 手绘笔触划重点与标注 | • `underline`：动态手绘下划线划出金句重点<br>• `box` / `circle`：手绘红/黄方框或线圈精准圈中核心痛点与关键天坑<br>• `highlight`：荧光笔涂抹高亮反常识结论<br>• `strike-through`：手绘删除线推翻错误认知 | 黄金钩子、痛点直击、反常识断言、核心结论 |
+   | **`@remotion/mac-cursors`** | 拟真 macOS 鼠标光标交互 | • 原生 Mac 光标（`Cursor`：Default/Pointer/Text）平滑移动与物理减速<br>• 模拟真实点击与水波纹扩散动效（Click Ripple）<br>• 文本划选高亮、卡片拖拽位移演示 | CLI 终端操作、软件功能演示、UI 交互交互 |
+   | **`@remotion/motion-blur`** | 物理快门级动态模糊 | • 使用 `<CameraMotionBlur>` 赋予高速运镜、卡片飞入、转场甩镜真实的快门残影<br>• 彻底消除生硬的帧跳跃与数码机械感，带来院线电影质感 | 快速切镜、撞停震屏、卡片高速入场 |
+   | **`@remotion/noise`** | 程序化柏林/单纯形噪波 | • 手持摄影机微晃（Handheld Camera Shake），为长镜头注入有机呼吸感<br>• 动态流光背景、极光有机流动、微粒子空间漂移（破解定格 >3s） | 背景环境光、全景微运镜、悬浮粒子底景 |
+   | **`@remotion/shapes`** | 参数化几何图形与变形 | • `Circle`、`Rect`、`Triangle`、`Star`、`Polygon` 等矢量几何快速构建<br>• 几何图形爆裂展开（Burst）、展开式多层底衬、百分比进度圆环（Pie） | 徽章展示、指标大板、装饰性几何动效 |
+   | **`@remotion/three`**<br>+ `@react-three/fiber`<br>+ `three` | 3D 空间建模与立体运镜 | • 3D 悬浮立体卡片翻转、3D 粒子星空、空间连线网格矩阵<br>• 三维摄像机环绕运镜（Orbiting / Fly-through），营造深邃空间感 | 空间架构透视、底层基建总览、品牌收束 |
+   | **`@remotion/effects`** | 后期级光学滤镜与视效 | • **辉光（Glow / Bloom）**：核心节点、高亮代码、高能关键词外发光<br>• **色散分离（Chromatic Aberration）**：黄金钩子冲突瞬间的故障震荡风<br>• **暗角（Vignette）**与**景深虚化（Blur）**：强化舞台视线聚焦 | 视觉冲击高潮、警报故障、聚焦中心舞台 |
+   | **`@remotion/captions`** | 智能字幕解析与动态高亮 | • 精准解析 edge-tts 生成的 SRT 词级时间轴<br>• 词级放大弹跳（Word Pop）、卡拉OK式逐词点亮、平滑跟随胶囊 | 全片口播字幕呈现 |
+   | **`@remotion/lottie`**<br>+ `lottie-web` | 工业级矢量微动效 | • 嵌入矢量微动画（点赞爆发、雷达扫描、警告闪烁、火箭升空、盾牌防御）<br>• 帧级精准受控播放，与口播台词节奏严丝合缝 | 动作引导、安全防护概念、CTA 尾页 |
+   | **`@remotion/gif`** | GIF 动图受控渲染 | • 播放速度、循环、暂停受控的像素风/表情包动态穿插 | 趣味性插播、痛点吐槽 |
+   | **`@remotion/media`**<br>+ `media-utils` | 媒体处理与音频可视化 | • 根据配音或 BGM 音轨实时生成动态音频跳动波形（Audio Visualizer）<br>• 智能探测媒体资源尺寸与时长，确保资源零抖动加载 | 底部声波律动、配音节奏可视化 |
+   | **`@remotion/layout-utils`** | 容器自适应测量 | • 动态测量文本与组件的实际渲染尺寸，卡片容器随文字平滑缩放 | 动态药丸胶囊、自适应提示框 |
+   | **`@remotion/transitions`** | 原生电影级转场系统 | • `<TransitionSeries>` 结合 slide, wipe, flip, fade 等无缝咬合转场 | 分镜之间的转场衔接 |
+   | **`@remotion/tailwind-v4`**<br>+ `tailwindcss` | 现代化 UI 样式体系 | • 极速装配 Apple 范式磨砂玻璃（backdrop-blur）、精细渐变边框与阴影 | 全片 UI 舞台、信息卡片、代码容器 |
+   | **`@remotion/animation-utils`**| 高阶插值与弹簧函数 | • 自定义贝塞尔曲线、多段复合插值计算、能量衰减曲线 | 镜头物理加速、重力落地缓冲 |
+
+3. **逐镜独立推荐与自主选择规约（硬约束）**：
    - **每一个分镜分别独立筛选推荐**：严禁将全片镜头打包为一个整体组合选项，**必须针对分镜脚本中的每一个分镜（如 S1、S2、S3、S4、S5、S6...）分别独立从上述技能中动态检索并推荐**。针对每一个分镜，综合其叙事能量、信息形态（痛点直击/概念对比/架构扫描/终端演示/指标大板/品牌收束）与画面素材特征，**为该分镜单独筛选出至少 3 个最契合的候选动效配方卡**（注明所属技能来源、卡名、动作语法、视觉风格、呈现重点与适用场景）。
    - **交互门禁逐镜独立设问**：在步骤 8 门禁（`ask_question`）中，**必须针对每一个分镜分别设立独立的选择题项**（如【S1 痛点直击 配方卡选择】、【S2 天坑拆解 配方卡选择】...），确保用户能够对每一个镜头的动效形式进行精细化自主裁决。
    - 用户逐镜分别确认或选择后，形成最终的**分镜到镜头卡映射表**写入 `storyboard.md`。
-3. **三读硬规则（不可跳）**：选定后 → 校验卡名与 `style-key` → **读该配方卡全文** → 按卡片「参考实现」定位并**读准确的 demo TSX 源码全文** → 把对应组件 **copy 进** `src/videos/<article_name>/lib/`（不 import 原库）。
+
+4. **三读硬规则（不可跳）**：选定后 → 校验卡名与 `style-key` → **读该配方卡全文** → 按卡片「参考实现」定位并**读准确的 demo TSX 源码全文** → 把对应组件 **copy 进** `src/videos/<article_name>/lib/`（不 import 原库）。
    - **配方卡「已知坑 / 命门」标注的参数不得降档**，允许按本文章素材做适配性改动，质量标准只升不降。
    - 凭卡名与理解自行新写 = 放弃全部调校积累，实测质感差一档，**禁止**。
-4. **视觉语言从素材生长**：全片配色、字体、圆角与质感必须复用文章产物的视觉 tokens（从 `cover/` 与 `xhs_images/` 图片及其 Prompt 中提取主色与调性），镜头卡只继承运动语法与已调参数，**皮肤按本文章重新蒙皮**。
+
+5. **视觉语言与 Design Tokens 独立确立**：全片配色、字体、圆角与质感必须确立一套统一的 Design Tokens（基于文章所属技术题材、核心主题色与首要视觉素材），为全片建立高质感 Dark/Cyber/Apple 视觉范式，**严禁从 `cover/` 与 `xhs_images/` 提取**。镜头卡继承运动语法与已调参数，皮肤按全片 Design Tokens 统一蒙皮。
 
 #### 8.3 配音与字幕（`doudou-tts` edge-tts）
 
@@ -290,6 +333,7 @@ path/to/article_name/
 2. **字幕短句流式切分与防臃肿红线（强制 Chunking，禁大文本块）**：
    - **严格单行流式推进**：严禁把超过 15 字或复合长句直接作为单条字幕上屏！
    - **强制切碎（Chunking）**：字幕必须按逗号、停顿与语义切分为 **6~14 字的精悍短句**，随语流实时切换，每次只呈现当前正在说的那一小句。
+   - **结合 `@remotion/captions` 动态高亮**：解析 SRT 词级时间戳，实现卡拉OK高亮或当前词缩放弹跳（Word Pop）。
    - **严禁大块霸屏**：字幕严禁出现 3 行及以上的笨重大文本块；字幕容器采用自适应单行药丸形态（`white-space: nowrap`，微透磨砂玻璃），绝不遮挡中间核心内容卡片。
 3. **逐镜头合成**：按 `storyboard.md` 中每个分镜的解说文案，逐镜调用 edge-tts，产物落到 `path/to/article_name/video/narration/`：
 
@@ -321,12 +365,15 @@ path/to/article_name/
    - 镜头与时间线源码写进 `src/videos/<article_name>/`（`scenes/`、`lib/`、`theme.ts`、`captions.ts`、`sfx.tsx`、`<Name>Video.tsx`）。
    - Composition 在根 `src/Root.tsx` 中挂载注册（30fps，根据用户选择的画幅注册为横屏 1920×1080 或竖屏 1080×1920），入口仍是根 `src/index.ts`。
    - 渲染与静帧一律在**仓库根目录**执行，沿用根 `remotion.config.ts`（rspack / jpeg / overwriteOutput / tailwind）。
-2. **素材接入**：把产物目录中的卡片、插图与封面、各镜配音与所需 SFX / BGM copy 到**根 `public/` 下按文章分目录**（`public/<article_name>/textures|audio|sfx|bgm/`，`staticFile()` 按此前缀取），图片以真实素材入场（**禁止手搓 UI 复刻已有卡片**）；`<Audio>` 挂各镜配音与 BGM。
+2. **素材接入与严禁挪用**：
+   - 把产物目录下 `video/assets/` 中的分镜量身定制资产（专属 SVG `video/assets/svg/`、专属生图 `video/assets/images/`）、各镜配音与所需 SFX / BGM 拷贝到**根 `public/` 下按文章分目录**（`public/<article_name>/images|svg|audio|sfx|bgm/`，`staticFile()` 按此前缀取）。
+   - ❌ **绝对禁止从 `cover/` 或 `xhs_images/` 拷贝素材到视频工程**。分镜画面通过“**专属定制生图 + 矢量 SVG 路径 + 现代 UI 组件 + 深度动画生态库**”深度编排呈现。
+   - `<Audio>` 挂各镜配音与 BGM。
 3. **声音设计**：SFX 从 `video-shotcraft/assets/audio/sfx/<类别>/` 取（运镜→`transition`、落地→`impact`、铺垫→`riser`、光效→`light`、打字→`text`），用**声明式钉帧表**集中管理（`{ from, src, volume }[]`，`from` 一律写 `SHOTS.x.from + offset` 相对表达式，禁裸帧号）；长样本（>5s）必须显式给 `durationInFrames`。结尾固定句式：riser → impact（字标落地，音量峰值）→ sparkle（取自 `light/`）。
 4. **确定性渲染铁律**：禁 `Date.now()` / `Math.random()` / 无参 `new Date()`，一切伪随机用固定种子（mulberry32 / 哈希，seed 从 index 派生）。
 5. **逐镜静帧验收**：每镜实现完成即在仓库根目录跑 `npx remotion still src/index.ts <Comp> mds/<分类>/<article_name>/video/qa/<name>.png --frame=<N>`，肉眼检查构图 / 穿帮 / 文字锐度后才算完成；静帧归档 `video/qa/`。
 6. **终渲与产物**：在仓库根目录跑 `npx remotion render src/index.ts <Comp> mds/<分类>/<article_name>/video/<article_name>.mp4`。
-7. **元数据落盘**：将时长、分辨率、fps、分镜清单、所用镜头卡与变体、配音音色、渲染耗时结构化写入 `path/to/article_name/video/video_manifest.json`。
+7. **元数据落盘**：将时长、分辨率、fps、分镜清单、所用镜头卡与变体、调用的动画生态库、配音音色、渲染耗时结构化写入 `path/to/article_name/video/video_manifest.json`。
 
 8. **视口饱满度与防大黑边规范（硬红线，严禁小卡片悬空盆景效应）**：
    - **16:9 横屏（1920×1080）**：
@@ -341,6 +388,8 @@ path/to/article_name/
 
 渲染完成后逐条核验，任一不通过则回到对应环节修复：
 
+- ✅ **素材专属定制达标（严禁挪用 cover/xhs_images）**：全片严禁从 `cover/` 或 `xhs_images/` 挪用图片拼凑画面；所有分镜配图均为定制 SVG 矢量资产或分镜专属 AI 生成画面，且素材存放在 `video/assets/` 下。
+- ✅ **动画生态库赋能达标**：全片充分编排并应用了 `undsky/package.json` 中的动画生态库（如 `@remotion/paths` 路径生长、`@remotion/rough-notation` 手绘重点、`@remotion/mac-cursors` 光标操作、`@remotion/motion-blur` 残影、`@remotion/noise` 手持微晃等），动效丰富、饱满且契合叙事。
 - ✅ **遵循 Remotion 最佳实践**：严格遵循 Remotion 最佳实践（`/remotion-best-practices`），包括确定性渲染（严禁 `Math.random()`/时间戳污染）、规范使用 `interpolate`/`spring` 动效驱动、合理的组件分层与时序管理、静态资源使用 `staticFile()` 等。
 - ✅ **视口饱满度达标（严禁大面积空旷留黑）**：横屏主舞台高度必须 ≥ 700px 且宽度 ≥ 1680px（垂直利用率 ≥ 75%，水平利用率 ≥ 88%）；竖屏主舞台宽度必须 ≥ 940px 且高度 ≥ 1300px。杜绝矮小卡片悬空与四周大面积黑死区。
 - ✅ **时长达标**：成片总时长符合字数规划（每 500 字约 1 分钟，且 ≥ 60 秒）。
@@ -350,7 +399,7 @@ path/to/article_name/
 - ✅ **绝对防静止（严禁定格 >3s）**：**全片绝对不要出现超过 3 秒画面一直不变的情况**（镜头内必须保持持续微动效、慢速推拉、视差漂移、扫光或文字渐显，严禁静态死板画面）。
 - ✅ **音画同步**：每镜画面切换晚于该镜配音结束，字幕与人声逐句对齐。
 - ✅ **镜头卡还原度**：保留所选卡（`video-shotcraft` / `video-talkcraft`）的动作语法、关键时值与「已知坑 / 命门」参数。
-- ✅ **视觉一致**：配色字体与文章封面 / 卡片同源，非另造一套宣传片皮肤。
+- ✅ **视觉一致**：Design Tokens 统一，配色、字体与质感贯穿全片。
 - ✅ **文字锐度**：推进特写下文字不糊（先查 2x 纹理与栅格化路径，别先动景深）。
 - ✅ **无哑巴段落**：每个镜头都有解说或字幕承载新信息。
 
