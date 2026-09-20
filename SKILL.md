@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成、封面图生成、图片 CDN 上传、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），实现从**内容审查、外链引用规范化、配图、封面、CDN 加速、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布状态清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -28,7 +28,7 @@ node <doudou-image技能目录>/scripts/generate.mjs \
   -o path/to/article_name/.../images/NN-xxx.png
 ```
 
-- 图片始终落本地文件；**不要**在生图阶段上传 CDN。公开链接仍由步骤 5 统一调用 `/doudou-cdn` 处理。
+- 生图脚本始终本地落盘；图片落盘后紧接着在对应环节（步骤 3 配图与步骤 4 封面图）内部直接调用 `/doudou-cdn` 完成上传并维护 `cdn_manifest.json`。
 - 默认不传 `--model`；禁止手拼 curl 调生图接口。
 - 比例 / 画幅写进 Prompt 正文（该脚本无独立宽高参数）。
 
@@ -48,22 +48,22 @@ node <doudou-image技能目录>/scripts/generate.mjs \
 
 ```text
 path/to/article_name/
-├── index.html                            # 步骤 10：一站式产物结果汇总看板 (HTML Dashboard，含视频播放器、多平台发布状态)
+├── index.html                            # 步骤 9：一站式产物结果汇总看板 (HTML Dashboard，含视频播放器、多平台发布状态)
 ├── 01_compliance_report.md              # 步骤 1：合规性与敏感词审查报告 (text-check-skill)
 ├── illustrations/                        # 步骤 3：文章插图资产 (baoyu-article-illustrator)
 │   ├── prompts/                          # 插图 Prompt 文件 (如 01-infographic-arch.md)
-│   └── images/                           # 生成的高清插图 (如 01-arch.png 及步骤 5 下载的 01-arch_thumb.png)
-├── cover/                                # 步骤 4：封面图资产 (baoyu-cover-image)
+│   └── images/                           # 生成的高清插图 (如 01-arch.png 及由 doudou-cdn 自动生成的 01-arch_thumb.png)
+├── cover/                                # 步骤 4：封面图资产 (baoyu-cover-image，只上传CDN供发布绑定，不插入正文)
 │   ├── prompts/                          # 封面 Prompt 文件
-│   └── images/                           # 生成的封面图 (2.35:1 / 16:9 / 1:1 及步骤 5 下载的 _thumb 缩略图)
-├── cdn_manifest.json                     # 步骤 5：CDN 上传清单与 URL 映射表 (doudou-cdn)
-├── article_name_cdn.md                   # 步骤 5：已将本地图片无缝替换为 CDN URL 的 Markdown
-├── article_name_排版_{主题中文名}({英文标识}).html   # 步骤 6：公众号纯排版正文片段 (gzh-design 原生产物)
-├── article_name_排版_{主题中文名}({英文标识})_预览.html # 步骤 6：带一键复制功能的公众号预览页 (gzh-design 原生产物)
-├── xhs_images/                           # 步骤 7：小红书/微信图文卡片 (baoyu-xhs-images)
+│   └── images/                           # 生成的封面图 (2.35:1 / 16:9 / 1:1 及由 doudou-cdn 自动生成的 _thumb 缩略图)
+├── cdn_manifest.json                     # 步骤 3 & 4：CDN 上传清单与 URL 映射表 (doudou-cdn 维护)
+├── article_name_cdn.md                   # 步骤 3：已在对应位置回填插图 CDN URL 的图床化 Markdown (封面图不插入)
+├── article_name_排版_{主题中文名}({英文标识}).html   # 步骤 5：公众号纯排版正文片段 (gzh-design 原生产物)
+├── article_name_排版_{主题中文名}({英文标识})_预览.html # 步骤 5：带一键复制功能的公众号预览页 (gzh-design 原生产物)
+├── xhs_images/                           # 步骤 6：小红书/微信图文卡片 (baoyu-xhs-images)
 │   ├── prompts/                          # 小红书卡片 Prompt 文件
 │   └── images/                           # 生成的 3:4 图文卡片
-├── video/                                # 步骤 8：Remotion 短视频资产 (video-shotcraft + video-talkcraft + doudou-tts + 动画生态库)
+├── video/                                # 步骤 7：Remotion 短视频资产 (video-shotcraft + video-talkcraft + doudou-tts + 动画生态库)
 │   ├── storyboard.md                     # 分镜脚本 (黄金钩子开场 + 镜头卡映射表 + 帧级时间轴 + 素材与动效定义)
 │   ├── assets/                           # 视频专属定制素材库 (配合 cover/ 与 xhs_images/ 协同呈现)
 │   │   ├── svg/                          # 分镜量身定制的矢量 SVG 图形/架构图/图标 (配合 @remotion/paths 路径动画)
@@ -75,17 +75,17 @@ path/to/article_name/
 │   ├── qa/                               # 逐镜头静帧验收档案 (npx remotion still)
 │   ├── article_name.mp4                  # ⭐ 终渲成片 (按字数规划：每 500 字约 1 分钟，≥ 60s，含配音与 SFX)
 │   └── video_manifest.json               # 视频元数据 (时长、分辨率、分镜清单、镜头卡、动画生态库、音色、渲染耗时)
-└── publishes/                            # 步骤 9：多平台发布状态清单 (/doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb)
+└── publishes/                            # 步骤 8：多平台发布状态清单 (/doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb)
     └── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、就绪状态、时间等)
 ```
 
-> **步骤 8 的 Remotion 源码不落在产物目录**：短视频**直接复用仓库根目录既有的 Remotion 工程**（不另建自包含工程、不新装依赖）——镜头与时间线源码写进根 `src/videos/<article_name>/`，静态素材放根 `public/<article_name>/`，Composition 注册在根 `src/Root.tsx`。产物目录只收**产物**：分镜脚本、配音字幕、静帧验收、成片与元数据。
+> **步骤 7 的 Remotion 源码不落在产物目录**：短视频**直接复用仓库根目录既有的 Remotion 工程**（不另建自包含工程、不新装依赖）——镜头与时间线源码写进根 `src/videos/<article_name>/`，静态素材放根 `public/<article_name>/`，Composition 注册在根 `src/Root.tsx`。产物目录只收**产物**：分镜脚本、配音字幕、静帧验收、成片与元数据。
 
 ---
 
 ## 全流程依次执行指南
 
-当接收到目标 Markdown 文件时，依次执行以下 10 个环节：
+当接收到目标 Markdown 文件时，依次执行以下 9 个环节：
 
 ### 0. 准备同名工作目录
 
@@ -138,70 +138,45 @@ path/to/article_name/
 
 ---
 
-### 3. 文章配图 (`/baoyu-article-illustrator`)
+### 3. 文章配图生成、CDN 同步与正文回填 (`/baoyu-article-illustrator` + `/doudou-cdn`)
 
-- **执行目标**：分析文章脉络并在关键信息节点生成高清配图。
+- **执行目标**：分析文章脉络并在关键信息节点生成高清配图，生图后立即上传 CDN 并将 URL 精准插入到文章对应配图位置，生成图床化文章文件 `path/to/article_name/article_name_cdn.md`。
 - **调用逻辑**：
-  1. 分析文章信息密度与逻辑结构，识别适合配图的位置（信息图 `infographic`、流程图 `flowchart`、架构图 `framework`、对比图 `comparison`、场景图 `scene` 等）。
-  2. 生成符合 Type × Style × Palette 三维标准的绘图提示词，保存至 `path/to/article_name/illustrations/prompts/NN-[type]-[slug].md`。
+  1. **识别配图位置**：分析文章信息密度与逻辑结构，识别适合配图的位置（信息图 `infographic`、流程图 `flowchart`、架构图 `framework`、对比图 `comparison`、场景图 `scene` 等），并明确记录各配图在文章中的插入位置与上下文锚点（如紧跟哪一小节标题或特定段落之后）。
+  2. **生成提示词**：生成符合 Type × Style × Palette 三维标准的绘图提示词，保存至 `path/to/article_name/illustrations/prompts/NN-[type]-[slug].md`。
   3. **生图调用**：优先调用内置 **`generate_image`**，若无则调用 **`/doudou-image`**（`--prompt-file` 读取上一步 Prompt，`-o` 指定落盘路径）。生成的图片保存至 `path/to/article_name/illustrations/images/NN-[slug].png`。
-
----
-
-### 4. 封面图 (`/baoyu-cover-image`)
-
-- **执行目标**：为文章设计匹配的高质感封面。
-- **调用逻辑**：
-  1. 提炼核心主题与标题，按 5 维框架（Type, Palette, Rendering, Text, Mood）定制封面提示词。
-  2. 针对公众号与全网分发，生成标准主封面（`2.35:1` 或 `16:9`）与次级封面（`1:1`）。
-  3. Prompt 保存至 `path/to/article_name/cover/prompts/`。
-  4. **生图调用**：优先使用 **`generate_image`** 出图，缺失时再调用 **`/doudou-image`**（`--prompt-file` + `-o`）。生成的封面图片保存至 `path/to/article_name/cover/images/`。
-
----
-
-### 5. 图片上传到 CDN 与缩略图同步 (`/doudou-cdn`)
-
-- **执行目标**：将生成的本地配图与封面图批量同步至 CDN 图床，实现 CDN 加速并回填 Markdown，缩略图生成由 `doudou-cdn` 技能自身全权控制。
-- **统一使用 `/doudou-cdn` 技能**：
-  - **由技能自主决定**：上传通道、模式与缩略图生成由技能 `/doudou-cdn` 自身全权控制与调度。
-  - **显式指定通道**：用户若明确指定通道，可直接传入通道参数（`-r` 强制走 Cloudflare R2 直传，`-g` 强制走 GitHub 直传，`-a` 强制走公共 API）。
-- **调用逻辑**：
-  1. **执行上传**：
-     调用 `/doudou-cdn` 技能上传脚本将 `illustrations/images/` 和 `cover/images/` 下的所有图片上传至 CDN：
-
+  4. **立即上传 CDN 并生成缩略图**：
+     生图完成后，立即调用 `/doudou-cdn` 上传脚本将 `illustrations/images/` 下生成的插图批量/逐个同步至 CDN 图床：
      ```bash
-     node <doudou-cdn技能目录>/scripts/upload.mjs <图片文件...> --format json
+     node <doudou-cdn技能目录>/scripts/upload.mjs <插图文件...> --format json
      ```
-
-     - 默认由 `doudou-cdn` 技能自主决定最优上传通道并控制缩略图生成；
-     - 若用户显式要求使用 Cloudflare R2 存储桶，添加 `-r` 参数：
-       ```bash
-       node <doudou-cdn技能目录>/scripts/upload.mjs <图片文件...> -r --format json
-       ```
-     - 若用户显式要求使用 GitHub 仓库图床，添加 `-g` 参数：
-       ```bash
-       node <doudou-cdn技能目录>/scripts/upload.mjs <图片文件...> -g --format json
-       ```
-
-  2. **解析公开 CDN 链接并生成清单**：
-     解析命令返回的 JSON 结构，获取各图片的公开 CDN 链接，生成映射清单保存至 `path/to/article_name/cdn_manifest.json`：
-     ```json
-     {
-       "files": [
-         {
-           "local_path": "illustrations/images/01-framework.png",
-           "cdn_url": "https://...",
-           "thumb_path": "illustrations/images/01-framework_thumb.png"
-         }
-       ]
-     }
-     ```
-  3. **缩略图由 `doudou-cdn` 自身全权控制**：缩略图生成逻辑与规则完全交由 `doudou-cdn` 技能自身控制与落盘（自动在原图同级目录生成 `<原名>_thumb` 轻量缩略图并返回元信息），UGC 流程严禁在本地强行拷贝原图作为缩略图或添加任何冗余约束，直接消费 `doudou-cdn` 输出的资产。
-  4. **回填 CDN Markdown**：将原 Markdown 中的本地图片引用替换为对应的公开 CDN URL，生成图床化文章文件 `path/to/article_name/article_name_cdn.md`（后续公众号排版、小红书图文卡片制作及多平台发布均以该 CDN 版为基准输入）。
+     - 默认由 `doudou-cdn` 技能自主决定最优上传通道（若显式要求 R2 带 `-r`，GitHub 带 `-g`）；
+     - 缩略图由 `doudou-cdn` 技能自身全权控制与落盘（自动在原图同级生成 `<原名>_thumb` 轻量缩略图并返回元信息）；
+     - 将获取到的公开 CDN 链接保存至映射清单 `path/to/article_name/cdn_manifest.json`。
+  5. **直接插入回填生成图床化 Markdown**：
+     以原 Markdown 文件（已追加文末标准化引用链接）为基准，将获取到的各配图公开 CDN URL 精准回填到第 1 步所识别规划的对应配图位置（若原 Markdown 在该位置已有旧的图片语法或本地图片引用则予以替换，若为新增配图则按 Markdown 语法 `![配图说明](CDN_URL)` 插入到对应章节段落下方），并将处理后的完整内容复制保存为独立的图床化文章文件 `path/to/article_name/article_name_cdn.md`（原 Markdown 文件保持干净不污染；后续公众号排版、小红书图文卡片制作及多平台发布均以该 CDN 版为基准输入）。
 
 ---
 
-### 6. 生成公众号文章 (`/gzh-design`)
+### 4. 封面图生成与 CDN 同步（只上传不插入正文） (`/baoyu-cover-image` + `/doudou-cdn`)
+
+- **执行目标**：为文章设计匹配的高质感封面，生成后直接上传 CDN 供全网各平台发文使用（**只上传到 CDN 并在发布时绑定封面，严禁将封面图插入到文章正文中**）。
+- **调用逻辑**：
+  1. **提炼与定制 Prompt**：提炼核心主题与标题，按 5 维框架（Type, Palette, Rendering, Text, Mood）定制封面提示词，保存至 `path/to/article_name/cover/prompts/`。
+  2. **生成主次封面**：针对公众号与全网分发，生成标准主封面（`2.35:1` 或 `16:9`）与次级封面（`1:1`）。
+  3. **生图调用**：优先使用 **`generate_image`** 出图，缺失时再调用 **`/doudou-image`**（`--prompt-file` + `-o`）。生成的封面图片保存至 `path/to/article_name/cover/images/`。
+  4. **立即上传 CDN（只上传，不插入正文）**：
+     封面图生成完成后，立即调用 `/doudou-cdn` 上传脚本将封面图上传至 CDN 图床：
+     ```bash
+     node <doudou-cdn技能目录>/scripts/upload.mjs <封面文件...> --format json
+     ```
+     - 缩略图由 `doudou-cdn` 技能自身全权控制与落盘（自动在原图同级生成 `<原名>_thumb` 轻量缩略图并返回元信息）；
+     - 将封面图的公开 CDN 链接追加/合并更新到 `path/to/article_name/cdn_manifest.json`，供各发布平台在发布草稿箱时读取并作为独立封面上传绑定；
+     - ⚠️ **核心规约（只上传不插入正文）**：封面图只作为各平台发布的独立封面资产，**严禁**将封面图插入到 `article_name_cdn.md` 或原 Markdown 正文中，保持文章正文阅读流与版面结构的纯粹。
+
+---
+
+### 5. 生成公众号文章 (`/gzh-design`)
 
 - **执行目标**：将 CDN 版 Markdown 转为符合微信公众平台规范的精美 HTML。
 - **调用逻辑**：
@@ -211,12 +186,12 @@ path/to/article_name/
   4. **生成产物直接保存至同名目录（直接使用 `gzh-design` 原生产物，严禁重命名或重复生成多余副本）**：
      - **干净正文**：`path/to/article_name/article_name_排版_{主题中文名}({英文标识}).html`（公众号纯排版 `<section>` 正文片段）。
      - **预览页面**：`path/to/article_name/article_name_排版_{主题中文名}({英文标识})_预览.html`（通过 `<gzh-design>/scripts/wrap_preview.py` 生成的含「复制到公众号」按钮的完整预览页）。
-     - **直接消费原生规约**：直接使用 `gzh-design` 产出的带主题标识的原生文件名，严禁生成冗余副本。步骤 10 看板（动态探测匹配 `*_排版_*_预览.html`）与后续多平台发布（如微信公众号发布脚本自动筛选 `_排版_*.html` 纯正文）均原生兼容并直接精准引用。
+     - **直接消费原生规约**：直接使用 `gzh-design` 产出的带主题标识的原生文件名，严禁生成冗余副本。步骤 9 看板（动态探测匹配 `*_排版_*_预览.html`）与后续多平台发布（如微信公众号发布脚本自动筛选 `_排版_*.html` 纯正文）均原生兼容并直接精准引用。
   5. _博客同步_：若项目根目录下存在 `blog/` 目录，则以产物同名目录下的纯排版干净正文 HTML（`article_name_排版_{主题中文名}({英文标识}).html`，切勿使用带复制工具栏的预览页）为正文，按规范同步至 `blog/<分类>/<文件名>.html` 并更新 `blog/index.html` 的文章列表与分类计数。
 
 ---
 
-### 7. 生成图文卡片 (`/baoyu-xhs-images`)
+### 6. 生成图文卡片 (`/baoyu-xhs-images`)
 
 - **执行目标**：将文章核心知识点与脉络结构拆解为生动的信息图与社媒图文卡片。
 - **拆解模型（痛点—成因—拆解—解决方案）**：严格遵循**“痛点—成因—拆解—解决方案”**四层进阶模型，将整篇内容解构为 1-10 张 3:4 竖版信息图卡片：
@@ -231,7 +206,7 @@ path/to/article_name/
 
 ---
 
-### 8. 生成 Remotion 短视频 (`/video-shotcraft` + `/video-talkcraft` + `/doudou-tts` + `/remotion-best-practices` + 动画生态库)
+### 7. 生成 Remotion 短视频 (`/video-shotcraft` + `/video-talkcraft` + `/doudou-tts` + `/remotion-best-practices` + 动画生态库)
 
 - **执行目标**：综合分析**目标 Markdown 原文**核心叙事，**根据目标 Markdown 原文字数规划视频时长（每 500 字生成 1 分钟左右的视频，且总时长不小于 60 秒）**，制作极具动态质感、信息密集与电影级视觉冲击力的解说短视频。
 - **素材来源三位一体协同规约（`cover/` 或 `xhs_images/` + 矢量 SVG + 专属生图 3 者配合）**：
@@ -243,7 +218,7 @@ path/to/article_name/
     三者各展所长、有机交融，在 Remotion 动效引擎下构建兼具信息深度与视觉冲击力的画面。
 - **遵循 Remotion 最佳实践**：全程严格遵循 Remotion 最佳实践（`/remotion-best-practices`），确保组件架构、动效计算、确定性渲染与工程化规范达标。
 - **画幅与分辨率自主选择规约（横屏 vs 竖屏）**：
-  - 生成的视频画幅规格**必须由用户在步骤 8 门禁中自主选择**：
+  - 生成的视频画幅规格**必须由用户在步骤 7 门禁中自主选择**：
     - 🖥️ **横屏（16:9，1920×1080）**
     - 📱 **竖屏（9:16，1080×1920）**
 - **技能与技术栈协同分工**：
@@ -255,7 +230,7 @@ path/to/article_name/
   - **配音与字幕**：`/doudou-tts` 的 **edge-tts** 引擎（`scripts/edgetts.py`），**必须使用 edge-tts，不使用 cosyvoice**（后者慢到分钟级、且本流程无音色克隆需求）。
   - **渲染引擎**：Remotion（30fps；按用户选定的横屏 1920×1080 或竖屏 1080×1920 注册 Composition 并渲染输出）。
 
-#### 8.1 分镜脚本生成（黄金钩子原则）
+#### 7.1 分镜脚本生成（黄金钩子原则）
 
 将分镜脚本写入 `path/to/article_name/video/storyboard.md`，必须遵循以下结构与原则：
 
@@ -282,7 +257,7 @@ path/to/article_name/
    - **呼吸位克制**：品牌字标落定 hold 0.5s~0.8s 即可，批量动效收尾留 0.3s 缓冲；**全片绝对不要出现超过 3 秒画面一直不变的情况**（长镜头中必须持续注入微运镜推拉、慢速平移、视差浮动、文字逐行/逐词浮现或光效流动，杜绝死板定格）。
 6. **一镜一核心动效**：同一种动画手法（飞入 / 堆叠 / 翻页）全片只当一次主角，重复镜头与重复 tagline 一律删。
 
-#### 8.2 镜头与动效配方挑选及动画全家桶赋能
+#### 7.2 镜头与动效配方挑选及动画全家桶赋能
 
 1. **从双技能库动态检索配方卡**：
    - 在为分镜挑选镜头动效时，**必须直接从两大动效技能中动态检索最新卡库**：
@@ -319,7 +294,7 @@ path/to/article_name/
 
 3. **逐镜独立推荐与自主选择规约（硬约束）**：
    - **每一个分镜分别独立筛选推荐**：严禁将全片镜头打包为一个整体组合选项，**必须针对分镜脚本中的每一个分镜（如 S1、S2、S3、S4、S5、S6...）分别独立从上述技能中动态检索并推荐**。针对每一个分镜，综合其叙事能量、信息形态（痛点直击/概念对比/架构扫描/终端演示/指标大板/品牌收束）与画面素材特征，**为该分镜单独筛选出至少 3 个最契合的候选动效配方卡**（注明所属技能来源、卡名、动作语法、视觉风格、呈现重点与适用场景）。
-   - **交互门禁逐镜独立设问**：在步骤 8 门禁（`ask_question`）中，**必须针对每一个分镜分别设立独立的选择题项**（如【S1 痛点直击 配方卡选择】、【S2 天坑拆解 配方卡选择】...），确保用户能够对每一个镜头的动效形式进行精细化自主裁决。
+   - **交互门禁逐镜独立设问**：在步骤 7 门禁（`ask_question`）中，**必须针对每一个分镜分别设立独立的选择题项**（如【S1 痛点直击 配方卡选择】、【S2 天坑拆解 配方卡选择】...），确保用户能够对每一个镜头的动效形式进行精细化自主裁决。
    - 用户逐镜分别确认或选择后，形成最终的**分镜到镜头卡映射表**写入 `storyboard.md`。
 
 4. **三读硬规则（不可跳）**：选定后 → 校验卡名与 `style-key` → **读该配方卡全文** → 按卡片「参考实现」定位并**读准确的 demo TSX 源码全文** → 把对应组件 **copy 进** `src/videos/<article_name>/lib/`（不 import 原库）。
@@ -328,7 +303,7 @@ path/to/article_name/
 
 5. **视觉语言与 Design Tokens 独立确立**：全片配色、字体、圆角与质感必须确立一套统一的 Design Tokens（基于文章所属技术题材、核心主题色与首要视觉素材），为全片建立高度自洽的高质感视觉范式（如新粗野主义、日系便当盒、Dark、Cyber 或 Apple 范式等）。镜头卡继承运动语法与已调参数，皮肤按全片 Design Tokens 统一蒙皮。
 
-#### 8.3 配音与字幕（`doudou-tts` edge-tts）
+#### 7.3 配音与字幕（`doudou-tts` edge-tts）
 
 1. **口播文案精炼与短句化（禁书面大长句）**：
    - 短视频口播文案必须高度口语化、句式利落（多用短句、对比断句），严禁把书面文章的大段复合长句直接作为口播文案。
@@ -346,7 +321,7 @@ path/to/article_name/
    ```
 
 4. **音色与语速两步独立自主选择规约（严禁捆绑，强制正交）**：
-   - **两步独立设问硬规约**：在步骤 8 门禁（`ask_question`）中，**必须将「配音音色」与「朗读语速」严格拆分为两个独立的单选题**分别向用户设问，**严禁将音色与语速拼凑捆绑为单一复合选项**，确保用户能够按需自由进行正交组合（如“云扬 + 1.0x”或“晓晓 + 1.05x”）：
+   - **两步独立设问硬规约**：在步骤 7 门禁（`ask_question`）中，**必须将「配音音色」与「朗读语速」严格拆分为两个独立的单选题**分别向用户设问，**严禁将音色与语速拼凑捆绑为单一复合选项**，确保用户能够按需自由进行正交组合（如“云扬 + 1.0x”或“晓晓 + 1.05x”）：
      - **题项 1：【配音音色自主选择】**：
        - `(Recommended) 云扬（男声，专业可靠、科技干货/新闻播报首选，推荐）`
        - `晓晓（女声，亲和生动、清晰流畅、科普种草风）`
@@ -359,9 +334,9 @@ path/to/article_name/
        - 以及支持用户自定义输入其他倍率数值。
    - **强制带 `--srt`**：无论用户选择何种音色与语速，合成命令中**必须携带 `--srt`** 以获得与音频精准对齐的 SRT 字幕。
 5. **以音频实测时长反推帧数与无缝衔接（关键）**：合成后读取各 `shot_NN.mp3` 的**实测时长**（`--json` 返回元数据，或用 ffprobe），据此**回填 `storyboard.md` 的帧级时间轴**——镜头时长与配音紧密咬合，确保画面切换晚于该镜配音结束仅 3~8 帧，转场紧凑连贯，严禁出现画面与声音断层的长停顿空白。
-6. **字幕上屏与素排**：字幕经精细化短句时间轴上屏，采用自适应流式单行设计，字体与配色沿用第 8.2 条的视觉 tokens；**纯动画段落也要有解说字幕**，不留哑巴段落。
+6. **字幕上屏与素排**：字幕经精细化短句时间轴上屏，采用自适应流式单行设计，字体与配色沿用第 7.2 条的视觉 tokens；**纯动画段落也要有解说字幕**，不留哑巴段落。
 
-#### 8.4 Remotion 工程实现与渲染
+#### 7.4 Remotion 工程实现与渲染
 
 1. **直接复用仓库根目录的 Remotion 工程（禁建自包含工程）**：不要在产物目录里另起 Remotion 工程、不要新装依赖、不要新写 `package.json` / `remotion.config.ts`。一律用仓库根目录既有工程：
    - 镜头与时间线源码写进 `src/videos/<article_name>/`（`scenes/`、`lib/`、`theme.ts`、`captions.ts`、`sfx.tsx`、`<Name>Video.tsx`）。
@@ -386,7 +361,7 @@ path/to/article_name/
      - **水平饱满度**：主舞台宽度必须达到 **940px ~ 1000px**（占全屏宽度 **88% ~ 93%**，左右边距留 40~70px）。
      - **垂直饱满度**：垂直堆叠或核心卡片群高度必须达到 **1300px ~ 1550px**，充盈手机视口，严禁中间缩水一块。
 
-#### 8.5 视频质量门禁（交付前自检）
+#### 7.5 视频质量门禁（交付前自检）
 
 渲染完成后逐条核验，任一不通过则回到对应环节修复：
 
@@ -407,11 +382,11 @@ path/to/article_name/
 
 ---
 
-### 9. 多平台发布 (`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`)
+### 8. 多平台发布 (`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`)
 
 - **执行目标**：在图文卡片与短视频生成完毕后，依次调用所选平台对应的独立发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），基于 `chrome-devtools-mcp` 自动将文章及衍生资产填入各大自媒体平台与技术社区发文页面，完成就绪状态记录并保持页面打开供人工复核与发布。
 
-#### 9.1 支持的 14 大平台矩阵
+#### 8.1 支持的 14 大平台矩阵
 
 | 平台名称         | 技能名称            | 平台名称             | 技能名称              |
 | :--------------- | :------------------ | :------------------- | :-------------------- |
@@ -423,9 +398,9 @@ path/to/article_name/
 | **掘金**         | `/doudou-juejin`    | **知乎**             | `/doudou-zhihu`       |
 | **CSDN**         | `/doudou-csdn`      | **烧饼社区**         | `/doudou-linuxsb`     |
 
-#### 9.2 用户平台选择与跳过机制 (Interactive Selection & Skip)
+#### 8.2 用户平台选择与跳过机制 (Interactive Selection & Skip)
 
-在推进到步骤 9 时，**必须使用 `ask_question` 交互工具向用户呈现平台列表供用户确认**，严禁未经确认直接盲目全量发布。
+在推进到步骤 8 时，**必须使用 `ask_question` 交互工具向用户呈现平台列表供用户确认**，严禁未经确认直接盲目全量发布。
 
 1. **交互选项设计（支持：全选、逐个勾选、全部跳过）**：
    - **字面量严格对齐硬规约（严禁任意修改、加后缀或调换顺序）**：在调用 `ask_question` 工具时，`question`、`is_multi_select` 与 `options` **必须 100% 精确按下方字面量参数传参，严禁自定义添加括号英文别名、严禁随意调换次序、严禁遗漏「全选发布」**：
@@ -461,9 +436,9 @@ path/to/article_name/
    - 若用户选择「全部跳过」或未勾选任何发布平台：
      - **完全不启动任何浏览器的自动化发布操作**；
      - 在 `publishes/publish_manifest.json` 中将各平台统一登记为 `skipped`；
-     - 系统直接无缝推进至**步骤 10：生成产物结果汇总看板 (`index.html`)**。
+     - 系统直接无缝推进至**步骤 9：生成产物结果汇总看板 (`index.html`)**。
 
-#### 9.3 串行发布执行规范
+#### 8.3 串行发布执行规范
 
 > [!IMPORTANT]
 > **【核心铁律】严禁并行发布。**
@@ -509,7 +484,7 @@ path/to/article_name/
 正在发布到第 X/N 个平台：【平台名称】...
 ```
 
-#### 9.4 结果汇总清单 (`publish_manifest.json`)
+#### 8.4 结果汇总清单 (`publish_manifest.json`)
 
 全部所选平台执行完成后，将各平台就绪状态统一写入 `publishes/publish_manifest.json`：
 
@@ -533,13 +508,13 @@ path/to/article_name/
     ]
   }
   ```
-- 供**步骤 10 看板渲染脚本**直接读取呈现。
+- 供**步骤 9 看板渲染脚本**直接读取呈现。
 
 ---
 
-### 10. 生成产物结果汇总看板 (`index.html`)
+### 9. 生成产物结果汇总看板 (`index.html`)
 
-- **执行目标**：在全流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`），用户双击即可一站式审阅、对比与复制全流程 1~9 阶段交付成果。
+- **执行目标**：在全流程执行完毕后，自动在产物根目录生成自包含、高颜值、支持离线交互的全景 HTML 汇总看板（`path/to/article_name/index.html`），用户双击即可一站式审阅、对比与复制全流程 1~8 阶段交付成果。
 - **推荐执行方式（确定性脚本执行）**：
   为彻底杜绝手动拼装、单次正则替换误匹配以及字符转义导致布局坍塌等问题，**必须优先执行内置确定性渲染脚本**：
   ```bash
@@ -568,7 +543,7 @@ path/to/article_name/
 
 #### 模版插槽填充规范 (Template Slot Guide)
 
-步骤 10 执行时，读取 `references/dashboard-template.html` 并对如下插槽占位符进行精确字符串替换：
+步骤 9 执行时，读取 `references/dashboard-template.html` 并对如下插槽占位符进行精确字符串替换：
 
 1. **全局与概览统计变量**：
    - `{{ARTICLE_TITLE}}`：文章主标题
@@ -714,22 +689,21 @@ path/to/article_name/
 ## 交互与执行模式（核心规约）
 
 - **默认模式：严格分步依次交互确认（Default）**：
-  - 当用户输入 `/doudou-UGC path/to/article.md`（未带 `--yes` / `--quick`）时，**必须严格按步骤 1 到步骤 10 的顺序依次推进**。
+  - 当用户输入 `/doudou-UGC path/to/article.md`（未带 `--yes` / `--quick`）时，**必须严格按步骤 1 到步骤 9 的顺序依次推进**。
   - **关键门禁（Gate）**：在每一个涉及选项配置的环节，**必须使用 `ask_question` 交互工具向用户呈现分析结果与推荐选项，等待用户确认/选择后方可执行该步骤的生成**，严禁一次性静默直跑！
     1. **步骤 1（合规阻断门禁）**：汇报合规性与敏感词审查报告。若发现违规或敏感词，必须立即中断流程并指导用户修改；用户修改完成或明确要求继续后方可进入步骤 2。
     2. **步骤 2（外链引用追加）**：合规审查通过后，自动扫描提取外链并在目标 Markdown 文件尾部追加标准引用链接（默认首项 `https://www.undsky.com`）。
-    3. **步骤 3（插图门禁）**：触发 `baoyu-article-illustrator` 的插图选项确认（类型/预设、密度、渲染风格、配色）。
-    4. **步骤 4（封面门禁）**：触发 `baoyu-cover-image` 的 5 维封面参数确认（视觉类型、配色方案、渲染风格、文字密度、比例）。
-    5. **步骤 5**：执行图片 CDN 上传（统一调用 `/doudou-cdn` 智能调度或指定通道）并回填 Markdown。
-    6. **步骤 6（排版门禁）**：动态读取 `gzh-design` 技能的 `references/theme-index.md` 获取当前全部已注册主题列表（含内置主题与已注册的自定义主题，严禁硬编码枚举），结合文章题材智能分析并推荐最契合主题（置顶标注「（推荐）」），使用 `ask_question` 呈现给用户选择确认；用户确认后装配 HTML 并同步博客。
-    7. **步骤 7（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（基于“痛点—成因—拆解—解决方案”模型规划卡片大纲，确认风格、布局与策略）。
-    8. **步骤 8（短视频门禁）**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、原文字数与规划时长（每 500 字约 1 分钟，≥ 60s）、**每个分镜严格控制在 10 秒以下（≤ 300 帧）及紧凑节奏规划**、**全片每一个分镜（如 S1~S6...）分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`）供用户逐镜自主选择**、**视频画幅由用户自主选择（横屏 1920×1080 (16:9) / 竖屏 1080×1920 (9:16)）**、**配音音色与语速由用户自主选择（提供云扬/晓晓/云希等音色与 1.0x/1.05x 等语速选项）**；用户确认后再执行配音合成、Remotion 工程实现与渲染。
-    9. **步骤 9（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 10 生成看板；若勾选了目标平台，则**必须严格串行执行**——每次只调用一个平台 skill，等待其完成后再调用下一个（绝对禁止在同一个工具调用块中同时发起多个平台 skill 调用，这会导致并发执行与页面冲突），启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面，直接判定完成，原样保留当前标签页现场供人工复核与发布，严禁调用 `close_page`。
-    10. **步骤 10**：组装并生成一站式结果汇总看板 `index.html`（含 1~9 阶段完整资产、短视频播放器与多平台发布状态 Tab）。
+    3. **步骤 3（插图与CDN回填门禁）**：触发 `baoyu-article-illustrator` 的插图选项确认（类型/预设、密度、渲染风格、配色）；生成后立即上传 CDN 并将 CDN 链接精准回填至识别的配图位置，生成图床化文章 `article_name_cdn.md`。
+    4. **步骤 4（封面图门禁）**：触发 `baoyu-cover-image` 的 5 维封面参数确认（视觉类型、配色方案、渲染风格、文字密度、比例）；生成后立即上传 CDN 并维护清单，只上传供发布使用，严禁插入文章正文。
+    5. **步骤 5（排版门禁）**：动态读取 `gzh-design` 技能的 `references/theme-index.md` 获取当前全部已注册主题列表（含内置主题与已注册的自定义主题，严禁硬编码枚举），结合文章题材智能分析并推荐最契合主题（置顶标注「（推荐）」），使用 `ask_question` 呈现给用户选择确认；用户确认后装配 HTML 并同步博客。
+    6. **步骤 6（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（基于“痛点—成因—拆解—解决方案”模型规划卡片大纲，确认风格、布局与策略）。
+    7. **步骤 7（短视频门禁）**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、原文字数与规划时长（每 500 字约 1 分钟，≥ 60s）、**每个分镜严格控制在 10 秒以下（≤ 300 帧）及紧凑节奏规划**、**全片每一个分镜（如 S1~S6...）分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`）供用户逐镜自主选择**、**视频画幅由用户自主选择（横屏 1920×1080 (16:9) / 竖屏 1080×1920 (9:16)）**、**配音音色与语速由用户自主选择（提供云扬/晓晓/云希等音色与 1.0x/1.05x 等语速选项）**；用户确认后再执行配音合成、Remotion 工程实现与渲染。
+    8. **步骤 8（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 9 生成看板；若勾选了目标平台，则**必须严格串行执行**——每次只调用一个平台 skill，等待其完成后再调用下一个（绝对禁止在同一个工具调用块中同时发起多个平台 skill 调用，这会导致并发执行与页面冲突），启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面，直接判定完成，原样保留当前标签页现场供人工复核与发布，严禁调用 `close_page`。
+    9. **步骤 9**：组装并生成一站式结果汇总看板 `index.html`（含 1~8 阶段完整资产、短视频播放器与多平台发布状态 Tab）。
 - **全自动模式（Explicit Only）**：
-  - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~10 全套流程。
+  - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~9 全套流程。
 - **断点/单步执行**：
-  - 支持用户指定执行特定步骤（如仅执行 `/doudou-cdn`、单独发布到指定平台如 `/doudou-bilibili`、或重新生成 `index.html` 汇总看板），直接复用同名目录下的已有资产。
+  - 支持用户指定执行特定步骤（如单独发布到指定平台如 `/doudou-bilibili`、或重新生成 `index.html` 汇总看板），直接复用同名目录下的已有资产。
 
 ---
 
