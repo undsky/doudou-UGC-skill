@@ -269,7 +269,22 @@ export function renderDashboard(targetInput) {
   const now = new Date();
   const formatTime = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   
-  const posterPath = videoManifest.posterPath || videoManifest.poster || (fs.existsSync(path.join(baseDir, 'cover', 'images', 'cover-16x9_thumb.png')) ? './cover/images/cover-16x9_thumb.png' : './cover/images/cover.png');
+  const resolvePosterPath = () => {
+    const coverImagesDir = path.join(baseDir, 'cover', 'images');
+    if (fs.existsSync(coverImagesDir)) {
+      const imageExtReg = /\.(png|jpe?g|webp|gif|avif)$/i;
+      const images = fs.readdirSync(coverImagesDir).filter(f => imageExtReg.test(f));
+      // 优先匹配同时包含 16x9 与 thumb 的图片，其次退回仅包含 16x9 的图片
+      const preferred = images.find(f => f.includes('16x9') && f.includes('thumb'))
+        || images.find(f => f.includes('16x9'));
+      if (preferred) {
+        return `./cover/images/${preferred}`;
+      }
+    }
+    return './cover/images/cover.png';
+  };
+
+  const posterPath = videoManifest.posterPath || videoManifest.poster || resolvePosterPath();
   const videoFilePath = videoManifest.videoPath || videoManifest.video_file || `./video/${articleName}.mp4`;
   const videoResolution = videoManifest.resolution || '1920×1080';
   const videoAspectRatio = videoManifest.aspectRatio || videoManifest.aspect_ratio || '16:9 横版';
