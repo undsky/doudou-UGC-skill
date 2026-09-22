@@ -65,7 +65,7 @@ path/to/article_name/
 │   └── images/                           # 生成的 3:4 图文卡片
 ├── video/                                # 步骤 7：Remotion 短视频资产 (video-shotcraft + video-talkcraft + doudou-tts + 动画生态库)
 │   ├── storyboard.md                     # 分镜脚本 (黄金钩子开场 + 镜头卡映射表 + 帧级时间轴 + 素材与动效定义)
-│   ├── assets/                           # 视频专属定制素材库 (配合 cover/ 与 xhs_images/ 协同呈现)
+│   ├── assets/                           # 视频专属定制素材库 (矢量 SVG + 专属定制生图)
 │   │   ├── svg/                          # 分镜量身定制的矢量 SVG 图形/架构图/图标 (配合 @remotion/paths 路径动画)
 │   │   ├── images/                       # 分镜专属 AI 配图 (针对性提示词生图)
 │   │   └── prompts/                      # 专属生图提示词记录
@@ -209,13 +209,11 @@ path/to/article_name/
 ### 7. 生成 Remotion 短视频 (`/video-shotcraft` + `/video-talkcraft` + `/doudou-tts` + `/remotion-best-practices` + 动画生态库)
 
 - **执行目标**：综合分析**目标 Markdown 原文**核心叙事，**根据目标 Markdown 原文字数规划视频时长（每 500 字生成 1 分钟左右的视频，且总时长不小于 60 秒）**，制作极具动态质感、信息密集与电影级视觉冲击力的解说短视频。
-- **素材来源三位一体协同规约（`cover/` 或 `xhs_images/` + 矢量 SVG + 专属生图 3 者配合）**：
-  - 💡 **拒绝单纯裸贴、死板硬塞静态卡片**：严禁直接把封面图或小红书图文卡片不加修饰地单薄居中死贴在画面上形成枯燥的“PPT 盆景效应”、四周大黑边或长定格；
-  - ✅ **三位一体素材协同与画框重构体系**：并非绝对禁止从 `cover/` 或 `xhs_images/` 拷贝素材，而是提倡将 **`cover/` 或 `xhs_images/` + 矢量 SVG + 专属定制生图 3 者有机配合**，共同支撑分镜叙事：
-    1. **既有社媒视觉资产协同复用（`cover/` 与 `xhs_images/` 舞台化融入）**：可按需将 `cover/`（封面主视觉、横屏宽画幅）或 `xhs_images/`（核心痛点图、知识拆解卡、流程架构图）引入视频分镜，作为舞台背景衬底、分栏对比的一侧、便当盒 Bento 格子、透视卡片层或主视觉载体；但必须经过舞台化包装（如 2.5D 透视倾斜、便当盒布局、Mac 样机包裹、高光衬底、动态运镜推拉或粗野黑描边实体硬阴影重塑），使其与全片视觉语言完美融合；
-    2. **矢量 SVG 动态素材（路径动画与结构支撑）**：针对技术架构、系统拓扑、执行时序、核心概念对比、步骤拆解、关键数据看板及指示图标，直接根据分镜需求生成高质量纯矢量 SVG 素材（或封装为 React SVG 组件），保存至 `video/assets/svg/`。SVG 具备无限放大不失真、极小体积、原生支持 CSS/Tailwind 样式，并能与 `@remotion/paths` 完美融合，实现**路径描边生长（Path drawing）**、**形状形变过渡（Morphing）**与**连线脉冲光效**；
-    3. **分镜专属定制生图（氛围与视觉焦点补充）**：针对需要具象画面、概念场景隐喻、戏剧化冲突或高冲击力视觉中心的分镜，使用生图工具（优先使用 **`generate_image`**，无可用时使用 **`/doudou-image`** `--prompt-file` + `-o`）根据该分镜的景别（特写/中景/全景）、构图与专属提示词针对性生成，保存至 `video/assets/images/`（生图提示词统一记录于 `video/assets/prompts/`）。
-    三者各展所长、有机交融，在 Remotion 动效引擎下构建兼具信息深度与视觉冲击力的画面。
+- **视频素材体系（矢量 SVG + 专属定制生图）**：
+  - 短视频视觉资产采用**矢量 SVG + 专属定制生图**双引擎驱动，针对分镜现场深度定制：
+    1. **矢量 SVG 动态素材（路径动画与结构支撑）**：针对技术架构、系统拓扑、执行时序、核心概念对比、步骤拆解、关键数据看板及指示图标，直接根据分镜需求量身生成高质量纯矢量 SVG 素材（或封装为 React SVG 组件），保存至 `video/assets/svg/`。SVG 具备无限放大不失真、极小体积、原生支持 CSS/Tailwind 样式，并能与 `@remotion/paths` 完美融合，实现**路径描边生长（Path drawing）**、**形状形变过渡（Morphing）**与**连线脉冲光效**；
+    2. **分镜专属定制生图（氛围与视觉焦点补充）**：针对需要具象画面、概念场景隐喻、戏剧化冲突或高冲击力视觉中心的分镜，使用生图工具（优先使用 **`generate_image`**，无可用时使用 **`/doudou-image`** `--prompt-file` + `-o`）根据该分镜的具体画幅（16:9 横屏或 9:16 竖屏）、景别（特写/中景/全景）、构图与专属提示词针对性生成，保存至 `video/assets/images/`（生图提示词统一记录于 `video/assets/prompts/`）。
+    两者各展所长、有机配合，在 Remotion 动效引擎下构建兼具信息深度与电影级视觉冲击力的画面。
 - **遵循 Remotion 最佳实践**：全程严格遵循 Remotion 最佳实践（`/remotion-best-practices`），确保组件架构、动效计算、确定性渲染与工程化规范达标。
 - **画幅与分辨率自主选择规约（横屏 vs 竖屏）**：
   - 生成的视频画幅规格**必须由用户在步骤 7 门禁中自主选择**：
@@ -245,7 +243,7 @@ path/to/article_name/
    - 逐镜必须详细标注：
      - **解说文案**（口播原文）
      - **字幕**（6~14 字精悍短句）
-     - **素材来源**：明确标注当前镜头使用的素材组合（如【cover/xhs 资产适配复用】、【专属定制 SVG】或【专属 AI 生图】，详细注明素材路径与舞台化配合方案，支持三者有机组合配合）；
+     - **素材来源**：明确标注当前镜头使用的素材（【专属定制 SVG】或【专属 AI 生图】，注明素材路径与动效配合方案）；
      - **调用的动效库**：明确标注当前镜头使用了哪些已安装库（如 `@remotion/paths` 路径生长 + `@remotion/rough-notation` 下划线 + `@remotion/mac-cursors` 点击 + `@remotion/motion-blur` 残影）；
      - **转场与 SFX**（钉帧音效与运镜转场）。
 4. **单分镜时长红线（硬约束，≤ 10 秒）**：
@@ -342,9 +340,9 @@ path/to/article_name/
    - 镜头与时间线源码写进 `src/videos/<article_name>/`（`scenes/`、`lib/`、`theme.ts`、`captions.ts`、`sfx.tsx`、`<Name>Video.tsx`）。
    - Composition 在根 `src/Root.tsx` 中挂载注册（30fps，根据用户选择的画幅注册为横屏 1920×1080 或竖屏 1080×1920），入口仍是根 `src/index.ts`。
    - 渲染与静帧一律在**仓库根目录**执行，沿用根 `remotion.config.ts`（rspack / jpeg / overwriteOutput / tailwind）。
-2. **素材接入与三位一体协同**：
-   - 把产物目录下参与视频构建的资产——包括专属定制资产（SVG `video/assets/svg/`、定制生图 `video/assets/images/`）、复用的封面或图文卡片素材（`cover/images/`、`xhs_images/images/`）、各镜配音（`video/narration/`）与所需 SFX / BGM 拷贝到**根 `public/` 下按文章分目录**（`public/<article_name>/images|svg|audio|sfx|bgm/`，`staticFile()` 按此前缀取）。
-   - ✅ **`cover/` 或 `xhs_images/` + 矢量 SVG + 专属生图 3 者配合**：并非绝对禁止从 `cover/` 或 `xhs_images/` 拷贝素材，而是提倡将 `cover/`（封面主视觉）、`xhs_images/`（知识卡片/信息图）、专属矢量 SVG、以及定制生图 3 者有机配合。复用 `cover/` 或 `xhs_images/` 时，必须经过舞台化包装（如 2.5D 透视倾斜、便当盒 Bento 框架、样机卡片包裹、高光衬底、动态微推拉与下划线圈注），杜绝纯死板裸贴导致的“PPT 盆景效应”；
+2. **素材接入与部署（矢量 SVG + 专属定制生图）**：
+   - 将视频专属素材——包括矢量 SVG（`video/assets/svg/`）、分镜专属定制生图（`video/assets/images/`）、各镜配音（`video/narration/`）与所需 SFX / BGM 拷贝到**根 `public/` 下按文章分目录**（`public/<article_name>/images|svg|audio|sfx|bgm/`，`staticFile()` 按此前缀取）。
+   - ✅ **矢量 SVG + 专属定制生图双核驱动**：视频素材纯粹源自针对当前分镜量身定制的矢量 SVG 与专属 AI 生图，配合 `@remotion/paths` 路径动画、2.5D 运镜与舞台化动效布局呈现，杜绝粗糙裸贴与“PPT 盆景效应”；
    - `<Audio>` 挂各镜配音与 BGM。
 3. **声音设计**：SFX 从 `video-shotcraft/assets/audio/sfx/<类别>/` 取（运镜→`transition`、落地→`impact`、铺垫→`riser`、光效→`light`、打字→`text`），用**声明式钉帧表**集中管理（`{ from, src, volume }[]`，`from` 一律写 `SHOTS.x.from + offset` 相对表达式，禁裸帧号）；长样本（>5s）必须显式给 `durationInFrames`。结尾固定句式：riser → impact（字标落地，音量峰值）→ sparkle（取自 `light/`）。
 4. **确定性渲染铁律**：禁 `Date.now()` / `Math.random()` / 无参 `new Date()`，一切伪随机用固定种子（mulberry32 / 哈希，seed 从 index 派生）。
@@ -365,7 +363,7 @@ path/to/article_name/
 
 渲染完成后逐条核验，任一不通过则回到对应环节修复：
 
-- ✅ **三位一体素材协同达标**：全片灵活编排 `cover/` 或 `xhs_images/`、专属定制矢量 SVG 与专属定制生图 3 者深度配合呈现，所有静态图片均经过舞台化布局（便当盒/样机/2.5D/微运镜推拉）深度包装，杜绝粗糙裸贴与“PPT 盆景效应”。
+- ✅ **专属定制素材达标**：全片视频素材采用专属定制矢量 SVG 与专属定制生图；所有画面资产均经过舞台化布局（便当盒/样机/2.5D/微运镜推拉/路径动画）深度编排呈现，杜绝粗糙裸贴与“PPT 盆景效应”。
 - ✅ **动画生态库赋能达标**：全片充分编排并应用了 `undsky/package.json` 中的动画生态库（如 `@remotion/paths` 路径生长、`@remotion/rough-notation` 手绘重点、`@remotion/mac-cursors` 光标操作、`@remotion/motion-blur` 残影、`@remotion/noise` 手持微晃等），动效丰富、饱满且契合叙事。
 - ✅ **遵循 Remotion 最佳实践**：严格遵循 Remotion 最佳实践（`/remotion-best-practices`），包括确定性渲染（严禁 `Math.random()`/时间戳污染）、规范使用 `interpolate`/`spring` 动效驱动、合理的组件分层与时序管理、静态资源使用 `staticFile()` 等。
 - ✅ **视口饱满度达标（严禁大面积空旷留黑）**：横屏主舞台高度必须 ≥ 700px 且宽度 ≥ 1680px（垂直利用率 ≥ 75%，水平利用率 ≥ 88%）；竖屏主舞台宽度必须 ≥ 940px 且高度 ≥ 1300px。杜绝矮小卡片悬空与四周大面积黑死区。
