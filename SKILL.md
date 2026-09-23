@@ -55,7 +55,7 @@ path/to/article_name/
 │   └── images/                           # 生成的高清插图 (如 01-arch.png 及由 doudou-cdn 自动生成的 01-arch_thumb.png)
 ├── cover/                                # 步骤 4：封面图资产 (baoyu-cover-image，只上传CDN供发布绑定，不插入正文)
 │   ├── prompts/                          # 封面 Prompt 文件
-│   └── images/                           # 生成的封面图 (2.35:1 / 16:9 / 1:1 及由 doudou-cdn 自动生成的 _thumb 缩略图)
+│   └── images/                           # 生成的封面图 (16:9 / 1:1 / 9:16 及由 doudou-cdn 自动生成的 _thumb 缩略图)
 ├── cdn_manifest.json                     # 步骤 3 & 4：CDN 上传清单与 URL 映射表 (doudou-cdn 维护)
 ├── article_name_cdn.md                   # 步骤 3：已在对应位置回填插图 CDN URL 的图床化 Markdown (封面图不插入)
 ├── article_name_排版_{主题中文名}({英文标识}).html   # 步骤 5：公众号纯排版正文片段 (gzh-design 原生产物)
@@ -163,7 +163,7 @@ path/to/article_name/
 - **执行目标**：为文章设计匹配的高质感封面，生成后直接上传 CDN 供全网各平台发文使用（**只上传到 CDN 并在发布时绑定封面，严禁将封面图插入到文章正文中**）。
 - **调用逻辑**：
   1. **提炼与定制 Prompt**：提炼核心主题与标题，按 5 维框架（Type, Palette, Rendering, Text, Mood）定制封面提示词，保存至 `path/to/article_name/cover/prompts/`。
-  2. **生成主次封面**：针对公众号与全网分发，生成标准主封面（`2.35:1` 或 `16:9`）与次级封面（`1:1`）。
+  2. **生成多比例封面**：针对公众号、短视频与全网多模态分发，生成标准横版主封面（`16:9`）、次级方版封面（`1:1`）以及竖版封面（`9:16`，用于短视频、视频号及小红书/抖音等移动端竖屏场景）。
   3. **生图调用**：优先使用 **`generate_image`** 出图，缺失时再调用 **`/doudou-image`**（`--prompt-file` + `-o`）。生成的封面图片保存至 `path/to/article_name/cover/images/`。
   4. **立即上传 CDN（只上传，不插入正文）**：
      封面图生成完成后，立即调用 `/doudou-cdn` 上传脚本将封面图上传至 CDN 图床：
@@ -532,7 +532,7 @@ path/to/article_name/
 | 📊 **全局概览 (Overview)**         | 产物根目录<br>`article_name.md`<br>`article_name_cdn.md`                                                    | 流程产物交付指标总览（合规状态、配图数、封面数、图文数、短视频终渲状态）；下方直接集成 **Markdown 双栏源码与 marked 实时渲染预览**（左侧 `原文 Markdown (article_name_cdn.md)` 源码高亮+一键复制，右侧 marked 实时解析渲染+一键复制 HTML）。 |
 | 🛡️ **01 内容审查**                 | `01_compliance_report.md`                                                                                   | 格式化渲染合规审查报告全文，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签，支持一键复制 Markdown。                                                                                                                              |
 | 🎨 **02 文章插图**                 | `illustrations/`<br>├ `prompts/`<br>└ `images/`                                                             | 上下流式网格卡片流：每张卡片含 contain 缩略图、点击放大、比例与类型标签、CDN 快速复制；卡片底部为固定高度、带滚动条的绘图提示词 Prompt 代码块，配备一键复制。                                                                                |
-| 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                                                                     | 上下流式网格卡片流：2.35:1 微信主封面、16:9 横版封面与 1:1 方版次封面多比例陈列；支持大图放大、CDN 复制与底部 5 维设计提示词一键复制。                                                                                                       |
+| 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                                                                     | 上下流式网格卡片流：16:9 横版主封面、1:1 方版次封面与 9:16 竖版封面多比例陈列；支持大图放大、CDN 复制与底部 5 维设计提示词一键复制。                                                                                                       |
 | 🌐 **04 CDN 映射表**               | `cdn_manifest.json`                                                                                         | 4 列交互式数据表格：展示图片缩略图（`.table-thumb`，支持点击全屏放大）、原始相对路径、CDN 加速链接与一键复制按钮。                                                                                                                           |
 | 📱 **05 公众号排版**               | `article_name_排版_{主题中文名}({英文标识}).html`<br>`article_name_排版_{主题中文名}({英文标识})_预览.html` | 嵌入式 iframe 实时渲染公众号排版预览（直接使用 `gzh-design` 原生预览产物）；提供纯排版正文与新标签页打开。                                                                                                                                   |
 | 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                                                                | 3:4 竖版上下流式网格卡片流：展示遵循“痛点—成因—拆解—解决方案”模型的封面痛点卡、根因剖析卡、核心拆解卡与落地总结卡；含高清缩略图预览（点击放大）、3:4 比例标签、CDN URL 与底部提示词 Prompt 一键复制。                                        |
