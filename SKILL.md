@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、烧饼社区），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布状态清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -75,7 +75,7 @@ path/to/article_name/
 │   ├── qa/                               # 逐镜头静帧验收档案 (npx remotion still)
 │   ├── article_name.mp4                  # ⭐ 终渲成片 (按字数规划：每 500 字约 1 分钟，≥ 60s，含配音与 SFX)
 │   └── video_manifest.json               # 视频元数据 (时长、分辨率、分镜清单、镜头卡、动画生态库、音色、渲染耗时)
-└── publishes/                            # 步骤 8：多平台发布状态清单 (/doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-linuxsb)
+└── publishes/                            # 步骤 8：多平台发布状态清单 (/doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu)
     └── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、就绪状态、时间等)
 ```
 
@@ -402,11 +402,11 @@ path/to/article_name/
 
 ---
 
-### 8. 多平台发布 (`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`)
+### 8. 多平台发布 (`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`)
 
-- **执行目标**：在图文卡片与短视频生成完毕后，依次调用所选平台对应的独立发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`），基于 `chrome-devtools-mcp` 自动将文章及衍生资产填入各大自媒体平台与技术社区发文页面，完成就绪状态记录并保持页面打开供人工复核与发布。
+- **执行目标**：在图文卡片与短视频生成完毕后，依次调用所选平台对应的独立发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`），基于 `chrome-devtools-mcp` 自动将文章及衍生资产填入各大自媒体平台与技术社区发文页面，完成就绪状态记录并保持页面打开供人工复核与发布。
 
-#### 8.1 支持的 14 大平台矩阵
+#### 8.1 支持的 13 大平台矩阵
 
 | 平台名称         | 技能名称            | 平台名称             | 技能名称              |
 | :--------------- | :------------------ | :------------------- | :-------------------- |
@@ -416,7 +416,7 @@ path/to/article_name/
 | **百家号**       | `/doudou-baijia`    | **小红书**           | `/doudou-xiaohongshu` |
 | **企鹅号**       | `/doudou-qiehao`    | **抖音**             | `/doudou-douyin`      |
 | **掘金**         | `/doudou-juejin`    | **知乎**             | `/doudou-zhihu`       |
-| **CSDN**         | `/doudou-csdn`      | **烧饼社区**         | `/doudou-linuxsb`     |
+| **CSDN**         | `/doudou-csdn`      | -                    | -                     |
 
 #### 8.2 用户平台选择与跳过机制 (Interactive Selection & Skip)
 
@@ -429,7 +429,7 @@ path/to/article_name/
        "question": "短视频及多模态衍生资产已就绪，请选择需要自动填入发布的平台：",
        "is_multi_select": true,
        "options": [
-         "(Recommended) 全选发布（全部 14 大平台）",
+         "(Recommended) 全选发布（全部 13 大平台）",
          "微信公众平台",
          "微信视频号",
          "今日头条",
@@ -443,13 +443,12 @@ path/to/article_name/
          "小红书",
          "抖音",
          "知乎",
-         "烧饼社区",
          "全部跳过（暂不执行平台发布，直接生成全景汇总看板）"
        ]
      }
      ```
    - **选择逻辑裁决**：
-     - 若用户勾选了 `(Recommended) 全选发布（全部 14 大平台）` 或回复“全部发布”，全量 14 大平台全部执行；
+     - 若用户勾选了 `(Recommended) 全选发布（全部 13 大平台）` 或回复“全部发布”，全量 13 大平台全部执行；
      - 若勾选了其中部分平台，仅对勾选的平台执行自动化发布；
      - 若勾选了「全部跳过」或未选择任何平台，执行跳过机制。
 2. **全部跳过机制 (Skip All)**：
@@ -481,7 +480,7 @@ path/to/article_name/
 
 当用户确认需要发布的平台后，**必须严格按照下列顺序逐个串行调用**对应平台的发布技能（每次只调用一个，等待其完成后再调用下一个）：
 
-**执行顺序（1-14，严格串行）**：
+**执行顺序（1-13，严格串行）**：
 
 1. 微信公众平台：`/doudou-weixin <给定的 Markdown 文章文件>` → **等待完成**
 2. 微信视频号：`/doudou-shipinhao <给定的 Markdown 文章文件>` → **等待完成**
@@ -496,7 +495,6 @@ path/to/article_name/
 11. 小红书：`/doudou-xiaohongshu <给定的 Markdown 文章文件>` → **等待完成**
 12. 抖音：`/doudou-douyin <给定的 Markdown 文章文件>` → **等待完成**
 13. 知乎：`/doudou-zhihu <给定的 Markdown 文章文件>` → **等待完成**
-14. 烧饼社区：`/doudou-linuxsb <给定的 Markdown 文章文件>` → **等待完成**
 
 **执行进度提示**：在调用每个平台前，向用户输出清晰的进度提示：
 
@@ -514,8 +512,8 @@ path/to/article_name/
   {
     "articleTitle": "文章标题",
     "publishTime": "2026-09-09T16:00:00.000Z",
-    "totalPlatforms": 14,
-    "successfulCount": 14,
+    "totalPlatforms": 13,
+    "successfulCount": 13,
     "results": [
       {
         "platform": "微信公众平台",
@@ -718,7 +716,7 @@ path/to/article_name/
     5. **步骤 5（排版门禁）**：动态读取 `gzh-design` 技能的 `references/theme-index.md` 获取当前全部已注册主题列表（含内置主题与已注册的自定义主题，严禁硬编码枚举），结合文章题材智能分析并推荐最契合主题（置顶标注「（推荐）」），使用 `ask_question` 呈现给用户选择确认；用户确认后装配 HTML 并同步博客。
     6. **步骤 6（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（基于“痛点—成因—拆解—解决方案”模型规划卡片大纲，确认风格、布局与策略）。
     7. **步骤 7（短视频门禁）**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、原文字数与规划时长（每 500 字约 1 分钟，≥ 60s）、**每个分镜严格控制在 10 秒以下（≤ 300 帧）及紧凑节奏规划**、**全片每一个分镜（如 S1~S6...）分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`）供用户逐镜自主选择**、**视频画幅由用户自主选择（横屏 1920×1080 (16:9) / 竖屏 1080×1920 (9:16)）**、**配音音色与语速由用户自主选择（提供云扬/晓晓/云希等音色与 1.0x/1.05x 等语速选项）**；用户确认后再执行配音合成、Remotion 工程实现与渲染。
-    8. **步骤 8（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-linuxsb`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 9 生成看板；若勾选了目标平台，则**必须严格串行执行**——每次只调用一个平台 skill，等待其完成后再调用下一个（绝对禁止在同一个工具调用块中同时发起多个平台 skill 调用，这会导致并发执行与页面冲突），启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面，直接判定完成，原样保留当前标签页现场供人工复核与发布，严禁调用 `close_page`。
+    8. **步骤 8（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 9 生成看板；若勾选了目标平台，则**必须严格串行执行**——每次只调用一个平台 skill，等待其完成后再调用下一个（绝对禁止在同一个工具调用块中同时发起多个平台 skill 调用，这会导致并发执行与页面冲突），启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面，直接判定完成，原样保留当前标签页现场供人工复核与发布，严禁调用 `close_page`。
     9. **步骤 9**：组装并生成一站式结果汇总看板 `index.html`（含 1~8 阶段完整资产、短视频播放器与多平台发布状态 Tab）。
 - **全自动模式（Explicit Only）**：
   - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~9 全套流程。
