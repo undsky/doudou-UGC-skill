@@ -54,8 +54,8 @@ path/to/article_name/
 │   ├── prompts/                          # 插图 Prompt 文件 (如 01-infographic-arch.md)
 │   └── images/                           # 生成的高清插图 (如 01-arch.png 及由 doudou-cdn 自动生成的 01-arch_thumb.png)
 ├── cover/                                # 步骤 4：封面图资产 (baoyu-cover-image，只上传CDN供发布绑定，不插入正文)
-│   ├── prompts/                          # 封面 Prompt 文件
-│   └── images/                           # 生成的封面图 (16:9 / 1:1 / 9:16 及由 doudou-cdn 自动生成的 _thumb 缩略图)
+│   ├── prompts/                          # 封面 3 比例 Prompt 文件 (cover-16x9.md, cover-1x1.md, cover-9x16.md)
+│   └── images/                           # 生成的 3 张多比例封面图 (cover-16x9.png, cover-1x1.png, cover-9x16.png 及 _thumb 缩略图)
 ├── cdn_manifest.json                     # 步骤 3 & 4：CDN 上传清单与 URL 映射表 (doudou-cdn 维护)
 ├── article_name_cdn.md                   # 步骤 3：已在对应位置回填插图 CDN URL 的图床化 Markdown (封面图不插入)
 ├── article_name_排版_{主题中文名}({英文标识}).html   # 步骤 5：公众号纯排版正文片段 (gzh-design 原生产物)
@@ -145,14 +145,14 @@ path/to/article_name/
   1. **识别配图位置**：分析文章信息密度与逻辑结构，识别适合配图的位置（信息图 `infographic`、流程图 `flowchart`、架构图 `framework`、对比图 `comparison`、场景图 `scene` 等），并明确记录各配图在文章中的插入位置与上下文锚点（如紧跟哪一小节标题或特定段落之后）。
   2. **生成提示词**：生成符合 Type × Style × Palette 三维标准的绘图提示词，保存至 `path/to/article_name/illustrations/prompts/NN-[type]-[slug].md`。
   3. **生图调用**：优先调用内置 **`generate_image`**，若无则调用 **`/doudou-image`**（`--prompt-file` 读取上一步 Prompt，`-o` 指定落盘路径）。生成的图片保存至 `path/to/article_name/illustrations/images/NN-[slug].png`。
-  4. **立即上传 CDN 并生成缩略图**：
-     生图完成后，立即调用 `/doudou-cdn` 上传脚本将 `illustrations/images/` 下生成的插图批量/逐个同步至 CDN 图床：
+  4. **立即上传 CDN 并生成本地缩略图**：
+     生图完成后，立即调用 `/doudou-cdn` 上传脚本将 `illustrations/images/` 下生成的插图批量/逐个同步至 CDN 图床（**必须显式携带 `--thumb` 参数，确保生成本地轻量缩略图**）：
      ```bash
-     node <doudou-cdn技能目录>/scripts/upload.mjs <插图文件...> --format json
+     node <doudou-cdn技能目录>/scripts/upload.mjs <插图文件...> --thumb --format json
      ```
      - 默认由 `doudou-cdn` 技能自主决定最优上传通道（若显式要求 R2 带 `-r`，GitHub 带 `-g`）；
-     - 缩略图由 `doudou-cdn` 技能自身全权控制与落盘（自动在原图同级生成 `<原名>_thumb` 轻量缩略图并返回元信息）；
-     - 将获取到的公开 CDN 链接保存至映射清单 `path/to/article_name/cdn_manifest.json`。
+     - **【强制参数】`--thumb` 缩略图**：必须显式传入 `--thumb` 参数，`doudou-cdn` 才会自动在原图同级生成 `<原名>_thumb` 轻量缩略图（默认 600px 宽度，大幅优化全景交付看板首屏加载与体积）；
+     - 将获取到的公开 CDN 链接及本地缩略图路径保存至映射清单 `path/to/article_name/cdn_manifest.json`。
   5. **直接插入回填生成图床化 Markdown**：
      以原 Markdown 文件（已追加文末标准化引用链接）为基准，将获取到的各配图公开 CDN URL 精准回填到第 1 步所识别规划的对应配图位置（若原 Markdown 在该位置已有旧的图片语法或本地图片引用则予以替换，若为新增配图则按 Markdown 语法 `![配图说明](CDN_URL)` 插入到对应章节段落下方），并将处理后的完整内容复制保存为独立的图床化文章文件 `path/to/article_name/article_name_cdn.md`（原 Markdown 文件保持干净不污染；后续公众号排版、小红书图文卡片制作及多平台发布均以该 CDN 版为基准输入）。
 
@@ -160,18 +160,40 @@ path/to/article_name/
 
 ### 4. 封面图生成与 CDN 同步（只上传不插入正文） (`/baoyu-cover-image` + `/doudou-cdn`)
 
-- **执行目标**：为文章设计匹配的高质感封面，生成后直接上传 CDN 供全网各平台发文使用（**只上传到 CDN 并在发布时绑定封面，严禁将封面图插入到文章正文中**）。
-- **调用逻辑**：
-  1. **提炼与定制 Prompt**：提炼核心主题与标题，按 5 维框架（Type, Palette, Rendering, Text, Mood）定制封面提示词，保存至 `path/to/article_name/cover/prompts/`。
-  2. **生成多比例封面**：针对公众号、短视频与全网多模态分发，生成标准横版主封面（`16:9`）、次级方版封面（`1:1`）以及竖版封面（`9:16`，用于短视频、视频号及小红书/抖音等移动端竖屏场景）。
-  3. **生图调用**：优先使用 **`generate_image`** 出图，缺失时再调用 **`/doudou-image`**（`--prompt-file` + `-o`）。生成的封面图片保存至 `path/to/article_name/cover/images/`。
-  4. **立即上传 CDN（只上传，不插入正文）**：
-     封面图生成完成后，立即调用 `/doudou-cdn` 上传脚本将封面图上传至 CDN 图床：
+- **执行目标**：为文章设计匹配的高质感封面，全量生成 **3 张不同比例的封面图** 并直接上传 CDN 供全网各平台发文使用（**只上传到 CDN 并在发布时绑定封面，严禁将封面图插入到文章正文中**）。
+- **【强制铁律】3 张封面矩阵必须全量生成（缺一不可，严禁遗漏）**：
+  为满足 PC 端网站、微信公众号次条、长视频平台以及短视频/移动端全网分发需求，**必须且必定生成以下全部 3 张不同画幅比例的封面图**，严禁只生成 1 张或 2 张：
+
+  | 序号 | 比例类型 | 画幅比例 | 输出尺寸建议 | 提示词文件 (`cover/prompts/`) | 封面图片文件 (`cover/images/`) | 适用场景与分发目标 |
+  | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+  | 1 | **横版主封面** | `16:9` | 1920×1080 (或 1920×1088) | `cover-16x9.md` | `cover-16x9.png` | 视频横屏封面、文章主头图、B站/YouTube/头条横版视频、博客主图 |
+  | 2 | **方版次封面** | `1:1` | 1024×1024 | `cover-1x1.md` | `cover-1x1.png` | 微信公众号次条、正方形贴图、知乎/掘金/CSDN 列表小图 |
+  | 3 | **竖版移动封面** | `9:16` | 1088×1920 | `cover-9x16.md` | `cover-9x16.png` | 短视频全屏封面、微信视频号、小红书视频、抖音、快手竖屏 |
+
+- **标准化执行流程（4 步硬性闭环）**：
+  1. **提炼与定制 3 份独立 Prompt（逐个落盘）**：
+     提炼核心主题与标题，按 5 维框架（Type, Palette, Rendering, Text, Mood）针对 3 种比例的构图特性分别定制提示词，**必须在 `path/to/article_name/cover/prompts/` 目录下依次落盘以下 3 个独立的 Markdown 文件**，严禁合写或漏写：
+     - `cover-16x9.md`（横向延展构图，突出横屏开阔感）
+     - `cover-1x1.md`（居中聚焦构图，突出主体视觉锤）
+     - `cover-9x16.md`（纵向分层构图，顶部预留标题，居中主角，底部承接）
+  2. **强制触发生图生成 3 张封面图**：
+     依次针对 3 份提示词调用生图能力（优先使用 **`generate_image`**，或指定生图技能/脚本如 **`/doudou-image`**、`/doudou-image-aihappy` 等）：
+     - 生成 16:9 封面：输出至 `path/to/article_name/cover/images/cover-16x9.png`
+     - 生成 1:1 封面：输出至 `path/to/article_name/cover/images/cover-1x1.png`
+     - 生成 9:16 封面：输出至 `path/to/article_name/cover/images/cover-9x16.png`
+  3. **【硬性门禁】3 张封面存在性校验断言（Assertion Check Gate）**：
+     生图完成后，**必须主动执行文件存在性检查**：
+     - 验证 `cover/images/cover-16x9.png` 是否存在且文件大小 > 0
+     - 验证 `cover/images/cover-1x1.png` 是否存在且文件大小 > 0
+     - 验证 `cover/images/cover-9x16.png` 是否存在且文件大小 > 0
+     > ⚠️ **阻断规则**：只要发现上述 3 张图片中有任何 1 张缺失或生成失败，**严禁推进到步骤 5**！必须立即对缺失的比例进行重试或补生，直至 3 张封面图全部完整落盘！
+  4. **全量上传 CDN 并生成缩略图（3 张图批量上传，必须带 `--thumb`）**：
+     3 张封面图全部落盘就绪后，立即调用 `/doudou-cdn` 上传脚本进行批量 CDN 直传（**必须显式携带 `--thumb` 参数**）：
      ```bash
-     node <doudou-cdn技能目录>/scripts/upload.mjs <封面文件...> --format json
+     node <doudou-cdn技能目录>/scripts/upload.mjs path/to/article_name/cover/images/cover-16x9.png path/to/article_name/cover/images/cover-1x1.png path/to/article_name/cover/images/cover-9x16.png --thumb --format json
      ```
-     - 缩略图由 `doudou-cdn` 技能自身全权控制与落盘（自动在原图同级生成 `<原名>_thumb` 轻量缩略图并返回元信息）；
-     - 将封面图的公开 CDN 链接追加/合并更新到 `path/to/article_name/cdn_manifest.json`，供各发布平台在发布草稿箱时读取并作为独立封面上传绑定；
+     - **【强制参数】`--thumb` 缩略图**：自动在封面原图同级生成 `<原名>_thumb` 轻量缩略图并返回元信息；
+     - 将 3 张封面图的公开 CDN 链接追加/合并更新到 `path/to/article_name/cdn_manifest.json`，供各发布平台在发布草稿箱时读取并作为独立封面上传绑定；
      - ⚠️ **核心规约（只上传不插入正文）**：封面图只作为各平台发布的独立封面资产，**严禁**将封面图插入到 `article_name_cdn.md` 或原 Markdown 正文中，保持文章正文阅读流与版面结构的纯粹。
 
 ---
