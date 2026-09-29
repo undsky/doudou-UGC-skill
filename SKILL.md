@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（doudou-remotion-style 视频与封面视觉风格先行选择 + 黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、doudou-remotion-style、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（doudou-remotion-style 视频与封面视觉风格先行选择 + 黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、YouTube），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、doudou-remotion-style、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-youtube）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`doudou-remotion-style`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`doudou-remotion-style`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-youtube`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布状态清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -460,11 +460,11 @@ flowchart TD
 
 ---
 
-### 8. 多平台发布 (`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`)
+### 8. 多平台发布 (`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-youtube`)
 
-- **执行目标**：在图文卡片与短视频生成完毕后，依次调用所选平台对应的独立发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`），基于 `chrome-devtools-mcp` 自动将文章及衍生资产填入各大自媒体平台与技术社区发文页面，完成就绪状态记录并保持页面打开供人工复核与发布。
+- **执行目标**：在图文卡片与短视频生成完毕后，依次调用所选平台对应的独立发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-youtube`），基于 `chrome-devtools-mcp` 自动将文章及衍生资产填入各大自媒体平台与技术社区发文页面，完成就绪状态记录并保持页面打开供人工复核与发布。
 
-#### 8.1 支持的 13 大平台矩阵
+#### 8.1 支持的 14 大平台矩阵
 
 | 平台名称         | 技能名称            | 平台名称             | 技能名称              |
 | :--------------- | :------------------ | :------------------- | :-------------------- |
@@ -474,7 +474,7 @@ flowchart TD
 | **百家号**       | `/doudou-baijia`    | **小红书**           | `/doudou-xiaohongshu` |
 | **企鹅号**       | `/doudou-qiehao`    | **抖音**             | `/doudou-douyin`      |
 | **掘金**         | `/doudou-juejin`    | **知乎**             | `/doudou-zhihu`       |
-| **CSDN**         | `/doudou-csdn`      | -                    | -                     |
+| **CSDN**         | `/doudou-csdn`      | **YouTube**          | `/doudou-youtube`     |
 
 #### 8.2 用户平台选择与跳过机制 (Interactive Selection & Skip)
 
@@ -487,7 +487,7 @@ flowchart TD
        "question": "短视频及多模态衍生资产已就绪，请选择需要自动填入发布的平台：",
        "is_multi_select": true,
        "options": [
-         "(Recommended) 全选发布（全部 13 大平台）",
+         "(Recommended) 全选发布（全部 14 大平台）",
          "微信公众平台",
          "微信视频号",
          "今日头条",
@@ -506,7 +506,7 @@ flowchart TD
      }
      ```
    - **选择逻辑裁决**：
-     - 若用户勾选了 `(Recommended) 全选发布（全部 13 大平台）` 或回复“全部发布”，全量 13 大平台全部执行；
+     - 若用户勾选了 `(Recommended) 全选发布（全部 14 大平台）` 或回复“全部发布”，全量 14 大平台全部执行；
      - 若勾选了其中部分平台，仅对勾选的平台执行自动化发布；
      - 若勾选了「全部跳过」或未选择任何平台，执行跳过机制。
 2. **全部跳过机制 (Skip All)**：
@@ -538,7 +538,7 @@ flowchart TD
 
 当用户确认需要发布的平台后，**必须严格按照下列顺序逐个串行调用**对应平台的发布技能（每次只调用一个，等待其完成后再调用下一个）：
 
-**执行顺序（1-13，严格串行）**：
+**执行顺序（1-14，严格串行）**：
 
 1. 微信公众平台：`/doudou-weixin <给定的 Markdown 文章文件>` → **等待完成**
 2. 微信视频号：`/doudou-shipinhao <给定的 Markdown 文章文件>` → **等待完成**
@@ -553,6 +553,7 @@ flowchart TD
 11. 小红书：`/doudou-xiaohongshu <给定的 Markdown 文章文件>` → **等待完成**
 12. 抖音：`/doudou-douyin <给定的 Markdown 文章文件>` → **等待完成**
 13. 知乎：`/doudou-zhihu <给定的 Markdown 文章文件>` → **等待完成**
+14. YouTube：`/doudou-youtube <给定的 Markdown 文章文件>` → **等待完成**
 
 **执行进度提示**：在调用每个平台前，向用户输出清晰的进度提示：
 
