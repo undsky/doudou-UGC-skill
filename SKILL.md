@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（doudou-remotion-style 视频与封面视觉风格先行选择 + 黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、doudou-remotion-style、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`doudou-remotion-style`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布状态清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -63,18 +63,18 @@ path/to/article_name/
 ├── xhs_images/                           # 步骤 6：小红书/微信图文卡片 (baoyu-xhs-images)
 │   ├── prompts/                          # 小红书卡片 Prompt 文件
 │   └── images/                           # 生成的 3:4 图文卡片
-├── video/                                # 步骤 7：Remotion 短视频资产 (video-shotcraft + video-talkcraft + doudou-tts + 动画生态库)
-│   ├── storyboard.md                     # 分镜脚本 (黄金钩子开场 + 镜头卡映射表 + 帧级时间轴 + 素材与动效定义)
-│   ├── assets/                           # 视频专属定制素材库 (矢量 SVG + 专属定制生图)
-│   │   ├── svg/                          # 分镜量身定制的矢量 SVG 图形/架构图/图标 (配合 @remotion/paths 路径动画)
-│   │   ├── images/                       # 分镜专属 AI 配图 (针对性提示词生图)
-│   │   └── prompts/                      # 专属生图提示词记录
+├── video/                                # 步骤 7：Remotion 短视频资产 (doudou-remotion-style + video-shotcraft + video-talkcraft + doudou-tts + 动画生态库)
+│   ├── storyboard.md                     # 分镜脚本 (视频风格标识 + 黄金钩子开场 + 镜头卡映射表 + 帧级时间轴 + 素材与动效定义)
+│   ├── assets/                           # 视频专属定制素材库 (矢量 SVG + 专属定制生图，严格对齐所选视觉风格规范)
+│   │   ├── svg/                          # 分镜量身定制的矢量 SVG 图形/架构图/图标 (配合 @remotion/paths 路径动画与风格硬边线)
+│   │   ├── images/                       # 分镜专属 AI 配图 (针对性提示词生图，遵循风格撞色与调性)
+│   │   └── prompts/                      # 专属生图提示词记录 (含配套风格生图 Prompt)
 │   ├── narration/                        # edge-tts 配音与字幕
 │   │   ├── shot_NN.mp3                   # 各分镜配音音频 (edge-tts，云扬/晓晓等音色)
-│   │   └── shot_NN.srt                   # 与音频对齐的 SRT 字幕 (--srt 产出)
+│   │   └── shot_NN.srt                   # 与音频对齐的 SRT 字幕 (--srt 产出，遵循单行药丸流式排版)
 │   ├── qa/                               # 逐镜头静帧验收档案 (npx remotion still)
-│   ├── article_name.mp4                  # ⭐ 终渲成片 (按字数规划：每 500 字约 1 分钟，≥ 60s，含配音与 SFX)
-│   └── video_manifest.json               # 视频元数据 (时长、分辨率、分镜清单、镜头卡、动画生态库、音色、渲染耗时)
+│   ├── article_name.mp4                  # ⭐ 终渲成片 (按字数规划：每 500 字约 1 分钟，含配音与 SFX)
+│   └── video_manifest.json               # 视频元数据 (风格套件、时长、分辨率、分镜清单、镜头卡、动画生态库、音色、渲染耗时)
 └── publishes/                            # 步骤 8：多平台发布状态清单 (/doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu)
     └── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、就绪状态、时间等)
 ```
@@ -147,12 +147,15 @@ path/to/article_name/
   3. **生图调用**：优先调用内置 **`generate_image`**，若无则调用 **`/doudou-image`**（`--prompt-file` 读取上一步 Prompt，`-o` 指定落盘路径）。生成的图片保存至 `path/to/article_name/illustrations/images/NN-[slug].png`。
   4. **立即上传 CDN 并生成本地缩略图**：
      生图完成后，立即调用 `/doudou-cdn` 上传脚本将 `illustrations/images/` 下生成的插图批量/逐个同步至 CDN 图床（**必须显式携带 `--thumb` 参数，确保生成本地轻量缩略图**）：
+
      ```bash
      node <doudou-cdn技能目录>/scripts/upload.mjs <插图文件...> --thumb --format json
      ```
+
      - 默认由 `doudou-cdn` 技能自主决定最优上传通道（若显式要求 R2 带 `-r`，GitHub 带 `-g`）；
      - **【强制参数】`--thumb` 缩略图**：必须显式传入 `--thumb` 参数，`doudou-cdn` 才会自动在原图同级生成 `<原名>_thumb` 轻量缩略图（默认 600px 宽度，大幅优化全景交付看板首屏加载与体积）；
      - 将获取到的公开 CDN 链接及本地缩略图路径保存至映射清单 `path/to/article_name/cdn_manifest.json`。
+
   5. **直接插入回填生成图床化 Markdown**：
      以原 Markdown 文件（已追加文末标准化引用链接）为基准，将获取到的各配图公开 CDN URL 精准回填到第 1 步所识别规划的对应配图位置（若原 Markdown 在该位置已有旧的图片语法或本地图片引用则予以替换，若为新增配图则按 Markdown 语法 `![配图说明](CDN_URL)` 插入到对应章节段落下方），并将处理后的完整内容复制保存为独立的图床化文章文件 `path/to/article_name/article_name_cdn.md`（原 Markdown 文件保持干净不污染；后续公众号排版、小红书图文卡片制作及多平台发布均以该 CDN 版为基准输入）。
 
@@ -164,11 +167,11 @@ path/to/article_name/
 - **【强制铁律】3 张封面矩阵必须全量生成（缺一不可，严禁遗漏）**：
   为满足 PC 端网站、微信公众号次条、长视频平台以及短视频/移动端全网分发需求，**必须且必定生成以下全部 3 张不同画幅比例的封面图**，严禁只生成 1 张或 2 张：
 
-  | 序号 | 比例类型 | 画幅比例 | 输出尺寸建议 | 提示词文件 (`cover/prompts/`) | 封面图片文件 (`cover/images/`) | 适用场景与分发目标 |
-  | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-  | 1 | **横版主封面** | `16:9` | 1920×1080 (或 1920×1088) | `cover-16x9.md` | `cover-16x9.png` | 视频横屏封面、文章主头图、B站/YouTube/头条横版视频、博客主图 |
-  | 2 | **方版次封面** | `1:1` | 1024×1024 | `cover-1x1.md` | `cover-1x1.png` | 微信公众号次条、正方形贴图、知乎/掘金/CSDN 列表小图 |
-  | 3 | **竖版移动封面** | `9:16` | 1088×1920 | `cover-9x16.md` | `cover-9x16.png` | 短视频全屏封面、微信视频号、小红书视频、抖音、快手竖屏 |
+  | 序号 | 比例类型         | 画幅比例 | 输出尺寸建议             | 提示词文件 (`cover/prompts/`) | 封面图片文件 (`cover/images/`) | 适用场景与分发目标                                           |
+  | :--- | :--------------- | :------- | :----------------------- | :---------------------------- | :----------------------------- | :----------------------------------------------------------- |
+  | 1    | **横版主封面**   | `16:9`   | 1920×1080 (或 1920×1088) | `cover-16x9.md`               | `cover-16x9.png`               | 视频横屏封面、文章主头图、B站/YouTube/头条横版视频、博客主图 |
+  | 2    | **方版次封面**   | `1:1`    | 1024×1024                | `cover-1x1.md`                | `cover-1x1.png`                | 微信公众号次条、正方形贴图、知乎/掘金/CSDN 列表小图          |
+  | 3    | **竖版移动封面** | `9:16`   | 1088×1920                | `cover-9x16.md`               | `cover-9x16.png`               | 短视频全屏封面、微信视频号、小红书视频、抖音、快手竖屏       |
 
 - **标准化执行流程（4 步硬性闭环）**：
   1. **提炼与定制 3 份独立 Prompt（逐个落盘）**：
@@ -186,12 +189,14 @@ path/to/article_name/
      - 验证 `cover/images/cover-16x9.png` 是否存在且文件大小 > 0
      - 验证 `cover/images/cover-1x1.png` 是否存在且文件大小 > 0
      - 验证 `cover/images/cover-9x16.png` 是否存在且文件大小 > 0
-     > ⚠️ **阻断规则**：只要发现上述 3 张图片中有任何 1 张缺失或生成失败，**严禁推进到步骤 5**！必须立即对缺失的比例进行重试或补生，直至 3 张封面图全部完整落盘！
+       > ⚠️ **阻断规则**：只要发现上述 3 张图片中有任何 1 张缺失或生成失败，**严禁推进到步骤 5**！必须立即对缺失的比例进行重试或补生，直至 3 张封面图全部完整落盘！
   4. **全量上传 CDN 并生成缩略图（3 张图批量上传，必须带 `--thumb`）**：
      3 张封面图全部落盘就绪后，立即调用 `/doudou-cdn` 上传脚本进行批量 CDN 直传（**必须显式携带 `--thumb` 参数**）：
+
      ```bash
      node <doudou-cdn技能目录>/scripts/upload.mjs path/to/article_name/cover/images/cover-16x9.png path/to/article_name/cover/images/cover-1x1.png path/to/article_name/cover/images/cover-9x16.png --thumb --format json
      ```
+
      - **【强制参数】`--thumb` 缩略图**：自动在封面原图同级生成 `<原名>_thumb` 轻量缩略图并返回元信息；
      - 将 3 张封面图的公开 CDN 链接追加/合并更新到 `path/to/article_name/cdn_manifest.json`，供各发布平台在发布草稿箱时读取并作为独立封面上传绑定；
      - ⚠️ **核心规约（只上传不插入正文）**：封面图只作为各平台发布的独立封面资产，**严禁**将封面图插入到 `article_name_cdn.md` 或原 Markdown 正文中，保持文章正文阅读流与版面结构的纯粹。
@@ -228,20 +233,22 @@ path/to/article_name/
 
 ---
 
-### 7. 生成 Remotion 短视频 (`/video-shotcraft` + `/video-talkcraft` + `/doudou-tts` + `/remotion-best-practices` + 动画生态库)
+### 7. 生成 Remotion 短视频 (`/doudou-remotion-style` + `/video-shotcraft` + `/video-talkcraft` + `/doudou-tts` + `/remotion-best-practices` + 动画生态库)
 
-- **执行目标**：综合分析**目标 Markdown 原文**核心叙事，**根据目标 Markdown 原文字数规划视频时长（每 500 字生成 1 分钟左右的视频，且总时长不小于 60 秒）**，制作极具动态质感、信息密集与电影级视觉冲击力的解说短视频。
+- **执行目标**：综合分析**目标 Markdown 原文**核心叙事，**根据目标 Markdown 原文字数规划视频时长（每 500 字生成 1 分钟左右的视频）**，制作极具动态质感、信息密集与电影级视觉冲击力的解说短视频。
+- **【核心执行原则：风格先行机制】**：短视频生成流程**必须首先提示用户选择视频与配套封面视觉风格（`/doudou-remotion-style`）**。再展开后续的分镜与组件实现。
 - **视频素材体系（矢量 SVG + 专属定制生图）**：
-  - 短视频视觉资产采用**矢量 SVG + 专属定制生图**双引擎驱动，针对分镜现场深度定制：
+  - 短视频视觉资产采用**矢量 SVG + 专属定制生图**双引擎驱动，针对分镜现场深度定制，并严格对齐所选视觉风格：
     1. **矢量 SVG 动态素材（路径动画与结构支撑）**：针对技术架构、系统拓扑、执行时序、核心概念对比、步骤拆解、关键数据看板及指示图标，直接根据分镜需求量身生成高质量纯矢量 SVG 素材（或封装为 React SVG 组件），保存至 `video/assets/svg/`。SVG 具备无限放大不失真、极小体积、原生支持 CSS/Tailwind 样式，并能与 `@remotion/paths` 完美融合，实现**路径描边生长（Path drawing）**、**形状形变过渡（Morphing）**与**连线脉冲光效**；
-    2. **分镜专属定制生图（氛围与视觉焦点补充）**：针对需要具象画面、概念场景隐喻、戏剧化冲突或高冲击力视觉中心的分镜，使用生图工具（优先使用 **`generate_image`**，无可用时使用 **`/doudou-image`** `--prompt-file` + `-o`）根据该分镜的具体画幅（16:9 横屏或 9:16 竖屏）、景别（特写/中景/全景）、构图与专属提示词针对性生成，保存至 `video/assets/images/`（生图提示词统一记录于 `video/assets/prompts/`）。
-    两者各展所长、有机配合，在 Remotion 动效引擎下构建兼具信息深度与电影级视觉冲击力的画面。
+    2. **分镜专属定制生图（氛围与视觉焦点补充）**：针对需要具象画面、概念场景隐喻、戏剧化冲突或高冲击力视觉中心的分镜，使用生图工具（优先使用 **`generate_image`**，无可用时使用 **`/doudou-image`** `--prompt-file` + `-o`）根据该分镜的具体画幅（16:9 横屏或 9:16 竖屏）、景别（特写/中景/全景）、构图与风格专属提示词针对性生成，保存至 `video/assets/images/`（生图提示词统一记录于 `video/assets/prompts/`）。
+       两者各展所长、有机配合，在 Remotion 动效引擎下构建兼具信息深度与电影级视觉冲击力的画面。
 - **遵循 Remotion 最佳实践**：全程严格遵循 Remotion 最佳实践（`/remotion-best-practices`），确保组件架构、动效计算、确定性渲染与工程化规范达标。
 - **画幅与分辨率自主选择规约（横屏 vs 竖屏）**：
   - 生成的视频画幅规格**必须由用户在步骤 7 门禁中自主选择**：
     - 🖥️ **横屏（16:9，1920×1080）**
     - 📱 **竖屏（9:16，1080×1920）**
 - **技能与技术栈协同分工**：
+  - **视频与封面风格选择器（先行中枢）**：`/doudou-remotion-style`：提供多种工业级 Remotion 短视频动效与封面视觉风格让用户自主选择（集成：新野兽派经典明亮版 Neo-brutalism Light 与新野兽派暗黑极客版 Neo-brutalism Black 等）。无首发或预设风格，用户完全自主决定。视频与封面提示词为一组高内聚的一体化套件。包含像素级字号排版阶梯、Design Tokens 字典、物理弹簧动效、Remotion 完整代码 Master Prompt、配套 16:9 与 9:16 矢量贴画封面生图 Prompt 以及 AI 视频物理运镜提示词。
   - **最佳实践规范**：`/remotion-best-practices`：遵循 Remotion 官方架构规范、组件生命周期、动画计算准则、确定性渲染与工程化最佳实践。
   - **分镜与镜头动效（双引擎协同）**：
     - `/video-shotcraft`：提供电影感与产品镜头配方卡库（附 demo 源码与动态样片画廊）、Ink Press 模板、可复用组件（PageCam / ClipCard / Caption 等）与声明式钉帧音效库。
@@ -250,16 +257,34 @@ path/to/article_name/
   - **配音与字幕**：`/doudou-tts` 的 **edge-tts** 引擎（`scripts/edgetts.py`），**必须使用 edge-tts，不使用 cosyvoice**（后者慢到分钟级、且本流程无音色克隆需求）。
   - **渲染引擎**：Remotion（30fps；按用户选定的横屏 1920×1080 或竖屏 1080×1920 注册 Composition 并渲染输出）。
 
-#### 7.1 分镜脚本生成（黄金钩子原则）
+#### 7.1 视频与配套封面视觉风格先行门禁（`/doudou-remotion-style`，优先先行）
+
+> 🎯 **【核心原则】风格先行，全权委托 `/doudou-remotion-style` 标准决策流水线**
+> 视频与封面是一体化高内聚的视觉套件。在启动短视频生成流程时，**严禁跳过风格选择直接构思脚本或编写代码**。必须**首先委派调用 `/doudou-remotion-style`**，由其负责风格推荐、交互设问与全案规范载入，确立全片一体化 Design Tokens 后，再开展后续分镜脚本规划与组件实现。
+
+1. **直接委托 `/doudou-remotion-style` 执行交互决策**：
+   - 由其分析当前文稿题材特征与推荐倾向；
+   - 由其调用 `ask_question` 弹出纯中文选项（含题材推荐项与「全部跳过」）；
+   - 根据用户选择分支，动态读取对应的风格全案，载入全套 Design Tokens；若用户选择「全部跳过」则退出风格套件按基础模板推进。
+2. **全链路消费与资产对齐**：
+   - 消费 7.1 确立的风格规范（或基础模板），以此作为后续 7.2 分镜脚本排版、7.3 镜头卡统一蒙皮、7.4 配音字幕样式、7.5 `theme.ts` 代码常量的唯一样式基准。
+3. **协同确认视频画幅规格（横屏 vs 竖屏）**：
+   - 在风格确立的同时，确认视频的画幅规格：
+     - 🖥️ **横屏（16:9，1920×1080）**
+     - 📱 **竖屏（9:16，1080×1920）**
+
+#### 7.2 分镜脚本生成（黄金钩子原则与风格对齐）
 
 将分镜脚本写入 `path/to/article_name/video/storyboard.md`，必须遵循以下结构与原则：
 
-1. **黄金钩子（Golden Hook，硬约束）**：
+1. **视觉风格对齐标注**：
+   - 在 `storyboard.md` 头部必须显式标注当前视频选定的视觉风格与画幅规格（如 `视觉风格：neo-brutalism (light) · 新野兽派经典明亮版 | 画幅：16:9 (1920×1080)`）；全片口播文案切分与字幕排版严格遵守该风格的 Anti-Boring Chunking 规范。
+2. **黄金钩子（Golden Hook，硬约束）**：
    - **前 3 秒必须抛出最强张力**：用文章中最扎心的痛点、反常识结论或代价数字开场，禁止用"大家好"、"今天给大家分享"一类无信息量的寒暄，也禁止先自我介绍或先讲背景。
    - 钩子的三种可选句式（择一，取自文章原文的真实冲突）：**痛点直击**（"在我电脑上明明是好的"）、**反常识断言**（"工具换了一轮又一轮，其实都是在换马甲"）、**代价前置**（"少了这一步，客户后端直接 JSON 解析报错"）。
    - 钩子镜头结束时必须给出**本片承诺**（观众看完能得到什么），承诺随后必须在正文段被兑现。
-2. **叙事骨架（钩子之后）**：按「**冲突 → 拆解 → 兑现 → 收束**」推进——痛点冲突段（问题有多贵）→ 方法拆解段（核心架构 / 原则，对应文章主干小节）→ 价值兑现段（能换来什么结果）→ 品牌收束段（字标落定 + 引导关注）。
-3. **分镜表与素材动效标注（与两大技能及动画库深度对齐）**：
+3. **叙事骨架（钩子之后）**：按「**冲突 → 拆解 → 兑现 → 收束**」推进——痛点冲突段（问题有多贵）→ 方法拆解段（核心架构 / 原则，对应文章主干小节）→ 价值兑现段（能换来什么结果）→ 品牌收束段（字标落定 + 引导关注）。
+4. **分镜表与素材动效标注（与风格套件、两大技能及动画库深度对齐）**：
    - 分镜表结构：`| # | 时间(帧) | 镜头卡 | 关键动效与画面内容 | 素材形式与路径 | 调用的动效库 |`
    - 另附**帧级时间轴** `| shot | from | duration | 内容 |`
    - 逐镜必须详细标注：
@@ -268,17 +293,17 @@ path/to/article_name/
      - **素材来源**：明确标注当前镜头使用的素材（【专属定制 SVG】或【专属 AI 生图】，注明素材路径与动效配合方案）；
      - **调用的动效库**：明确标注当前镜头使用了哪些已安装库（如 `@remotion/paths` 路径生长 + `@remotion/rough-notation` 下划线 + `@remotion/mac-cursors` 点击 + `@remotion/motion-blur` 残影）；
      - **转场与 SFX**（钉帧音效与运镜转场）。
-4. **单分镜时长红线（硬约束，黄金区间 3~7 秒）**：
+5. **单分镜时长红线（硬约束，黄金区间 3~7 秒）**：
    - **单镜严格锁定在 3~7 秒黄金区间**：**全片每一个分镜的时长必须严格控制在黄金区间 3~7 秒（90~210 帧 @ 30fps）内**，严禁任何单个分镜超过 7 秒（> 210 帧），彻底杜绝拖沓冗长；同时单镜原则上不低于 3 秒（< 90 帧），确保关键信息、视觉素材与动画有充分的展示与理解窗口，保持高度吸睛的高频视觉切换节奏。
    - **长文案强制拆解切镜**：若某个核心论点、架构拆解或操作演示的口播文案较长（超过 7 秒 / 210 帧），**严禁单镜头超时死扛，必须强制拆解为多个连贯递进的子镜头或独立分镜（如 S2a/S2b 或 S2/S3）**，保证拆解后的每个子分镜时长均严格落在 3~7 秒黄金区间内，通过切换视角、局部特写、动效变体或卡片递进，实现高频切镜与信息高动态刷新。
    - **短文案节奏饱满保障**：若分镜文案过短（口播不足 3 秒），需适当充实解说文案或合理与相邻语意整合，确保分镜时长达标（≥ 3 秒 / 90 帧），避免画面过快闪现导致信息尚未被看清。
-5. **节奏紧凑与转场防停顿（字数规划时长与防静止铁律）**：
+6. **节奏紧凑与转场防停顿（字数规划时长与防静止铁律）**：
    - **紧凑节奏**：全片节奏保持利落紧凑，信息密度饱满。**特别是镜头与段落转场时，绝对不要出现长时间停顿**（音频结束与下一镜头切入之间的间隙严格控制在 0.1~0.25 秒 / 3~8 帧以内，紧密咬合，严禁黑屏死等或静止空镜拖沓）。
-   - **全片时长规划**：视频总时长根据目标 Markdown 原文字数规划，每 500 字生成 1 分钟左右的视频（总时长原则上不小于 60 秒，30fps 即每分钟约 1800 帧），全片由多个 3~7 秒（90~210 帧）的黄金短分镜高频组合咬合构成。
+   - **全片时长规划**：视频总时长根据目标 Markdown 原文字数规划，每 500 字生成 1 分钟左右的视频（30fps 即每分钟约 1800 帧），全片由多个 3~7 秒（90~210 帧）的黄金短分镜高频组合咬合构成。
    - **呼吸位克制**：品牌字标落定 hold 0.5s~0.8s 即可，批量动效收尾留 0.3s 缓冲；**全片绝对不要出现超过 3 秒画面一直不变的情况**（长镜头中必须持续注入微运镜推拉、慢速平移、视差浮动、文字逐行/逐词浮现或光效流动，杜绝死板定格）。
-6. **一镜一核心动效**：同一种动画手法（飞入 / 堆叠 / 翻页）全片只当一次主角，重复镜头与重复 tagline 一律删。
+7. **一镜一核心动效**：同一种动画手法（飞入 / 堆叠 / 翻页）全片只当一次主角，重复镜头与重复 tagline 一律删。
 
-#### 7.2 镜头与动效配方挑选及动画全家桶赋能
+#### 7.3 镜头与动效配方挑选及动画全家桶赋能
 
 1. **从双技能库动态检索配方卡**：
    - 在为分镜挑选镜头动效时，**必须直接从两大动效技能中动态检索最新卡库**：
@@ -294,24 +319,24 @@ path/to/article_name/
 2. **已安装 Remotion 动画库全景赋能矩阵（`undsky/package.json:L10-L27`）**：
    在分镜组件实现中，必须按分镜叙事形态灵活编排下列 16 个已安装的生态库，极大拓展动态表现力：
 
-   | 依赖包名称 | 核心能力定位 | 在视频分镜中的高阶动画实践与视觉赋能 | 典型适用分镜与场景 |
-   | :--- | :--- | :--- | :--- |
-   | **`@remotion/paths`** | SVG 路径动画与形变 | • 使用 `evolvePath()` 驱动 SVG 架构拓扑连线、业务流程图、连接箭头的**动态逐段描边生长**<br>• 使用 `getPointAtLength()` 驱动光标、脉冲光点沿路径游走导航<br>• 路径变形（Path morphing）实现图表形态平滑过渡 | 架构拆解、流程链路、数据折线图 |
-   | **`@remotion/rough-notation`** | 手绘笔触划重点与标注 | • `underline`：动态手绘下划线划出金句重点<br>• `box` / `circle`：手绘红/黄方框或线圈精准圈中核心痛点与关键天坑<br>• `highlight`：荧光笔涂抹高亮反常识结论<br>• `strike-through`：手绘删除线推翻错误认知 | 黄金钩子、痛点直击、反常识断言、核心结论 |
-   | **`@remotion/mac-cursors`** | 拟真 macOS 鼠标光标交互 | • 原生 Mac 光标（`Cursor`：Default/Pointer/Text）平滑移动与物理减速<br>• 模拟真实点击与水波纹扩散动效（Click Ripple）<br>• 文本划选高亮、卡片拖拽位移演示 | CLI 终端操作、软件功能演示、UI 交互交互 |
-   | **`@remotion/motion-blur`** | 物理快门级动态模糊 | • 使用 `<CameraMotionBlur>` 赋予高速运镜、卡片飞入、转场甩镜真实的快门残影<br>• 彻底消除生硬的帧跳跃与数码机械感，带来院线电影质感 | 快速切镜、撞停震屏、卡片高速入场 |
-   | **`@remotion/noise`** | 程序化柏林/单纯形噪波 | • 手持摄影机微晃（Handheld Camera Shake），为长镜头注入有机呼吸感<br>• 动态流光背景、极光有机流动、微粒子空间漂移（破解定格 >3s） | 背景环境光、全景微运镜、悬浮粒子底景 |
-   | **`@remotion/shapes`** | 参数化几何图形与变形 | • `Circle`、`Rect`、`Triangle`、`Star`、`Polygon` 等矢量几何快速构建<br>• 几何图形爆裂展开（Burst）、展开式多层底衬、百分比进度圆环（Pie） | 徽章展示、指标大板、装饰性几何动效 |
-   | **`@remotion/three`**<br>+ `@react-three/fiber`<br>+ `three` | 3D 空间建模与立体运镜 | • 3D 悬浮立体卡片翻转、3D 粒子星空、空间连线网格矩阵<br>• 三维摄像机环绕运镜（Orbiting / Fly-through），营造深邃空间感 | 空间架构透视、底层基建总览、品牌收束 |
-   | **`@remotion/effects`** | 后期级光学滤镜与视效 | • **辉光（Glow / Bloom）**：核心节点、高亮代码、高能关键词外发光<br>• **色散分离（Chromatic Aberration）**：黄金钩子冲突瞬间的故障震荡风<br>• **暗角（Vignette）**与**景深虚化（Blur）**：强化舞台视线聚焦 | 视觉冲击高潮、警报故障、聚焦中心舞台 |
-   | **`@remotion/captions`** | 智能字幕解析与动态高亮 | • 精准解析 edge-tts 生成的 SRT 词级时间轴<br>• 词级放大弹跳（Word Pop）、卡拉OK式逐词点亮、平滑跟随胶囊 | 全片口播字幕呈现 |
-   | **`@remotion/lottie`**<br>+ `lottie-web` | 工业级矢量微动效 | • 嵌入矢量微动画（点赞爆发、雷达扫描、警告闪烁、火箭升空、盾牌防御）<br>• 帧级精准受控播放，与口播台词节奏严丝合缝 | 动作引导、安全防护概念、CTA 尾页 |
-   | **`@remotion/gif`** | GIF 动图受控渲染 | • 播放速度、循环、暂停受控的像素风/表情包动态穿插 | 趣味性插播、痛点吐槽 |
-   | **`@remotion/media`**<br>+ `media-utils` | 媒体处理与音频可视化 | • 根据配音或 BGM 音轨实时生成动态音频跳动波形（Audio Visualizer）<br>• 智能探测媒体资源尺寸与时长，确保资源零抖动加载 | 底部声波律动、配音节奏可视化 |
-   | **`@remotion/layout-utils`** | 容器自适应测量 | • 动态测量文本与组件的实际渲染尺寸，卡片容器随文字平滑缩放 | 动态药丸胶囊、自适应提示框 |
-   | **`@remotion/transitions`** | 原生电影级转场系统 | • `<TransitionSeries>` 结合 slide, wipe, flip, fade 等无缝咬合转场 | 分镜之间的转场衔接 |
-   | **`@remotion/tailwind-v4`**<br>+ `tailwindcss` | 现代化 UI 样式体系 | • 极速装配 Apple 范式磨砂玻璃（backdrop-blur）、精细渐变边框与阴影 | 全片 UI 舞台、信息卡片、代码容器 |
-   | **`@remotion/animation-utils`**| 高阶插值与弹簧函数 | • 自定义贝塞尔曲线、多段复合插值计算、能量衰减曲线 | 镜头物理加速、重力落地缓冲 |
+   | 依赖包名称                                                   | 核心能力定位            | 在视频分镜中的高阶动画实践与视觉赋能                                                                                                                                                                       | 典型适用分镜与场景                       |
+   | :----------------------------------------------------------- | :---------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------- |
+   | **`@remotion/paths`**                                        | SVG 路径动画与形变      | • 使用 `evolvePath()` 驱动 SVG 架构拓扑连线、业务流程图、连接箭头的**动态逐段描边生长**<br>• 使用 `getPointAtLength()` 驱动光标、脉冲光点沿路径游走导航<br>• 路径变形（Path morphing）实现图表形态平滑过渡 | 架构拆解、流程链路、数据折线图           |
+   | **`@remotion/rough-notation`**                               | 手绘笔触划重点与标注    | • `underline`：动态手绘下划线划出金句重点<br>• `box` / `circle`：手绘红/黄方框或线圈精准圈中核心痛点与关键天坑<br>• `highlight`：荧光笔涂抹高亮反常识结论<br>• `strike-through`：手绘删除线推翻错误认知    | 黄金钩子、痛点直击、反常识断言、核心结论 |
+   | **`@remotion/mac-cursors`**                                  | 拟真 macOS 鼠标光标交互 | • 原生 Mac 光标（`Cursor`：Default/Pointer/Text）平滑移动与物理减速<br>• 模拟真实点击与水波纹扩散动效（Click Ripple）<br>• 文本划选高亮、卡片拖拽位移演示                                                  | CLI 终端操作、软件功能演示、UI 交互交互  |
+   | **`@remotion/motion-blur`**                                  | 物理快门级动态模糊      | • 使用 `<CameraMotionBlur>` 赋予高速运镜、卡片飞入、转场甩镜真实的快门残影<br>• 彻底消除生硬的帧跳跃与数码机械感，带来院线电影质感                                                                         | 快速切镜、撞停震屏、卡片高速入场         |
+   | **`@remotion/noise`**                                        | 程序化柏林/单纯形噪波   | • 手持摄影机微晃（Handheld Camera Shake），为长镜头注入有机呼吸感<br>• 动态流光背景、极光有机流动、微粒子空间漂移（破解定格 >3s）                                                                          | 背景环境光、全景微运镜、悬浮粒子底景     |
+   | **`@remotion/shapes`**                                       | 参数化几何图形与变形    | • `Circle`、`Rect`、`Triangle`、`Star`、`Polygon` 等矢量几何快速构建<br>• 几何图形爆裂展开（Burst）、展开式多层底衬、百分比进度圆环（Pie）                                                                 | 徽章展示、指标大板、装饰性几何动效       |
+   | **`@remotion/three`**<br>+ `@react-three/fiber`<br>+ `three` | 3D 空间建模与立体运镜   | • 3D 悬浮立体卡片翻转、3D 粒子星空、空间连线网格矩阵<br>• 三维摄像机环绕运镜（Orbiting / Fly-through），营造深邃空间感                                                                                     | 空间架构透视、底层基建总览、品牌收束     |
+   | **`@remotion/effects`**                                      | 后期级光学滤镜与视效    | • **辉光（Glow / Bloom）**：核心节点、高亮代码、高能关键词外发光<br>• **色散分离（Chromatic Aberration）**：黄金钩子冲突瞬间的故障震荡风<br>• **暗角（Vignette）**与**景深虚化（Blur）**：强化舞台视线聚焦 | 视觉冲击高潮、警报故障、聚焦中心舞台     |
+   | **`@remotion/captions`**                                     | 智能字幕解析与动态高亮  | • 精准解析 edge-tts 生成的 SRT 词级时间轴<br>• 词级放大弹跳（Word Pop）、卡拉OK式逐词点亮、平滑跟随胶囊                                                                                                    | 全片口播字幕呈现                         |
+   | **`@remotion/lottie`**<br>+ `lottie-web`                     | 工业级矢量微动效        | • 嵌入矢量微动画（点赞爆发、雷达扫描、警告闪烁、火箭升空、盾牌防御）<br>• 帧级精准受控播放，与口播台词节奏严丝合缝                                                                                         | 动作引导、安全防护概念、CTA 尾页         |
+   | **`@remotion/gif`**                                          | GIF 动图受控渲染        | • 播放速度、循环、暂停受控的像素风/表情包动态穿插                                                                                                                                                          | 趣味性插播、痛点吐槽                     |
+   | **`@remotion/media`**<br>+ `media-utils`                     | 媒体处理与音频可视化    | • 根据配音或 BGM 音轨实时生成动态音频跳动波形（Audio Visualizer）<br>• 智能探测媒体资源尺寸与时长，确保资源零抖动加载                                                                                      | 底部声波律动、配音节奏可视化             |
+   | **`@remotion/layout-utils`**                                 | 容器自适应测量          | • 动态测量文本与组件的实际渲染尺寸，卡片容器随文字平滑缩放                                                                                                                                                 | 动态药丸胶囊、自适应提示框               |
+   | **`@remotion/transitions`**                                  | 原生电影级转场系统      | • `<TransitionSeries>` 结合 slide, wipe, flip, fade 等无缝咬合转场                                                                                                                                         | 分镜之间的转场衔接                       |
+   | **`@remotion/tailwind-v4`**<br>+ `tailwindcss`               | 现代化 UI 样式体系      | • 极速装配 Apple 范式磨砂玻璃（backdrop-blur）、精细渐变边框与阴影                                                                                                                                         | 全片 UI 舞台、信息卡片、代码容器         |
+   | **`@remotion/animation-utils`**                              | 高阶插值与弹簧函数      | • 自定义贝塞尔曲线、多段复合插值计算、能量衰减曲线                                                                                                                                                         | 镜头物理加速、重力落地缓冲               |
 
 3. **逐镜独立推荐与自主选择规约（硬约束）**：
    - **每一个分镜分别独立筛选推荐**：严禁将全片镜头打包为一个整体组合选项，**必须针对分镜脚本中的每一个分镜（如 S1、S2、S3、S4、S5、S6...）分别独立从上述技能中动态检索并推荐**。针对每一个分镜，综合其叙事能量、信息形态（痛点直击/概念对比/架构扫描/终端演示/指标大板/品牌收束）与画面素材特征，**为该分镜单独筛选出至少 3 个最契合的候选动效配方卡**（注明所属技能来源、卡名、动作语法、视觉风格、呈现重点与适用场景）。
@@ -322,9 +347,11 @@ path/to/article_name/
    - **配方卡「已知坑 / 命门」标注的参数不得降档**，允许按本文章素材做适配性改动，质量标准只升不降。
    - 凭卡名与理解自行新写 = 放弃全部调校积累，实测质感差一档，**禁止**。
 
-5. **视觉语言与 Design Tokens 独立确立**：全片配色、字体、圆角与质感必须确立一套统一的 Design Tokens（基于文章所属技术题材、核心主题色与首要视觉素材），为全片建立高度自洽的高质感视觉范式（如新粗野主义、日系便当盒、Dark、Cyber 或 Apple 范式等）。镜头卡继承运动语法与已调参数，皮肤按全片 Design Tokens 统一蒙皮。
+5. **视觉语言与 Design Tokens 继承与统一蒙皮**：
+   - **直接继承 7.1 所选风格规范**：全片配色、字体、圆角、阴影与动画弹簧**必须严格继承步骤 7.1 中用户所选定的视觉风格规范**。
+   - **镜头卡统一蒙皮**：所有从 `video-shotcraft` 或 `video-talkcraft` 引入的镜头卡组件，继承其动作语法与已调物理时序，**皮肤样式统一按照全片 Design Tokens 进行统一蒙皮**，实现动效骨架与视觉皮肤的完美融合。
 
-#### 7.3 配音与字幕（`doudou-tts` edge-tts）
+#### 7.4 配音与字幕（`doudou-tts` edge-tts）
 
 1. **口播文案精炼与短句化（禁书面大长句）**：
    - 短视频口播文案必须高度口语化、句式利落（多用短句、对比断句），严禁把书面文章的大段复合长句直接作为口播文案。
@@ -355,12 +382,13 @@ path/to/article_name/
        - 以及支持用户自定义输入其他倍率数值。
    - **强制带 `--srt`**：无论用户选择何种音色与语速，合成命令中**必须携带 `--srt`** 以获得与音频精准对齐的 SRT 字幕。
 5. **以音频实测时长反推帧数与无缝衔接（关键）**：合成后读取各 `shot_NN.mp3` 的**实测时长**（`--json` 返回元数据，或用 ffprobe），据此**回填 `storyboard.md` 的帧级时间轴**——镜头时长与配音紧密咬合，确保画面切换晚于该镜配音结束仅 3~8 帧，转场紧凑连贯，严禁出现画面与声音断层的长停顿空白。
-6. **字幕上屏与素排**：字幕经精细化短句时间轴上屏，采用自适应流式单行设计，字体与配色沿用第 7.2 条的视觉 tokens；**纯动画段落也要有解说字幕**，不留哑巴段落。
+6. **字幕上屏与素排**：字幕经精细化短句时间轴上屏，采用自适应流式单行设计，字体与配色沿用第 7.1 与 7.3 条的视觉 tokens；**纯动画段落也要有解说字幕**，不留哑巴段落。
 
-#### 7.4 Remotion 工程实现与渲染
+#### 7.5 Remotion 工程实现与渲染
 
 1. **直接复用仓库根目录的 Remotion 工程（禁建自包含工程）**：不要在产物目录里另起 Remotion 工程、不要新装依赖、不要新写 `package.json` / `remotion.config.ts`。一律用仓库根目录既有工程：
    - 镜头与时间线源码写进 `src/videos/<article_name>/`（`scenes/`、`lib/`、`theme.ts`、`captions.ts`、`sfx.tsx`、`<Name>Video.tsx`）。
+   - **注入风格常量**：`src/videos/<article_name>/theme.ts` 中直接注入 7.1 所选风格的全量 Design Tokens 字典与物理弹簧配置。
    - Composition 在根 `src/Root.tsx` 中挂载注册（30fps，根据用户选择的画幅注册为横屏 1920×1080 或竖屏 1080×1920），入口仍是根 `src/index.ts`。
    - 渲染与静帧一律在**仓库根目录**执行，沿用根 `remotion.config.ts`（rspack / jpeg / overwriteOutput / tailwind）。
 2. **素材接入与部署（矢量 SVG + 专属定制生图）**：
@@ -371,7 +399,7 @@ path/to/article_name/
 4. **确定性渲染铁律**：禁 `Date.now()` / `Math.random()` / 无参 `new Date()`，一切伪随机用固定种子（mulberry32 / 哈希，seed 从 index 派生）。
 5. **逐镜静帧验收**：每镜实现完成即在仓库根目录跑 `npx remotion still src/index.ts <Comp> mds/<分类>/<article_name>/video/qa/<name>.png --frame=<N>`，肉眼检查构图 / 穿帮 / 文字锐度后才算完成；静帧归档 `video/qa/`。
 6. **终渲与产物**：在仓库根目录跑 `npx remotion render src/index.ts <Comp> mds/<分类>/<article_name>/video/<article_name>.mp4`。
-7. **元数据落盘**：将时长、分辨率、fps、分镜清单、所用镜头卡与变体、调用的动画生态库、配音音色、渲染耗时结构化写入 `path/to/article_name/video/video_manifest.json`。
+7. **元数据落盘**：将所选视觉风格（`style`、`styleTheme`、`styleName`）、时长、分辨率、fps、分镜清单、所用镜头卡与变体、调用的动画生态库、配音音色、渲染耗时结构化写入 `path/to/article_name/video/video_manifest.json`。
 
 8. **视口饱满度与防大黑边规范（硬红线，严禁小卡片悬空盆景效应）**：
    - **16:9 横屏（1920×1080）**：
@@ -382,15 +410,16 @@ path/to/article_name/
      - **水平饱满度**：主舞台宽度必须达到 **940px ~ 1000px**（占全屏宽度 **88% ~ 93%**，左右边距留 40~70px）。
      - **垂直饱满度**：垂直堆叠或核心卡片群高度必须达到 **1300px ~ 1550px**，充盈手机视口，严禁中间缩水一块。
 
-#### 7.5 视频质量门禁（交付前自检）
+#### 7.6 视频质量门禁（交付前自检）
 
 渲染完成后逐条核验，任一不通过则回到对应环节修复：
 
+- ✅ **视觉风格一体化达标**：全片严格忠实遵循 7.1 选定的视觉风格规范（或跳过时的基础模板），Design Tokens 字典、排版阶梯、边框阴影与 1.2s 弹簧物理节奏贯穿始终，杜绝画风割裂与参数混乱。
 - ✅ **专属定制素材达标**：全片视频素材采用专属定制矢量 SVG 与专属定制生图；所有画面资产均经过舞台化布局（便当盒/样机/2.5D/微运镜推拉/路径动画）深度编排呈现，杜绝粗糙裸贴与“PPT 盆景效应”。
 - ✅ **动画生态库赋能达标**：全片充分编排并应用了 `undsky/package.json` 中的动画生态库（如 `@remotion/paths` 路径生长、`@remotion/rough-notation` 手绘重点、`@remotion/mac-cursors` 光标操作、`@remotion/motion-blur` 残影、`@remotion/noise` 手持微晃等），动效丰富、饱满且契合叙事。
 - ✅ **遵循 Remotion 最佳实践**：严格遵循 Remotion 最佳实践（`/remotion-best-practices`），包括确定性渲染（严禁 `Math.random()`/时间戳污染）、规范使用 `interpolate`/`spring` 动效驱动、合理的组件分层与时序管理、静态资源使用 `staticFile()` 等。
 - ✅ **视口饱满度达标（严禁大面积空旷留黑）**：横屏主舞台高度必须 ≥ 700px 且宽度 ≥ 1680px（垂直利用率 ≥ 75%，水平利用率 ≥ 88%）；竖屏主舞台宽度必须 ≥ 940px 且高度 ≥ 1300px。杜绝矮小卡片悬空与四周大面积黑死区。
-- ✅ **时长达标**：成片总时长符合字数规划（每 500 字约 1 分钟，且 ≥ 60 秒）。
+- ✅ **时长达标**：成片总时长符合字数规划（每 500 字约 1 分钟）。
 - ✅ **单分镜黄金时长（3~7 秒）**：全片每一个分镜时长均严格锁定在 3~7 秒黄金区间（90~210 帧 @ 30fps，严禁超过 7 秒），超长文案（> 7s）已强制拆解切镜，短文案饱满不低于 3 秒。
 - ✅ **黄金钩子**：前 3 秒即抛出痛点 / 反常识 / 代价，无寒暄铺垫。
 - ✅ **节奏紧凑与转场连贯**：全片节奏紧凑利落，**镜头与段落转场处无长时间停顿或空镜冷场**（转场咬合间隙 ≤ 0.25s / 8 帧）。
@@ -553,7 +582,7 @@ path/to/article_name/
 | 📊 **全局概览 (Overview)**         | 产物根目录<br>`article_name.md`<br>`article_name_cdn.md`                                                    | 流程产物交付指标总览（合规状态、配图数、封面数、图文数、短视频终渲状态）；下方直接集成 **Markdown 双栏源码与 marked 实时渲染预览**（左侧 `原文 Markdown (article_name_cdn.md)` 源码高亮+一键复制，右侧 marked 实时解析渲染+一键复制 HTML）。 |
 | 🛡️ **01 内容审查**                 | `01_compliance_report.md`                                                                                   | 格式化渲染合规审查报告全文，展示敏感词检测结果、微信运营规范排查、风险项与优化建议标签，支持一键复制 Markdown。                                                                                                                              |
 | 🎨 **02 文章插图**                 | `illustrations/`<br>├ `prompts/`<br>└ `images/`                                                             | 上下流式网格卡片流：每张卡片含 contain 缩略图、点击放大、比例与类型标签、CDN 快速复制；卡片底部为固定高度、带滚动条的绘图提示词 Prompt 代码块，配备一键复制。                                                                                |
-| 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                                                                     | 上下流式网格卡片流：16:9 横版主封面、1:1 方版次封面与 9:16 竖版封面多比例陈列；支持大图放大、CDN 复制与底部 5 维设计提示词一键复制。                                                                                                       |
+| 🖼️ **03 封面图集**                 | `cover/`<br>├ `prompts/`<br>└ `images/`                                                                     | 上下流式网格卡片流：16:9 横版主封面、1:1 方版次封面与 9:16 竖版封面多比例陈列；支持大图放大、CDN 复制与底部 5 维设计提示词一键复制。                                                                                                         |
 | 🌐 **04 CDN 映射表**               | `cdn_manifest.json`                                                                                         | 4 列交互式数据表格：展示图片缩略图（`.table-thumb`，支持点击全屏放大）、原始相对路径、CDN 加速链接与一键复制按钮。                                                                                                                           |
 | 📱 **05 公众号排版**               | `article_name_排版_{主题中文名}({英文标识}).html`<br>`article_name_排版_{主题中文名}({英文标识})_预览.html` | 嵌入式 iframe 实时渲染公众号排版预览（直接使用 `gzh-design` 原生预览产物）；提供纯排版正文与新标签页打开。                                                                                                                                   |
 | 📑 **06 小红书图文**               | `xhs_images/`<br>├ `prompts/`<br>└ `images/`                                                                | 3:4 竖版上下流式网格卡片流：展示遵循“痛点—成因—拆解—解决方案”模型的封面痛点卡、根因剖析卡、核心拆解卡与落地总结卡；含高清缩略图预览（点击放大）、3:4 比例标签、CDN URL 与底部提示词 Prompt 一键复制。                                        |
@@ -716,7 +745,11 @@ path/to/article_name/
     4. **步骤 4（封面图门禁）**：触发 `baoyu-cover-image` 的 5 维封面参数确认（视觉类型、配色方案、渲染风格、文字密度、比例）；生成后立即上传 CDN 并维护清单，只上传供发布使用，严禁插入文章正文。
     5. **步骤 5（排版门禁）**：动态读取 `gzh-design` 技能的 `references/theme-index.md` 获取当前全部已注册主题列表（含内置主题与已注册的自定义主题，严禁硬编码枚举），结合文章题材智能分析并推荐最契合主题（置顶标注「（推荐）」），使用 `ask_question` 呈现给用户选择确认；用户确认后装配 HTML 并同步博客。
     6. **步骤 6（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（基于“痛点—成因—拆解—解决方案”模型规划卡片大纲，确认风格、布局与策略）。
-    7. **步骤 7（短视频门禁）**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、原文字数与规划时长（每 500 字约 1 分钟，≥ 60s）、**每个分镜严格控制在黄金区间 3~7 秒（90~210 帧）及紧凑节奏规划**、**全片每一个分镜（如 S1~S6...）分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`）供用户逐镜自主选择**、**视频画幅由用户自主选择（横屏 1920×1080 (16:9) / 竖屏 1080×1920 (9:16)）**、**配音音色与语速由用户自主选择（提供云扬/晓晓/云希等音色与 1.0x/1.05x 等语速选项）**；用户确认后再执行配音合成、Remotion 工程实现与渲染。
+    7. **步骤 7（短视频门禁，风格优先先行）**：
+       - **先行门禁（视频风格与画幅确认）**：在展开分镜制作前，**必须首先使用 `ask_question` 提示用户自主选择视频与封面视觉风格（`/doudou-remotion-style`）**（如新野兽派经典明亮版、暗黑极客版、全部跳过），以及**自主选择视频画幅（横屏 16:9 / 竖屏 9:16）**；
+       - **脚本与动效门禁**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、原文字数与规划时长（每 500 字约 1 分钟）、**每个分镜严格控制在黄金区间 3~7 秒（90~210 帧）及紧凑节奏规划**、**全片每一个分镜（如 S1~S6...）分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`，按所选风格 Tokens 统一蒙皮）供用户逐镜自主选择**；
+       - **配音门禁**：**配音音色与语速由用户自主选择（独立设问云扬/晓晓/云希等音色与 1.0x/1.05x 等语速）**；
+       - 用户逐项确认后再执行配音合成、Remotion 工程实现与渲染。
     8. **步骤 8（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 9 生成看板；若勾选了目标平台，则**必须严格串行执行**——每次只调用一个平台 skill，等待其完成后再调用下一个（绝对禁止在同一个工具调用块中同时发起多个平台 skill 调用，这会导致并发执行与页面冲突），启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面，直接判定完成，原样保留当前标签页现场供人工复核与发布，严禁调用 `close_page`。
     9. **步骤 9**：组装并生成一站式结果汇总看板 `index.html`（含 1~8 阶段完整资产、短视频播放器与多平台发布状态 Tab）。
 - **全自动模式（Explicit Only）**：
@@ -737,5 +770,5 @@ path/to/article_name/
 - 🌐 **CDN 文章与映射**：`article_name_cdn.md`、`cdn_manifest.json` 及本地缩略图备份 (`_thumb`)
 - 📱 **公众号排版**：`article_name_排版_{主题中文名}({英文标识}).html` 及 `article_name_排版_{主题中文名}({英文标识})_预览.html`
 - 📑 **小红书图文**：`xhs_images/` (含 `prompts/` 与 `images/`)
-- 🎬 **短视频成片**：`video/article_name.mp4`（每 500 字约 1 分钟，≥ 60s）及 `video/storyboard.md` 分镜脚本、`video/narration/` 配音与字幕、`video/video_manifest.json` 元数据
+- 🎬 **短视频成片**：`video/article_name.mp4`（每 500 字约 1 分钟，含视觉风格规范全案注入）及 `video/storyboard.md` 分镜脚本、`video/narration/` 配音与字幕、`video/video_manifest.json` 元数据 (含所选视频风格)
 - 🚀 **多平台发布清单**：`publishes/`（含 `publish_manifest.json` 清单）
