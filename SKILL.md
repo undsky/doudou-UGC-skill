@@ -437,6 +437,14 @@ flowchart TD
 
 1. **直接复用仓库根目录的 Remotion 工程（禁建自包含工程）**：不要在产物目录里另起 Remotion 工程、不要新装依赖、不要新写 `package.json` / `remotion.config.ts`。一律用仓库根目录既有工程：
    - 镜头与时间线源码写进 `src/videos/<article_name>/`（`scenes/`、`lib/`、`theme.ts`、`captions.ts`、`sfx.tsx`、`<Name>Video.tsx`）。
+   - **画面序列命名硬约束（`<Sequence>` 的 `name` 属性必对齐 scene 文件名）**：主视频组件（`<Name>Video.tsx`）中编排各分镜画面序列时，包裹每个场景组件的 `<Sequence>` 必须显式传入 `name` 属性，且 `name` 必须为对应的 scene 文件名（例如分镜场景文件为 `scenes/Scene1Hook.tsx`，对应 `<Sequence ... name="Scene1_Hook">` 或 `name="Scene1Hook"`）：
+     ```tsx
+     {/* 画面序列 */}
+     <Sequence from={SHOTS_TIMELINE[0].from} durationInFrames={SHOTS_TIMELINE[0].duration} name="Scene1_Hook">
+       <Scene1Hook />
+     </Sequence>
+     ```
+     严禁缺省 `name` 属性或使用未具名的裸 `<Sequence>`，确保在 Remotion Studio 与时间线（Timeline）轨道中各分镜场景清晰直观可辨、一目了然。
    - **全场景特效落地原则（每个 Scene 必配特效，硬约束）**：每个场景组件（`src/videos/<article_name>/scenes/Scene*.tsx`）内部**必须至少装配并使用一个源自 `video-shotcraft` 或 `video-talkcraft` 的核心镜头/动效特效组件**（从 `lib/` 引入），实现动效全覆盖，杜绝无动效的纯静态裸场景。**特别是首个场景组件（`src/videos/<article_name>/scenes/Scene1.tsx`），必须尽可能使用 `@remotion/gsap`（GSAP 精密时间轴与物理补间）或 `@remotion/three`（Three.js 3D 空间立体画布）实现高端动画**，奠定全片顶尖视觉质感基调。
    - **注入风格常量**：`src/videos/<article_name>/theme.ts` 中直接注入 7.1 所选风格的全量 Design Tokens 字典与物理弹簧配置。
    - Composition 在根 `src/Root.tsx` 中挂载注册（30fps，根据用户选择的画幅注册为横屏 1920×1080 或竖屏 1080×1920），入口仍是根 `src/index.ts`。
@@ -469,6 +477,7 @@ flowchart TD
 - ✅ **逐镜视觉资产丰富度达标（杜绝纯文字裸排）**：全片每个分镜均建议并配置了专属的【矢量 SVG】或【专属定制生图】充实画面内容，信息实体明确、视觉重心饱满，严禁任何分镜出现只有几行文字、缺乏视觉实体的干瘪空洞画面。
 - ✅ **动画生态库赋能达标**：全片充分编排并应用了仓库根目录下的 `package.json` 中的动画生态库（如 `@remotion/paths` 路径生长、`@remotion/gsap` + `gsap` 级联错落编排、`@remotion/rough-notation` 手绘重点、`@remotion/mac-cursors` 光标操作、`@remotion/motion-blur` 残影、`@remotion/noise` 手持微晃等），动效丰富、饱满且契合叙事。
 - ✅ **遵循 Remotion 最佳实践**：严格遵循 Remotion 最佳实践（`/remotion-best-practices`），包括确定性渲染（严禁 `Math.random()`/时间戳污染）、规范使用 `interpolate`/`spring` 动效驱动、合理的组件分层与时序管理、静态资源使用 `staticFile()` 等。
+- ✅ **画面序列命名对齐 scene 文件名**：主视频组件（`<Name>Video.tsx`）中所有分镜画面序列 `<Sequence>` 均已显式配置 `name` 属性为对应分镜的 scene 文件名（如 `name="Scene1_Hook"` 对应 `Scene1Hook.tsx`），严禁未命名的裸 `<Sequence>`。
 - ✅ **视口饱满度达标（严禁大面积空旷留黑）**：横屏主舞台高度必须 ≥ 700px 且宽度 ≥ 1680px（垂直利用率 ≥ 75%，水平利用率 ≥ 88%）；竖屏主舞台宽度必须 ≥ 940px 且高度 ≥ 1300px。杜绝矮小卡片悬空与四周大面积黑死区。
 - ✅ **时长达标**：成片总时长符合字数规划（每 500 字约 1 分钟）。
 - ✅ **单分镜黄金时长（3~7 秒）**：全片每一个分镜时长均严格锁定在 3~7 秒黄金区间（90~210 帧 @ 30fps，严禁超过 7 秒），超长文案（> 7s）已强制拆解切镜，短文案饱满不低于 3 秒。
