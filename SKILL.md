@@ -274,7 +274,7 @@ flowchart TD
   - **分镜与镜头动效（双引擎协同）**：
     - `/video-shotcraft`：提供电影感与产品镜头配方卡库（附 demo 源码与动态样片画廊）、Ink Press 模板、可复用组件（PageCam / ClipCard / Caption 等）与声明式钉帧音效库。
     - `/video-talkcraft`：提供口播/解说动效配方卡库、七层反 PPT 运镜系统（CameraRig/视差/让位/环境）、SHOTBOOK 三面分层工作单、Apple 视觉范式与字级时间戳节拍锚定。
-  - **四大核心动画特效矩阵（Canvas 2D + GSAP 时序 + Paths SVG + Three 3D，已安装于根 `package.json`）**：深度激活并有机融合 `@remotion/canvas`（2D 逐帧像素/粒子画布）、`@remotion/gsap` + `gsap`（工业级时间轴与物理补间）、`@remotion/paths` + SVG（矢量路径描边生长与游走形变）、`@remotion/three` + `three`（3D 空间建模与运镜穿梭），充分利用这四大核心动画能力的深度组合，构建丰富多彩的绚丽场景。
+  - **四大核心动画特效矩阵（Canvas + WebGL + GSAP 时序 + Paths SVG + Three 3D，已安装于根 `package.json`）**：深度激活并有机融合 `@remotion/canvas`（Canvas + WebGL 逐帧像素与着色器微粒画布，支持 2D 绘图与 WebGL Shader 硬件加速渲染）、`@remotion/gsap` + `gsap`（工业级时间轴与物理补间）、`@remotion/paths` + SVG（矢量路径描边生长与游走形变）、`@remotion/three` + `three`（3D 空间建模与运镜穿梭），充分利用这四大核心动画能力的深度组合，构建丰富多彩的绚丽场景。
   - **动画生态辅助增强库**：全面激活 `@remotion/rough-notation`（手绘标注）、`@remotion/mac-cursors`（光标交互）、`@remotion/motion-blur`（动态模糊）、`@remotion/noise`（程序化噪波）、`@remotion/shapes`（参数化几何）、`@remotion/effects`（光学辉光/色散）、`@remotion/captions`（动态字幕）等，构建全景动画赋能矩阵。
   - **配音与字幕**：`/doudou-tts` 的 **edge-tts** 引擎（`scripts/edgetts.py`），**必须使用 edge-tts，不使用 cosyvoice**（后者慢到分钟级、且本流程无音色克隆需求）。
   - **渲染引擎**：Remotion（30fps；按用户选定的横屏 1920×1080 或竖屏 1080×1920 注册 Composition 并渲染输出）。
@@ -311,13 +311,13 @@ flowchart TD
    - 钩子的三种可选句式（择一，取自文章原文的真实冲突）：**痛点直击**、**反常识断言**、**代价前置**。
    - 钩子镜头结束时必须给出**本片承诺**（观众看完能得到什么），承诺随后必须在正文段被兑现。
    - 🌟 **首个场景高端动画落地（必须使用四大核心动画，硬红线）**：
-     - **首镜视觉冲击第一法则（四大核心动画硬约束）**：首个场景（Scene 1 / 黄金钩子）是决定全片完播率与防划走的生死之战，文案张力与视觉表现必须双重爆发。**首个场景必须优先深度使用四大核心动画库（`@remotion/canvas` 2D 逐帧画布、`@remotion/gsap` + `gsap` 工业级时间轴、`@remotion/paths` + SVG 矢量路径生长、`@remotion/three` + `three` 3D 空间立体运镜）单项极致突破或多维组合构建高端电影级动画**，严禁首镜使用单调枯燥的纯静态文字、简单线性渐变或低维基础平移。
+     - **首镜视觉冲击第一法则（四大核心动画硬约束）**：首个场景（Scene 1 / 黄金钩子）是决定全片完播率与防划走的生死之战，文案张力与视觉表现必须双重爆发。**首个场景必须优先深度使用四大核心动画库（`@remotion/canvas` Canvas + WebGL 逐帧画布、`@remotion/gsap` + `gsap` 工业级时间轴、`@remotion/paths` + SVG 矢量路径生长、`@remotion/three` + `three` 3D 空间立体运镜）单项极致突破或多维组合构建高端电影级动画**，严禁首镜使用单调枯燥的纯静态文字、简单线性渐变或低维基础平移。
      - **四大核心动画单项落地范式**：
-       - 🎨 **Canvas 2D 粒子与像素视效范式**：利用受控 `<Canvas>` 容器与当前帧 `frame = useCurrentFrame()`，驱动高密度受控粒子流（如痛点引力撕裂、星轨聚变、代码雨瀑布或程序化高频波形场），以纯像素级绘制突破 DOM 性能瓶颈，带来高信息密度的数字科技冲击；
+       - 🎨 **Canvas + WebGL 粒子与着色器视效范式**：利用受控 `<Canvas>` 容器与当前帧 `frame = useCurrentFrame()`，驱动 2D 绘图与 WebGL Shader 着色器的高密度受控粒子流（如痛点引力撕裂、星轨聚变、代码雨瀑布、GLSL 能量场或程序化高频波形场），以像素与 GPU 硬件加速绘制突破 DOM 性能瓶颈，带来高信息密度的数字科技冲击；
        - ⏱️ **GSAP 物理级联与弹性缓动范式**：结合 `useCurrentFrame()` 与 GSAP Timeline 驱动确定性帧渲染，深度利用 `stagger`（错落时序）、高级物理缓动（`back.out`、`elastic.out`、`power4.out`）、多节点复合时间轴标签（Timeline Labels/Offsets），驱动冲突主标题、痛点关键词、告警胶囊、破裂几何碎块的多段级联爆发式入场与弹性震荡，制造高密度节奏冲击；
        - 📐 **Paths SVG 矢量生长与光标巡游范式**：基于 `@remotion/paths` 与 SVG 精准描边，以 `evolvePath()` 驱动痛点裂纹、技术架构边界、警告图腾或拓扑连线的闪电式毫秒级飞速勾勒生长，配合 `getPointAtLength()` 引导流光粒子精准沿曲线游走，呈现极具秩序感与爆发力的矢量视效；
        - 🌐 **Three.js 3D 空间立体运镜范式**：利用 `<ThreeCanvas>` 搭建 3D 悬浮空间视差、立体卡片翻转、三维点线拓扑粒子流或摄像机极速俯冲/环绕穿梭（Orbiting / Fly-through），配合 `@remotion/effects` 辉光（Bloom/Glow）与色散分离（Chromatic Aberration），开篇即营造深邃空间纵深与未来科技工业质感；
-     - **四大核心动画多维组合爆发范式（首推，Wow Effect 核爆）**：首镜最强形态为深度融合 **Three.js 3D 空间运镜 + Canvas 2D 粒子爆炸 + Paths SVG 路径生长 + GSAP 弹性撞停** 四维联动组合（Quad-Synergy），将痛点爆发与视效奇观融为一体，开篇 3 秒即引发震撼的 Wow Effect，彻底粉碎划走欲望！
+     - **四大核心动画多维组合爆发范式（首推，Wow Effect 核爆）**：首镜最强形态为深度融合 **Three.js 3D 空间运镜 + Canvas/WebGL 粒子着色器爆炸 + Paths SVG 路径生长 + GSAP 弹性撞停** 四维联动组合（Quad-Synergy），将痛点爆发与视效奇观融为一体，开篇 3 秒即引发震撼的 Wow Effect，彻底粉碎划走欲望！
 3. **叙事骨架（钩子之后）**：按「**冲突 → 拆解 → 兑现 → 收束**」推进——痛点冲突段（问题有多贵）→ 方法拆解段（核心架构 / 原则，对应文章主干小节）→ 价值兑现段（能换来什么结果）→ 品牌收束段（字标落定 + 引导关注）。
 4. **分镜表与素材动效标注（与风格套件、两大技能及动画库深度对齐）**：
    - 分镜表结构：`| # | 时间(帧) | 镜头卡 | 关键动效与画面内容 | 素材形式与路径 | 调用的动效库与组合特效 |`
@@ -326,7 +326,7 @@ flowchart TD
      - **解说文案**（口播原文）
      - **字幕**（6~14 字精悍短句）
      - **素材来源**：明确标注当前镜头使用的素材（【专属定制 SVG】或【专属 AI 生图】，注明素材路径与动效配合方案）；
-     - **调用的动效库与组合特效**：明确标注当前镜头使用的动画库及组合模式（**首个场景 Scene 1 必须指定并调用四大核心动画（`@remotion/canvas` 2D、`@remotion/gsap`、`@remotion/paths` + SVG、`@remotion/three` 3D）单项或多维组合，全片各镜鼓励充分运用四大核心动画及其多维组合特效**）；
+     - **调用的动效库与组合特效**：明确标注当前镜头使用的动画库及组合模式（**首个场景 Scene 1 必须指定并调用四大核心动画（`@remotion/canvas` Canvas/WebGL、`@remotion/gsap`、`@remotion/paths` + SVG、`@remotion/three` 3D）单项或多维组合，全片各镜鼓励充分运用四大核心动画及其多维组合特效**）；
      - **转场与 SFX**（钉帧音效与运镜转场）。
 5. **单分镜时长红线（硬约束，黄金区间 3~7 秒）**：
    - **单镜严格锁定在 3~7 秒黄金区间**：**全片每一个分镜的时长必须严格控制在黄金区间 3~7 秒（90~210 帧 @ 30fps）内**，严禁任何单个分镜超过 7 秒（> 210 帧），彻底杜绝拖沓冗长；同时单镜原则上不低于 3 秒（< 90 帧），确保关键信息、视觉素材与动画有充分的展示与理解窗口，保持高度吸睛的高频视觉切换节奏。
@@ -370,7 +370,7 @@ flowchart TD
    | **`@remotion/three`**<br>+ `@react-three/fiber`<br>+ `three` | 3D 空间建模与立体运镜   | • 3D 悬浮立体卡片翻转、3D 粒子星空、空间连线网格矩阵<br>• 三维摄像机环绕运镜（Orbiting / Fly-through），营造深邃空间感                                                                                                                                                                                                                  | **首个场景黄金钩子 3D 空间震撼开场（首选推荐）**、空间架构透视、底层基建总览、品牌收束 |
    | **`@remotion/effects`**                                      | 后期级光学滤镜与视效    | • **辉光（Glow / Bloom）**：核心节点、高亮代码、高能关键词外发光<br>• **色散分离（Chromatic Aberration）**：黄金钩子冲突瞬间的故障震荡风<br>• **暗角（Vignette）**与**景深虚化（Blur）**：强化舞台视线聚焦                                                                                                                              | 视觉冲击高潮、警报故障、聚焦中心舞台                               |
    | **`@remotion/captions`**                                     | 智能字幕解析与动态高亮  | • 精准解析 edge-tts 生成的 SRT 词级时间轴<br>• 词级放大弹跳（Word Pop）、卡拉OK式逐词点亮、平滑跟随胶囊                                                                                                                                                                                                                                 | 全片口播字幕呈现                                                   |
-   | **`@remotion/canvas`**                                       | 受控 Canvas 逐帧绘制与高性能像素视效 | • 使用 `<Canvas>` 容器与 2D 绘图上下文，以当前帧（`useCurrentFrame()`）实现完全受控的高频逐帧确定性绘制<br>• 驱动高密度粒子系统（引力聚散、爆炸喷射、星轨流体）、黑客代码雨、程序化数学网格与动态曲线波形<br>• 突破海量 DOM/SVG 节点的渲染性能瓶颈，支持逐帧像素滤镜与动态光栅遮罩                                          | 高密度粒子动效、代码矩阵雨、程序化波形场、复杂图表渲染、高频像素舞台 |
+   | **`@remotion/canvas`**                                       | 受控 Canvas + WebGL 逐帧绘制与像素/着色器视效 | • 使用 `<Canvas>` 容器与 2D / WebGL 绘图上下文，以当前帧（`useCurrentFrame()`）实现完全受控的高频逐帧确定性绘制<br>• 驱动高密度粒子系统（引力聚散、爆炸喷射、星轨流体）、原生 GLSL 着色器视效、黑客代码雨、程序化数学网格与动态曲线波形<br>• 突破海量 DOM/SVG 节点的渲染性能瓶颈，支持逐帧像素滤镜、动态光栅遮罩与 GPU 硬件着色器加速 | 高密度粒子动效、WebGL 着色器背景、代码矩阵雨、程序化波形场、复杂图表渲染、高频像素舞台 |
    | **`@remotion/gif`**                                          | GIF 动图受控渲染        | • 播放速度、循环、暂停受控的像素风/表情包动态穿插                                                                                                                                                                                                                                                                                       | 趣味性插播、痛点吐槽                                               |
    | **`@remotion/media`**<br>+ `media-utils`                     | 媒体处理与音频可视化    | • 根据配音或 BGM 音轨实时生成动态音频跳动波形（Audio Visualizer）<br>• 智能探测媒体资源尺寸与时长，确保资源零抖动加载                                                                                                                                                                                                                   | 底部声波律动、配音节奏可视化                                       |
    | **`@remotion/layout-utils`**                                 | 容器自适应测量          | • 动态测量文本与组件的实际渲染尺寸，卡片容器随文字平滑缩放                                                                                                                                                                                                                                                                              | 动态药丸胶囊、自适应提示框                                         |
@@ -378,21 +378,21 @@ flowchart TD
    | **`@remotion/tailwind-v4`**<br>+ `tailwindcss`               | 现代化 UI 样式体系      | • 极速装配 Apple 范式磨砂玻璃（backdrop-blur）、精细渐变边框与阴影                                                                                                                                                                                                                                                                      | 全片 UI 舞台、信息卡片、代码容器                                   |
    | **`@remotion/animation-utils`**                              | 高阶插值与弹簧函数      | • 自定义贝塞尔曲线、多段复合插值计算、能量衰减曲线                                                                                                                                                                                                                                                                                      | 镜头物理加速、重力落地缓冲                                         |
 
-3. **四大核心动画特效引擎深度解析与多维场景组合范式（Canvas 2D + GSAP + Paths SVG + Three 3D）**：
-   在 Remotion 视频生成体系中，为了彻底摆脱传统平面 PPT 幻灯片感、打造兼具信息密集度与电影级震撼视效的短视频，**必须充分激活并深度融合 `@remotion/canvas`（2D 像素画布）、`@remotion/gsap` + `gsap`（工业级时间轴）、`@remotion/paths` + SVG（矢量路径生长）与 `@remotion/three` + `three`（3D 空间立体运镜）四大核心动画引擎**。单一技术往往局限于局部维度，而将多维动画组合叠加，才能构建出丰富多彩、层次深邃的绚丽场景。
+3. **四大核心动画特效引擎深度解析与多维场景组合范式（Canvas + WebGL + GSAP + Paths SVG + Three 3D）**：
+   在 Remotion 视频生成体系中，为了彻底摆脱传统平面 PPT 幻灯片感、打造兼具信息密集度与电影级震撼视效的短视频，**必须充分激活并深度融合 `@remotion/canvas`（Canvas + WebGL 像素与着色器画布）、`@remotion/gsap` + `gsap`（工业级时间轴）、`@remotion/paths` + SVG（矢量路径生长）与 `@remotion/three` + `three`（3D 空间立体运镜）四大核心动画引擎**。单一技术往往局限于局部维度，而将多维动画组合叠加，才能构建出丰富多彩、层次深邃的绚丽场景。
 
    #### (1) 四大核心动画引擎独立定位与高阶实践
 
-   - 🎨 **`@remotion/canvas`（受控 2D 逐帧画布 · 微观与宏观像素视效引擎）**：
-     - **核心能力定位**：突破 DOM/SVG 数量激增带来的渲染性能墙，以极高帧率（60fps/30fps）实现受控的纯像素级高密度粒子绘制、流体模拟、数学能量场与光栅特效。
+   - 🎨 **`@remotion/canvas`（受控 Canvas + WebGL 逐帧画布 · 像素视效与硬件着色器引擎）**：
+     - **核心能力定位**：突破 DOM/SVG 数量激增带来的渲染性能墙，以极高帧率（60fps/30fps）实现受控的纯像素级高密度粒子绘制、WebGL GLSL 着色器流体视效、数学能量场与光栅特效。
      - **工程实践模式**：
-       - 使用 Remotion 原生 `<Canvas>` 组件，通过 `ctx = canvas.getContext('2d')` 在每帧渲染循环中获取纯上下文；
+       - 使用 Remotion 原生 `<Canvas>` 组件，通过 `ctx = canvas.getContext('2d')` 或 `gl = canvas.getContext('webgl2') ?? canvas.getContext('webgl')` 在每帧渲染循环中获取纯上下文；
        - **确定性自变量驱动**：使用 `frame = useCurrentFrame()` 作为唯一时间基准，严禁任何 `requestAnimationFrame` 或原生异步定时器；
        - **典型绚丽特效**：
-         - **高密度微粒引力场**：数千颗粒子随时间演化，模拟星云汇聚、黑洞引力扭曲、粒子爆炸喷射（Explosion Burst）与布朗扰动；
+         - **高密度微粒引力场与 WebGL 着色器流体**：数千至数万颗粒子随时间演化，或通过 GLSL Fragment Shader 实时渲染赛博光波、流体极光、星云汇聚、黑洞引力扭曲、粒子爆炸喷射（Explosion Burst）与布朗扰动；
          - **黑客代码雨（Matrix Rain）**：字符纵向流式滑落、渐变虚化与高亮字符闪烁；
          - **程序化波形与频谱网格**：基于正弦/柏林噪声数学公式，动态计算音频流体波纹、能量脉冲扩散波与雷达扫描线；
-         - **光栅遮罩与像素滤镜**：实现动态半色调点阵、发光扫描线（Scanlines）与受控噪点底衬。
+         - **光栅遮罩与像素/着色器滤镜**：实现动态半色调点阵、发光扫描线（Scanlines）与受控噪点底衬。
 
    - ⏱️ **`@remotion/gsap` + `gsap`（工业级时间轴 · 精密补间与复合时序中枢）**：
      - **核心能力定位**：微观/中观 UI 元素、卡片容器与文本字符的最高阶时钟编排器。专治多元素进出场呆板生硬，带来如 Apple 官方发布会般丝滑、充满弹性与节奏感的动效。
@@ -423,12 +423,12 @@ flowchart TD
    #### (2) 四大核心动画多维深度组合范式（构建丰富多彩的绚丽场景）
 
    > 💡 **【组合进阶原则】拒绝单打独斗，多维融合方成大片**
-   > 单一动效库只能解决局部表现，**将 Canvas 2D 像素微粒、GSAP 工业级时序、Paths SVG 逻辑生长与 Three.js 3D 空间运镜跨界交融**，能够构建出极具层次感、视觉纵深与高能量密度的绚丽大场景：
+   > 单一动效库只能解决局部表现，**将 Canvas + WebGL 像素与着色器微粒、GSAP 工业级时序、Paths SVG 逻辑生长与 Three.js 3D 空间运镜跨界交融**，能够构建出极具层次感、视觉纵深与高能量密度的绚丽大场景：
 
-   1. 🌌 **组合范式 1：【3D 空间舞台 + 2D 画布流光粒子】（Three.js + Canvas · 宏观基建与深邃星空）**
+   1. 🌌 **组合范式 1：【3D 空间舞台 + Canvas/WebGL 流光粒子】（Three.js + Canvas/WebGL · 宏观基建与深邃星空）**
       - **场景构筑逻辑**：
         - **前景/主体（Three.js）**：在三维透视空间中悬浮展示 3D 立体架构立方体、技术栈魔方或核心数据芯片，随摄像机缓慢旋转与微倾斜；
-        - **背景/底层（Canvas 2D）**：在 3D 舞台后方叠加全屏 `<Canvas>`，逐帧运算并绘制数万颗带着引力场涌动、明暗交替的深蓝/暗紫星空微粒流与流体极光。
+        - **背景/底层（Canvas + WebGL）**：在 3D 舞台后方叠加全屏 `<Canvas>`，逐帧运算并绘制数万颗带着引力场涌动、明暗交替的深蓝/暗紫星空微粒流、WebGL 着色器极光或流体光晕。
       - **视觉冲击力**：前景立体的坚实质感与背景画布的灵动微粒形成强烈的“虚实厚薄对比”，彻底消除传统纯色或静态贴图背景的死板空洞，营造如同置身科幻太空舱的深邃基建全景。
 
    2. ⚡ **组合范式 2：【SVG 架构拓扑 + GSAP 级联错落编排】（Paths/SVG + GSAP · 机械精密感生长）**
@@ -437,23 +437,23 @@ flowchart TD
         - **节点爆发（GSAP）**：GSAP Timeline 毫秒级对齐连线触达各个节点的精准瞬间，通过 `stagger` 错落触发下游的各个服务节点卡片、告警标签、状态徽章以 `elastic.out(1.2, 0.4)` 高物理弹性爆裂跳出并伴随光晕震颤。
       - **视觉冲击力**：连线生长与节点弹出的节奏紧密咬合、一气呵成，如同精密机械钟表或高能电路板瞬间通电点亮，将晦涩枯燥的技术原理解说升华为极具观赏性与说服力的高能大秀。
 
-   3. 🔮 **组合范式 3：【2D Canvas 动态纹理 + 3D 空间材质投影】（Canvas + Three.js · 赛博曲面与全息巨幕）**
+   3. 🔮 **组合范式 3：【Canvas/WebGL 动态纹理 + 3D 空间材质投影】（Canvas/WebGL + Three.js · 赛博曲面与全息巨幕）**
       - **场景构筑逻辑**：
-        - **动态纹理源（Canvas 2D）**：在离屏或受控 Canvas 中实时绘制动态跳变的数据波形、高频滚动的黑客代码雨或程序化生成的发光网格；
+        - **动态纹理源（Canvas + WebGL）**：在离屏或受控 Canvas 中实时绘制动态跳变的数据波形、WebGL GLSL 着色器流体、高频滚动的黑客代码雨或程序化生成的发光网格；
         - **空间映射（Three.js）**：将该 Canvas 动态转化为 `CanvasTexture`，实时映射贴图到 Three.js 的 3D 物体表面——如 3D 弯曲全息巨幕、旋转的 3D 地球经纬面或悬浮全息投影台。
-      - **视觉冲击力**：将 2D 像素逻辑直接升维进 3D 空间，使三维模型表面流淌着实时动态的光影数据流，极具数字孪生、未来作战指挥中心的顶级科技全息质感。
+      - **视觉冲击力**：将 Canvas 像素与着色器逻辑直接升维进 3D 空间，使三维模型表面流淌着实时动态的光影数据流，极具数字孪生、未来作战指挥中心的顶级科技全息质感。
 
-   4. 🌠 **组合范式 4：【SVG 路径引导演进 + Canvas 能量尾迹 + GSAP 弹性缓动】（Paths + Canvas + GSAP · 流光穿梭与数据洪流）**
+   4. 🌠 **组合范式 4：【SVG 路径引导演进 + Canvas/WebGL 能量尾迹 + GSAP 弹性缓动】（Paths + Canvas/WebGL + GSAP · 流光穿梭与数据洪流）**
       - **场景构筑逻辑**：
         - **时间时钟（GSAP）**：由 GSAP 负责驱动整镜的核心事件节拍与交互状态切换，控制发射与刹车；
         - **轨迹航道（Paths）**：利用 SVG Paths 定义优雅的贝塞尔空间航道，`getPointAtLength()` 引导光标或数据包在曲折拓扑中飞速穿梭；
-        - **能量光尾（Canvas 2D）**：Canvas 实时捕捉光点走过的瞬时坐标，基于衰减算法在其身后喷射出数千颗带有色彩渐变的光子拖尾（Particle Ribbon / Particle Trail），并扩散出环形能量冲击波。
+        - **能量光尾（Canvas + WebGL）**：Canvas/WebGL 实时捕捉光点走过的瞬时坐标，基于衰减算法在其身后喷射出数千颗带有色彩渐变的光子拖尾（Particle Ribbon / Particle Trail），并扩散出环形能量冲击波。
       - **视觉冲击力**：将抽象无形的数据调用、请求分发彻底具象化为绚烂夺目的流星划空，极大增强观众的视觉焦点跟随度与理解爽感。
 
-   5. 💥 **组合范式 5：【全景多维混合终极场景：3D 穿梭 + 2D 粒子爆炸 + 路径生长 + GSAP 爆裂震荡】（Quad-Synergy Ultimate Scene · 黄金钩子与终局核爆）**
+   5. 💥 **组合范式 5：【全景多维混合终极场景：3D 穿梭 + Canvas/WebGL 粒子着色器爆炸 + 路径生长 + GSAP 爆裂震荡】（Quad-Synergy Ultimate Scene · 黄金钩子与终局核爆）**
       - **场景构筑逻辑**（专为 Scene 1 黄金钩子冲突爆发、核心方案大揭秘或终局品牌收束打造）：
         - **第一层（Three.js）**：3D 透视摄像机以极高初始速度从深空向舞台中心极速俯冲推进（Zoom-in Flight）；
-        - **第二层（Canvas 2D）**：在画面中心冲突引爆瞬间，Canvas 2D 瞬间喷射出 3000+ 颗带有重力与阻尼碰撞效果的能量爆裂微粒；
+        - **第二层（Canvas + WebGL）**：在画面中心冲突引爆瞬间，Canvas / WebGL 瞬间喷射出 3000+ 颗带有重力与阻尼碰撞效果的能量爆裂微粒；
         - **第三层（Paths/SVG）**：微粒四散的同时，SVG Paths 如闪电般勾勒出核心冲突痛点图腾或架构裂变轮廓；
         - **第四层（GSAP）**：GSAP 紧接着以 `back.out(2.2)` 驱动加粗痛点大标题、危急报警色块与警示胶囊撞停震屏，并与 `@remotion/effects` 故障色散（Chromatic Aberration）与 `@remotion/motion-blur` 动态模糊同频共振！
       - **视觉冲击力**：视听冲击在开场 2 秒内瞬时登顶，产生无法抗拒的顶级院线电影级“Wow Effect”，瞬间俘获受众注意力，从根本上终结划走流失！
@@ -463,10 +463,10 @@ flowchart TD
    #### (3) 四大核心动画特效工程落地四大铁律
 
    1. 🔒 **确定性帧驱动铁律（绝对零时钟污染）**：
-      - 所有 Canvas 物理计算、GSAP 缓动进度、Paths 描边参数与 Three.js 变换矩阵，**必须且只能以 `frame = useCurrentFrame()` 或 `frame / fps` 为唯一入参纯函数驱动**；
+      - 所有 Canvas/WebGL 物理计算、GSAP 缓动进度、Paths 描边参数与 Three.js 变换矩阵，**必须且只能以 `frame = useCurrentFrame()` 或 `frame / fps` 为唯一入参纯函数驱动**；
       - **严禁**使用 `requestAnimationFrame`、`setInterval`、`setTimeout`、`Date.now()`、`performance.now()` 或无参 `new Date()`；一切伪随机数必须基于 `frame` 与种子（seed）计算，确保每一帧静态渲染（`remotion still`）与视频导出（`remotion render`）像素级一致。
-   2. 🧹 **Canvas 2D 逐帧画布状态重置守则**：
-      - 每一帧绘制前必须显式调用 `ctx.clearRect(0, 0, width, height)` 彻底清除上一帧残留；
+   2. 🧹 **Canvas (2D / WebGL) 逐帧画布状态重置守则**：
+      - 2D 上下文每帧绘制前必须显式调用 `ctx.clearRect(0, 0, width, height)`，WebGL 上下文必须执行 `gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)`，彻底清除上一帧残留状态；
       - Canvas 分辨率必须与 Remotion Composition 分辨率（如 1920×1080 或 1080×1920）及设备像素比（DPR）严格匹配，避免模糊拉伸或视网膜模糊。
    3. ⏱️ **GSAP 受控时间轴绑定守则**：
       - 在 Remotion 中引入 GSAP 时，务必通过 `tl = gsap.timeline({ paused: true })` 构建时间轴，并在组件体内通过 `tl.seek((frame / fps))` 或使用 `@remotion/gsap` 官方提供的受控 hook 驱动；
@@ -478,7 +478,7 @@ flowchart TD
 
 4. **逐镜独立推荐与自主选择规约（硬约束）**：
    - **每一个分镜分别独立筛选推荐（每场景必配动效 + 建议配置丰富视觉载体）**：严禁将全片镜头打包为一个整体组合选项，**必须确保每个场景（Scene）/ 分镜至少添加一个来自 `video-shotcraft` 或 `video-talkcraft` 的特效**，逐镜独立从上述技能中动态检索并推荐。针对每一个分镜，综合其叙事能量、信息形态（痛点直击/概念对比/架构扫描/终端演示/指标大板/品牌收束）与画面素材特征，**为该分镜单独筛选出至少 3 个最契合的候选动效配方卡**（注明所属技能来源、卡名、动作语法、视觉风格、呈现重点与适用场景），**并针对该分镜的具体叙事诉求，明确建议通过【矢量 SVG】或者【专属定制生图】来极大丰富内容**（指明建议的视觉资产形式、构图重点与动效咬合方式）。
-   - **首个场景（Scene 1 黄金钩子）动效优先倾斜规约**：在为首个场景筛选推荐候选配方卡时，**必须优先推荐能够与四大核心动画（`@remotion/canvas` 2D 粒子/代码雨、`@remotion/gsap` 错落缓动、`@remotion/paths` SVG 描边生长、`@remotion/three` 3D 空间运镜）单项或多维组合深度联动的高能量配方组件**（如 3D 空间立体运镜、高冲击碰撞、高密度粒子爆发、多段错落级联等高维动画），确保首镜动效具备顶尖高端质感。
+   - **首个场景（Scene 1 黄金钩子）动效优先倾斜规约**：在为首个场景筛选推荐候选配方卡时，**必须优先推荐能够与四大核心动画（`@remotion/canvas` Canvas + WebGL 粒子/着色器/代码雨、`@remotion/gsap` 错落缓动、`@remotion/paths` SVG 描边生长、`@remotion/three` 3D 空间运镜）单项或多维组合深度联动的高能量配方组件**（如 3D 空间立体运镜、高冲击碰撞、高密度粒子爆发、多段错落级联等高维动画），确保首镜动效具备顶尖高端质感。
    - **交互门禁逐镜独立设问**：在步骤 7 门禁（`ask_question`）中，**必须针对每一个分镜分别设立独立的选择题项**，选项中同时列出候选动效配方卡与配套的内容丰富度建议（建议选用矢量 SVG 还是专属定制生图），确保用户能够对每一个镜头的动效形式与视觉资产进行精细化自主裁决。
    - 用户逐镜分别确认或选择后，形成最终的**分镜到镜头卡与视觉资产映射表**写入 `storyboard.md`。
 
@@ -548,8 +548,8 @@ flowchart TD
      </Sequence>
      ```
      严禁缺省 `name` 属性或使用未具名的裸 `<Sequence>`，确保在 Remotion Studio 与时间线（Timeline）轨道中各分镜场景清晰直观可辨、一目了然。
-   - **全场景特效落地原则（每个 Scene 必配特效，硬约束）**：每个场景组件（`src/videos/<article_name>/scenes/Scene*.tsx`）内部**必须至少装配并使用一个源自 `video-shotcraft` 或 `video-talkcraft` 的核心镜头/动效特效组件**（从 `lib/` 引入），实现动效全覆盖，杜绝无动效的纯静态裸场景。**特别是首个场景组件（`src/videos/<article_name>/scenes/Scene1.tsx`），必须使用四大核心动画（`@remotion/canvas` 2D 画布、`@remotion/gsap` 工业时间轴、`@remotion/paths` SVG 路径、`@remotion/three` 3D 空间画布）单项或多维组合实现高端动画**，奠定全片顶尖视觉质感基调。
-   - **四大核心动画组合落地守则（Canvas 2D + GSAP + Paths + Three）**：在分镜组件实现中，积极组合调用 `@remotion/canvas`（粒子/波形/代码雨）、`@remotion/gsap`（受控时间轴/级联错落）、`@remotion/paths`（SVG 描边生长/光标游走）与 `@remotion/three`（3D 空间模型/立体卡片翻转），严格遵循纯函数确定性渲染铁律，构建多维饱满的绚丽场景。
+   - **全场景特效落地原则（每个 Scene 必配特效，硬约束）**：每个场景组件（`src/videos/<article_name>/scenes/Scene*.tsx`）内部**必须至少装配并使用一个源自 `video-shotcraft` 或 `video-talkcraft` 的核心镜头/动效特效组件**（从 `lib/` 引入），实现动效全覆盖，杜绝无动效的纯静态裸场景。**特别是首个场景组件（`src/videos/<article_name>/scenes/Scene1.tsx`），必须使用四大核心动画（`@remotion/canvas` Canvas + WebGL 画布、`@remotion/gsap` 工业时间轴、`@remotion/paths` SVG 路径、`@remotion/three` 3D 空间画布）单项或多维组合实现高端动画**，奠定全片顶尖视觉质感基调。
+   - **四大核心动画组合落地守则（Canvas + WebGL + GSAP + Paths + Three）**：在分镜组件实现中，积极组合调用 `@remotion/canvas`（Canvas/WebGL 粒子/着色器/波形/代码雨）、`@remotion/gsap`（受控时间轴/级联错落）、`@remotion/paths`（SVG 描边生长/光标游走）与 `@remotion/three`（3D 空间模型/立体卡片翻转），严格遵循纯函数确定性渲染铁律，构建多维饱满的绚丽场景。
    - **注入风格常量**：`src/videos/<article_name>/theme.ts` 中直接注入 7.1 所选风格的全量 Design Tokens 字典与物理弹簧配置。
    - Composition 在根 `src/Root.tsx` 中挂载注册（30fps，根据用户选择的画幅注册为横屏 1920×1080 或竖屏 1080×1920），入口仍是根 `src/index.ts`。
    - 渲染与静帧一律在**仓库根目录**执行，沿用根 `remotion.config.ts`（rspack / jpeg / overwriteOutput / tailwind）。
@@ -579,13 +579,13 @@ flowchart TD
 - ✅ **视觉风格一体化达标**：全片严格忠实遵循 7.1 选定的视觉风格规范（或跳过时的基础模板），Design Tokens 字典、排版阶梯、边框阴影与 1.2s 弹簧物理节奏贯穿始终，杜绝画风割裂与参数混乱。
 - ✅ **专属定制素材达标**：全片视频素材采用专属定制矢量 SVG 与专属定制生图；所有画面资产均经过舞台化布局（便当盒/样机/2.5D/微运镜推拉/路径动画）深度编排呈现，杜绝粗糙裸贴与“PPT 盆景效应”。
 - ✅ **逐镜视觉资产丰富度达标（杜绝纯文字裸排）**：全片每个分镜均建议并配置了专属的【矢量 SVG】或【专属定制生图】充实画面内容，信息实体明确、视觉重心饱满，严禁任何分镜出现只有几行文字、缺乏视觉实体的干瘪空洞画面。
-- ✅ **动画生态库赋能与四大核心动画组合达标**：全片深度激活并合理编排了仓库根目录下的 `package.json` 中的动画生态库，特别是充分利用了 `@remotion/canvas`（2D 逐帧微粒/代码雨/波形）、`@remotion/gsap` + `gsap`（工业级时间轴/stagger 级联）、`@remotion/paths` + SVG（矢量拓扑描边生长/沿线游走）与 `@remotion/three` + `three`（3D 空间建模/立体运镜）四大核心动画引擎及其多维组合范式（如 3D+Canvas 粒子、SVG+GSAP 级联、Canvas 纹理+Three 投影等），构建丰富多彩、层次深邃的绚丽场景，彻底杜绝单调枯燥的平面 PPT 幻灯片感。
+- ✅ **动画生态库赋能与四大核心动画组合达标**：全片深度激活并合理编排了仓库根目录下的 `package.json` 中的动画生态库，特别是充分利用了 `@remotion/canvas`（Canvas + WebGL 逐帧微粒/着色器/代码雨/波形）、`@remotion/gsap` + `gsap`（工业级时间轴/stagger 级联）、`@remotion/paths` + SVG（矢量拓扑描边生长/沿线游走）与 `@remotion/three` + `three`（3D 空间建模/立体运镜）四大核心动画引擎及其多维组合范式（如 3D+Canvas/WebGL 粒子着色器、SVG+GSAP 级联、Canvas 纹理+Three 投影等），构建丰富多彩、层次深邃的绚丽场景，彻底杜绝单调枯燥的平面 PPT 幻灯片感。
 - ✅ **遵循 Remotion 最佳实践**：严格遵循 Remotion 最佳实践（`/remotion-best-practices`），包括确定性渲染（严禁 `Math.random()`/时间戳污染）、规范使用 `interpolate`/`spring` 动效驱动、合理的组件分层与时序管理、静态资源使用 `staticFile()` 等。
 - ✅ **画面序列命名对齐 scene 文件名**：主视频组件（`<Name>Video.tsx`）中所有分镜画面序列 `<Sequence>` 均已显式配置 `name` 属性为对应分镜的 scene 文件名（如 `name="Scene1_Hook"` 对应 `Scene1Hook.tsx`），严禁未命名的裸 `<Sequence>`。
 - ✅ **视口饱满度达标（严禁大面积空旷留黑）**：横屏主舞台高度必须 ≥ 700px 且宽度 ≥ 1680px（垂直利用率 ≥ 75%，水平利用率 ≥ 88%）；竖屏主舞台宽度必须 ≥ 940px 且高度 ≥ 1300px。杜绝矮小卡片悬空与四周大面积黑死区。
 - ✅ **时长达标**：成片总时长符合字数规划（每 500 字约 1 分钟）。
 - ✅ **单分镜黄金时长（3~7 秒）**：全片每一个分镜时长均严格锁定在 3~7 秒黄金区间（90~210 帧 @ 30fps，严禁超过 7 秒），超长文案（> 7s）已强制拆解切镜，短文案饱满不低于 3 秒。
-- ✅ **黄金钩子与首镜高端动效**：前 3 秒即抛出痛点 / 反常识 / 代价，无寒暄铺垫；**首个场景（Scene 1 黄金钩子）必须采用四大核心动画（`@remotion/canvas` 2D、`@remotion/gsap`、`@remotion/paths` + SVG、`@remotion/three` 3D）单项或多维组合实现高端电影级动画**（如 Canvas 粒子爆裂、GSAP 复合交错级联/物理弹簧、Paths 矢量闪电描边、Three 3D 立体悬浮/空间穿梭运镜或四维组合 Wow Effect），开篇即具备极强视觉吸引力与冲击力，严禁首镜素颜平庸。
+- ✅ **黄金钩子与首镜高端动效**：前 3 秒即抛出痛点 / 反常识 / 代价，无寒暄铺垫；**首个场景（Scene 1 黄金钩子）必须采用四大核心动画（`@remotion/canvas` Canvas/WebGL、`@remotion/gsap`、`@remotion/paths` + SVG、`@remotion/three` 3D）单项或多维组合实现高端电影级动画**（如 Canvas/WebGL 粒子着色器爆裂、GSAP 复合交错级联/物理弹簧、Paths 矢量闪电描边、Three 3D 立体悬浮/空间穿梭运镜或四维组合 Wow Effect），开篇即具备极强视觉吸引力与冲击力，严禁首镜素颜平庸。
 - ✅ **节奏紧凑与转场连贯**：全片节奏紧凑利落，**镜头与段落转场处无长时间停顿或空镜冷场**（转场咬合间隙 ≤ 0.25s / 8 帧）。
 - ✅ **绝对防静止（严禁定格 >3s）**：**全片绝对不要出现超过 3 秒画面一直不变的情况**（镜头内必须保持持续微动效、慢速推拉、视差漂移、扫光或文字渐显，严禁静态死板画面）。
 - ✅ **音画同步**：每镜画面切换晚于该镜配音结束，字幕与人声逐句对齐。
