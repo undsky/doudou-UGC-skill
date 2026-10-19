@@ -614,7 +614,7 @@ flowchart TD
 | **腾讯企鹅号** | `opencli doudou qiehao` | `article`(长文), `video`(视频), `all` | 长文与短视频多模态填入 |
 | **微信视频号** | `opencli doudou shipinhao` | `video`(视频动态) | 视频动态自动填入与封面绑定 |
 | **YouTube Studio** | `opencli doudou youtube` | `video`(视频上传) | 视频工程文件自动上传并填充简介 |
-| **知乎** | `opencli doudou zhihu` | `article`(专栏文章), `comment`(主题回帖) | 专栏文章发布与主题拟真回帖 |
+| **知乎** | `opencli doudou zhihu` | `article`(专栏文章) | 专栏长文排版与草稿注入 |
 | **稀土掘金** | `opencli doudou juejin` | `article`(长文文章) | 自动注入富文本/Markdown并挂载封面 |
 | **CSDN 博客** | `opencli doudou csdn` | `article`(长文文章) | 长文 Markdown 与标签自动注入 |
 | **阿里云开发者社区** | `opencli doudou aliyun` | `article`(长文文章) | 技术长文自动填充与草稿保存 |
