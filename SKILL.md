@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（doudou-remotion-style 视频与封面视觉风格先行选择 + 黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、多平台自动填入与发布就绪（涵盖微信公众号/小绿书、微信视频号、今日头条、百家号、企鹅号、掘金、CSDN、腾讯云、阿里云、B站、小红书、抖音、知乎、YouTube），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、doudou-remotion-style、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及各大发布技能 /doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu、/doudou-youtube）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（doudou-remotion-style 视频与封面视觉风格先行选择 + 黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、15 大主流多平台自动化填入与发布就绪（涵盖今日头条、微信公众号/小绿书、小红书、抖音、百度百家号、哔哩哔哩、腾讯企鹅号、微信视频号、YouTube Studio、知乎、稀土掘金、CSDN博客、阿里云开发者社区、腾讯云开发者社区、烧饼社区 linux.sb），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、doudou-remotion-style、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及 opencli-plugin-doudou 系列多平台发布适配器 opencli doudou toutiao/weixin/xhs/douyin/baijia/bilibili/qiehao/shipinhao/youtube/zhihu/juejin/csdn/aliyun/tencent/linuxsb）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体与多平台发布系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`doudou-remotion-style`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`、`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-youtube`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`doudou-remotion-style`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`）与 `opencli doudou` 多平台发布适配器（`opencli-plugin-doudou`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网 15 大多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布状态清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -75,8 +75,8 @@ path/to/article_name/
 │   ├── qa/                               # 逐镜头静帧验收档案 (npx remotion still)
 │   ├── article_name.mp4                  # ⭐ 终渲成片 (按字数规划：每 500 字约 1 分钟，含配音与 SFX)
 │   └── video_manifest.json               # 视频元数据 (风格套件、时长、分辨率、分镜清单、镜头卡、动画生态库、音色、渲染耗时)
-└── publishes/                            # 步骤 8：多平台发布状态清单 (/doudou-weixin、/doudou-shipinhao、/doudou-toutiao、/doudou-baijia、/doudou-qiehao、/doudou-juejin、/doudou-csdn、/doudou-tencent、/doudou-aliyun、/doudou-bilibili、/doudou-xiaohongshu、/doudou-douyin、/doudou-zhihu)
-    └── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布模式、就绪状态、时间等)
+└── publishes/                            # 步骤 8：多平台发布状态清单 (opencli doudou toutiao、weixin、xhs、douyin、baijia、bilibili、qiehao、shipinhao、youtube、zhihu、juejin、csdn、aliyun、tencent、linuxsb)
+    └── publish_manifest.json             # 多平台发布结果清单 (平台名称、发布命令、发布模式、就绪状态、时间等)
 ```
 
 > **步骤 7 的 Remotion 源码不落在产物目录**：短视频**直接复用仓库根目录既有的 Remotion 工程**（不另建自包含工程、不新装依赖）——镜头与时间线源码写进根 `src/videos/<article_name>/`，静态素材放根 `public/<article_name>/`，Composition 注册在根 `src/Root.tsx`。产物目录只收**产物**：分镜脚本、配音字幕、静帧验收、成片与元数据。
@@ -96,7 +96,7 @@ flowchart TD
     S4 --> S5["步骤 5: 生成公众号文章与主题装配 (gzh-design)"]
     S5 --> S6["步骤 6: 生成社媒图文卡片 (baoyu-xhs-images)"]
     S6 --> S7["步骤 7: 生成 Remotion 短视频 (风格先行/分镜/动效/渲染)"]
-    S7 --> S8["步骤 8: 13 大多平台自动填入与就绪 (严格串行填入)"]
+    S7 --> S8["步骤 8: 15 大多平台自动填入与就绪 (opencli doudou 并行执行)"]
     S8 --> S9["步骤 9: 生成全景 HTML 结果汇总看板 (index.html)"]
 ```
 
@@ -597,21 +597,29 @@ flowchart TD
 
 ---
 
-### 8. 多平台发布 (`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-youtube`)
+### 8. 多平台发布 (`opencli-plugin-doudou` / `opencli doudou <site>`)
 
-- **执行目标**：在图文卡片与短视频生成完毕后，依次调用所选平台对应的独立发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`、`/doudou-youtube`），基于 `chrome-devtools-mcp` 自动将文章及衍生资产填入各大自媒体平台与技术社区发文页面，完成就绪状态记录并保持页面打开供人工复核与发布。
+- **执行目标**：在图文卡片与短视频生成完毕后，全面弃用已废弃的独立发布技能，统一调用 `opencli-plugin-doudou` 适配器体系（`opencli doudou <platform>` 命令），基于标准 OpenCLI 协议驱动真实浏览器，自动将文章长文、图文贴图卡片集与短视频作品多模态资产解析并填入各大自媒体平台与技术社区草稿箱，完成就绪状态记录并在前台保持页面现场打开供人工复核与发布。
 
-#### 8.1 支持的 14 大平台矩阵
+#### 8.1 支持的 15 大平台矩阵及模态说明
 
-| 平台名称         | 技能名称            | 平台名称             | 技能名称              |
-| :--------------- | :------------------ | :------------------- | :-------------------- |
-| **微信公众平台** | `/doudou-weixin`    | **腾讯云开发者社区** | `/doudou-tencent`     |
-| **微信视频号**   | `/doudou-shipinhao` | **阿里云开发者社区** | `/doudou-aliyun`      |
-| **今日头条**     | `/doudou-toutiao`   | **哔哩哔哩 (B站)**   | `/doudou-bilibili`    |
-| **百家号**       | `/doudou-baijia`    | **小红书**           | `/doudou-xiaohongshu` |
-| **企鹅号**       | `/doudou-qiehao`    | **抖音**             | `/doudou-douyin`      |
-| **掘金**         | `/doudou-juejin`    | **知乎**             | `/doudou-zhihu`       |
-| **CSDN**         | `/doudou-csdn`      | **YouTube**          | `/doudou-youtube`     |
+| 平台名称 | 命令 | 支持模态 (Modes) | 模态与发布说明 |
+| :--- | :--- | :--- | :--- |
+| **今日头条** | `opencli doudou toutiao` | `article`(长文), `video`(视频), `weitoutiao`(微头条), `all` | 自动解析长文文章、视频与微头条卡片 |
+| **微信公众平台** | `opencli doudou weixin` | `article`(长文文章), `sticker`(贴图卡片), `all` | 注入纯排版长文 HTML 或小绿书贴图卡片流 |
+| **小红书** | `opencli doudou xhs` | `image`(图文笔记), `video`(视频笔记), `all` | 自动关联 3:4 图文卡片集或短视频作品 |
+| **抖音创作平台** | `opencli doudou douyin` | `video`(视频作品), `image`(图文作品), `all` | 自动上传高清短视频作品或图文作品 |
+| **百度百家号** | `opencli doudou baijia` | `article`(长文), `video`(视频), `all` | 长文排版注入与高清短视频投稿 |
+| **哔哩哔哩 (B站)** | `opencli doudou bilibili` | `article`(专栏文章), `video`(视频投稿), `all` | 专栏长文与视频稿件自动填入 |
+| **腾讯企鹅号** | `opencli doudou qiehao` | `article`(长文), `video`(视频), `all` | 长文与短视频多模态填入 |
+| **微信视频号** | `opencli doudou shipinhao` | `video`(视频动态) | 视频动态自动填入与封面绑定 |
+| **YouTube Studio** | `opencli doudou youtube` | `video`(视频上传) | 视频工程文件自动上传并填充简介 |
+| **知乎** | `opencli doudou zhihu` | `article`(专栏文章), `comment`(主题回帖) | 专栏文章发布与主题拟真回帖 |
+| **稀土掘金** | `opencli doudou juejin` | `article`(长文文章) | 自动注入富文本/Markdown并挂载封面 |
+| **CSDN 博客** | `opencli doudou csdn` | `article`(长文文章) | 长文 Markdown 与标签自动注入 |
+| **阿里云开发者社区** | `opencli doudou aliyun` | `article`(长文文章) | 技术长文自动填充与草稿保存 |
+| **腾讯云开发者社区** | `opencli doudou tencent` | `article`(长文文章) | 开发者专栏长文自动导入 |
+| **烧饼社区 (linux.sb)**| `opencli doudou linuxsb` | `article`(长文文章) | 技术社区长文发布与格式适配 |
 
 #### 8.2 用户平台选择与跳过机制 (Interactive Selection & Skip)
 
@@ -624,26 +632,28 @@ flowchart TD
        "question": "短视频及多模态衍生资产已就绪，请选择需要自动填入发布的平台：",
        "is_multi_select": true,
        "options": [
-         "(Recommended) 全选发布（全部 14 大平台）",
-         "微信公众平台",
-         "微信视频号",
+         "(Recommended) 全选发布（全部 15 大平台）",
          "今日头条",
-         "百家号",
-         "企鹅号",
-         "掘金",
-         "CSDN",
-         "腾讯云开发者社区",
-         "阿里云开发者社区",
-         "哔哩哔哩 (B站)",
+         "微信公众平台",
          "小红书",
-         "抖音",
+         "抖音创作平台",
+         "百度百家号",
+         "哔哩哔哩 (B站)",
+         "腾讯企鹅号",
+         "微信视频号",
+         "YouTube Studio",
          "知乎",
+         "稀土掘金",
+         "CSDN 博客",
+         "阿里云开发者社区",
+         "腾讯云开发者社区",
+         "烧饼社区 (linux.sb)",
          "全部跳过（暂不执行平台发布，直接生成全景汇总看板）"
        ]
      }
      ```
    - **选择逻辑裁决**：
-     - 若用户勾选了 `(Recommended) 全选发布（全部 14 大平台）` 或回复“全部发布”，全量 14 大平台全部执行；
+     - 若用户勾选了 `(Recommended) 全选发布（全部 15 大平台）` 或回复“全部发布”，全量 15 大平台全部按序执行；
      - 若勾选了其中部分平台，仅对勾选的平台执行自动化发布；
      - 若勾选了「全部跳过」或未选择任何平台，执行跳过机制。
 2. **全部跳过机制 (Skip All)**：
@@ -652,49 +662,133 @@ flowchart TD
      - 在 `publishes/publish_manifest.json` 中将各平台统一登记为 `skipped`；
      - 系统直接无缝推进至**步骤 9：生成产物结果汇总看板 (`index.html`)**。
 
-#### 8.3 串行发布执行规范
+#### 8.3 并行发布执行规范 (OpenCLI 原生并发驱动与同名目录资源精确绑定)
 
-> [!IMPORTANT]
-> **【核心铁律】严禁并行发布。**
-> `chrome-devtools-mcp` 是**单浏览器单例**，`pageId` 全局共享。若并发启动多个平台技能，会抢夺页面焦点并将内容注入错误标签页。
-> 必须按顺序**一次只执行一个平台**，前序平台资产填入完成后，再启动下一个平台。
->
-> **⚠️ 强制串行执行约束**：
->
-> - **绝对禁止将多个平台的 Skill 调用放在同一个工具调用块中**（这会导致 Claude Code 自动并发执行）
-> - **必须在每个平台 Skill 调用完成并收到结果后，再发起下一个平台的调用**
-> - **每个平台之间必须等待前序平台完全完成（收到成功/失败响应），严禁提前调用下一个**
-> - 执行模式示例（**正确**）：调用平台 1 → 等待完成 → 调用平台 2 → 等待完成 → 调用平台 3
-> - 执行模式示例（**错误**）：同时调用平台 1、2、3 → ❌ 会导致页面冲突与状态混乱
+> [!TIP]
+> **【高效并发】OpenCLI 原生支持多 Tab 会话隔离与多命令并行发布。**
+> 根据 OpenCLI 官方规范（`docs/guide/browser-bridge.md`），OpenCLI 通过后台 Daemon 维护多 Tab 隔离会话，已彻底解除原旧有 `chrome-devtools-mcp` 的单例串行瓶颈。
+> 步骤 8 支持同时并发发起多个平台的发布命令（或使用后台任务并发推进），各个命令独立向目标平台草稿箱注入资产，显著提升多平台分发效率。
 
-##### 资产填入后直接判定完成
+##### 1. 产物同名目录资源路径映射规范
 
-所有平台在文章（标题、正文、封面）、图文（标题、简介、图片）、视频（标题、简介、视频）资产填入完成后，**直接判定完成**，无需任何等待或轮询。原样保留当前浏览器发文页面现场供人工复核与发布，**严禁调用 `close_page`**。
+设当前处理的目标 Markdown 文章为 `[path/to/][article_name].md`（简记为 `<MD>`），其产物同名目录为 `[path/to/][article_name]/`（简记为 `<DIR>`，对应文章标识为 `<NAME>`）。
+前序工序（步骤 3、4、5、6、7）生成的各类成品资源严格存放于 `<DIR>` 目录下，在调用各平台发布命令时**必须显式通过参数指定对应的文件或目录路径**：
 
-##### 平台技能调用映射与执行顺序
+| 资产类别 | 来源工序 | 产物同名目录下的具体相对/绝对路径 | 对应的 OpenCLI 命令参数 | 适用平台 |
+| :--- | :--- | :--- | :--- | :--- |
+| **封面图片** | 步骤 4 (`baoyu-cover-image`) | `<DIR>/cover/images/cover-16x9.png`（或目录 `<DIR>/cover/images`） | `--cover <封面路径>` 或 `--cover-dir <封面目录>` | 全部平台 |
+| **视频专用封面** | 步骤 4 (`baoyu-cover-image`) | `<DIR>/cover/images/cover-16x9.png` | `--video-cover <封面路径>` | 今日头条、百家号、企鹅号 |
+| **短视频成片** | 步骤 7 (`Remotion` 终渲) | `<DIR>/video/<NAME>.mp4`（或目录 `<DIR>/video`） | `--video <视频文件路径>` 或 `--video-dir <视频目录>` | 视频号、YouTube、抖音、B站、头条、百家、企鹅、小红书 |
+| **图文卡片集** | 步骤 6 (`baoyu-xhs-images`) | `<DIR>/xhs_images/images` | `--cards-dir <卡片目录路径>` | 小红书、微信公众平台、抖音、今日头条 |
+| **公众号纯排版** | 步骤 5 (`gzh-design`) | `<DIR>/<NAME>_排版_*.html`（纯排版正文，严禁使用预览页） | `--html-path <排版HTML文件路径>` | 微信公众平台、腾讯企鹅号 |
+| **CDN图床长文** | 步骤 3 (`doudou-cdn` 回填) | `<DIR>/<NAME>_cdn.md`（已回填插图 CDN 链接的 Markdown） | `--cdn-md <CDN加速Markdown路径>` | 掘金、CSDN、阿里云、腾讯云、烧饼社区 |
 
-当用户确认需要发布的平台后，**必须严格按照下列顺序逐个串行调用**对应平台的发布技能（每次只调用一个，等待其完成后再调用下一个）：
+##### 2. 命令契约与执行参数约束
 
-**执行顺序（1-14，严格串行）**：
+- `--execute`：**必须携带**。OpenCLI 适配器默认处于 Dry-run 预览模式（不打开真实浏览器，仅返回多模态解析资产），携带 `--execute` 才会真正唤起浏览器并注入草稿箱。
+- `--mode <mode>`（可选）：默认执行 `--mode all`（自动按序完成该文件所包含的所有可用模态：如头条的长文+视频+微头条，微信的长文+贴图，小红书的图文+视频等）。若用户有明确模态要求，可显式指定 `--mode article`、`--mode video`、`--mode image` 等。
+- `--title <title>`（可选）：若需覆盖默认提取的 H1 标题可显式传入。
+- 资产填入后适配器默认在浏览器前台保持发文草稿现场供人工复核与发布，**严禁主动关闭浏览器或关闭页面**。
 
-1. 微信公众平台：`/doudou-weixin <给定的 Markdown 文章文件>` → **等待完成**
-2. 微信视频号：`/doudou-shipinhao <给定的 Markdown 文章文件>` → **等待完成**
-3. 今日头条：`/doudou-toutiao <给定的 Markdown 文章文件>` → **等待完成**
-4. 百家号：`/doudou-baijia <给定的 Markdown 文章文件>` → **等待完成**
-5. 企鹅号：`/doudou-qiehao <给定的 Markdown 文章文件>` → **等待完成**
-6. 掘金：`/doudou-juejin <给定的 Markdown 文章文件>` → **等待完成**
-7. CSDN：`/doudou-csdn <给定的 Markdown 文章文件>` → **等待完成**
-8. 腾讯云开发者社区：`/doudou-tencent <给定的 Markdown 文章文件>` → **等待完成**
-9. 阿里云开发者社区：`/doudou-aliyun <给定的 Markdown 文章文件>` → **等待完成**
-10. 哔哩哔哩 (B站)：`/doudou-bilibili <给定的 Markdown 文章文件>` → **等待完成**
-11. 小红书：`/doudou-xiaohongshu <给定的 Markdown 文章文件>` → **等待完成**
-12. 抖音：`/doudou-douyin <给定的 Markdown 文章文件>` → **等待完成**
-13. 知乎：`/doudou-zhihu <给定的 Markdown 文章文件>` → **等待完成**
-14. YouTube：`/doudou-youtube <给定的 Markdown 文章文件>` → **等待完成**
+##### 3. 15 大平台精准命令调用清单（支持并行并发推进）
 
-**执行进度提示**：在调用每个平台前，向用户输出清晰的进度提示：
+当用户确认需要发布的平台后，**支持并行并发发起各个平台的发布命令**，且**必须显式传入产物同名目录下生成的资源路径**（各个平台命令独立执行注入）：
 
-```
+1. 今日头条（长文+视频+微头条多模态）：
+   ```bash
+   opencli doudou toutiao <MD> --video <DIR>/video/<NAME>.mp4 --cards-dir <DIR>/xhs_images/images --cover <DIR>/cover/images/cover-16x9.png --video-cover <DIR>/cover/images/cover-16x9.png --execute
+   ```
+   （支持并发执行）
+
+2. 微信公众平台（长文文章+贴图卡片集）：
+   ```bash
+   opencli doudou weixin <MD> --html-path <DIR>/<NAME>_排版_*.html --cards-dir <DIR>/xhs_images/images --cover <DIR>/cover/images/cover-16x9.png --execute
+   ```
+   （支持并发执行）
+
+3. 小红书（图文卡片笔记+短视频作品）：
+   ```bash
+   opencli doudou xhs <MD> --cards-dir <DIR>/xhs_images/images --video <DIR>/video/<NAME>.mp4 --cover <DIR>/cover/images/cover-16x9.png --execute
+   ```
+   （支持并发执行）
+
+4. 抖音创作平台（短视频作品+图文作品）：
+   ```bash
+   opencli doudou douyin <MD> --video <DIR>/video/<NAME>.mp4 --cards-dir <DIR>/xhs_images/images --cover <DIR>/cover/images/cover-16x9.png --execute
+   ```
+   （支持并发执行）
+
+5. 百度百家号（长文排版+短视频投稿）：
+   ```bash
+   opencli doudou baijia <MD> --video <DIR>/video/<NAME>.mp4 --cover <DIR>/cover/images/cover-16x9.png --video-cover <DIR>/cover/images/cover-16x9.png --execute
+   ```
+   （支持并发执行）
+
+6. 哔哩哔哩 (B站)（专栏长文+视频投稿）：
+   ```bash
+   opencli doudou bilibili <MD> --video <DIR>/video/<NAME>.mp4 --cover <DIR>/cover/images/cover-16x9.png --execute
+   ```
+   （支持并发执行）
+
+7. 腾讯企鹅号（长文排版+短视频动态）：
+   ```bash
+   opencli doudou qiehao <MD> --html-path <DIR>/<NAME>_排版_*.html --video <DIR>/video/<NAME>.mp4 --cover <DIR>/cover/images/cover-16x9.png --video-cover <DIR>/cover/images/cover-16x9.png --execute
+   ```
+   （支持并发执行）
+
+8. 微信视频号（短视频动态）：
+   ```bash
+   opencli doudou shipinhao <MD> --video <DIR>/video/<NAME>.mp4 --cover <DIR>/cover/images/cover-16x9.png --execute
+   ```
+   （支持并发执行）
+
+9. YouTube Studio（视频上传）：
+   ```bash
+   opencli doudou youtube <MD> --video <DIR>/video/<NAME>.mp4 --cover <DIR>/cover/images/cover-16x9.png --execute
+   ```
+   （支持并发执行）
+
+10. 知乎（专栏长文草稿）：
+    ```bash
+    opencli doudou zhihu <MD> --cover <DIR>/cover/images/cover-16x9.png --execute
+    ```
+    （支持并发执行）
+
+11. 稀土掘金（CDN图床长文）：
+    ```bash
+    opencli doudou juejin <MD> --cdn-md <DIR>/<NAME>_cdn.md --cover <DIR>/cover/images/cover-16x9.png --execute
+    ```
+    （支持并发执行）
+
+12. CSDN 博客（CDN图床长文）：
+    ```bash
+    opencli doudou csdn <MD> --cdn-md <DIR>/<NAME>_cdn.md --cover <DIR>/cover/images/cover-16x9.png --execute
+    ```
+    （支持并发执行）
+
+13. 阿里云开发者社区（CDN图床长文）：
+    ```bash
+    opencli doudou aliyun <MD> --cdn-md <DIR>/<NAME>_cdn.md --cover <DIR>/cover/images/cover-16x9.png --execute
+    ```
+    （支持并发执行）
+
+14. 腾讯云开发者社区（CDN图床长文）：
+    ```bash
+    opencli doudou tencent <MD> --cdn-md <DIR>/<NAME>_cdn.md --cover <DIR>/cover/images/cover-16x9.png --execute
+    ```
+    （支持并发执行）
+
+15. 烧饼社区 (linux.sb)（CDN图床长文）：
+    ```bash
+    opencli doudou linuxsb <MD> --cdn-md <DIR>/<NAME>_cdn.md --cover <DIR>/cover/images/cover-16x9.png --execute
+    ```
+    （支持并发执行）
+
+> **💡 说明**：微信公众平台与腾讯企鹅号的 `--html-path` 参数请传入带有实际已选主题标识的排版文件路径（如 `<DIR>/<NAME>_排版_新野兽派(neo-brutalism).html`）。
+
+**执行进度提示**：在执行每个平台命令前，向用户输出清晰的进度提示：
+
+```text
 正在发布到第 X/N 个平台：【平台名称】...
 ```
 
@@ -707,15 +801,23 @@ flowchart TD
   ```json
   {
     "articleTitle": "文章标题",
-    "publishTime": "2026-09-09T16:00:00.000Z",
-    "totalPlatforms": 13,
-    "successfulCount": 13,
+    "publishTime": "2026-10-19T10:00:00.000Z",
+    "totalPlatforms": 15,
+    "successfulCount": 15,
     "results": [
       {
+        "platform": "今日头条",
+        "command": "opencli doudou toutiao",
+        "mode": "all",
+        "modeDesc": "长文 + 视频 + 微头条",
+        "status": "success",
+        "statusText": "已就绪"
+      },
+      {
         "platform": "微信公众平台",
-        "skill": "doudou-weixin",
-        "mode": "article",
-        "modeDesc": "图文文章",
+        "command": "opencli doudou weixin",
+        "mode": "all",
+        "modeDesc": "长文文章 + 贴图卡片",
         "status": "success",
         "statusText": "已就绪"
       }
@@ -916,7 +1018,7 @@ flowchart TD
        - **脚本与动效门禁**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、**首个场景采用四大核心动画实现高端电影级动画方案**、原文字数与规划时长（每 500 字约 1 分钟）、**每个分镜严格控制在黄金区间 3~7 秒（90~210 帧）及紧凑节奏规划**、**确保每个场景（Scene）至少添加一个特效：全片每一个分镜分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`，按所选风格 Tokens 统一蒙皮，首个场景优先匹配四大核心动画强联动组件）供用户逐镜自主选择**；
        - **配音门禁**：**配音音色与语速由用户自主选择（音色与语速严格拆分为两个独立的单选题项）**；
        - 用户逐项确认后再执行配音合成、Remotion 工程实现与渲染。
-    8. **步骤 8（多平台发布门禁）**：触发多平台发布技能（`/doudou-weixin`、`/doudou-shipinhao`、`/doudou-toutiao`、`/doudou-baijia`、`/doudou-qiehao`、`/doudou-juejin`、`/doudou-csdn`、`/doudou-tencent`、`/doudou-aliyun`、`/doudou-bilibili`、`/doudou-xiaohongshu`、`/doudou-douyin`、`/doudou-zhihu`）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 9 生成看板；若勾选了目标平台，则**必须严格串行执行**——每次只调用一个平台 skill，等待其完成后再调用下一个（绝对禁止在同一个工具调用块中同时发起多个平台 skill 调用，这会导致并发执行与页面冲突），启动浏览器自动化依次将文章、图文与视频资产自动填入所选平台发文页面，直接判定完成，原样保留当前标签页现场供人工复核与发布，严禁调用 `close_page`。
+    8. **步骤 8（多平台发布门禁）**：触发多平台发布适配器（基于 `opencli-plugin-doudou` 的 `opencli doudou <site>` 系列命令）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现 15 大平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 9 生成看板；若勾选了目标平台，则**全面支持并行并发执行**——可同时并发发起所选平台命令，每个平台命令均**显式指定产物同名目录下生成的资源路径**（如 `--cover <DIR>/cover/images/cover-16x9.png`、`--video <DIR>/video/<NAME>.mp4`、`--cards-dir <DIR>/xhs_images/images`、`--html-path <DIR>/<NAME>_排版_*.html`、`--cdn-md <DIR>/<NAME>_cdn.md`、`--video-cover <DIR>/cover/images/cover-16x9.png`，且携带 `--execute`），启动浏览器自动化并发将文章长文、图文贴图卡片与短视频资产自动填入所选平台发文草稿箱，直接判定完成，原样保留当前发文现场供人工复核与发布，严禁主动关闭浏览器。
     9. **步骤 9**：组装并生成一站式结果汇总看板 `index.html`（含 1~8 阶段完整资产、短视频播放器与多平台发布状态 Tab）。
 - **全自动模式（Explicit Only）**：
   - 仅当用户在命令中**显式声明** `--yes`、`--quick`、`--auto`、`一键`、`直接生成` 时，才允许自动按最优推荐参数连续跑通 1~9 全套流程。
