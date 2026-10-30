@@ -1,11 +1,11 @@
 ---
 name: doudou-UGC
-description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（doudou-remotion-style 视频与封面视觉风格先行选择 + 黄金钩子分镜脚本 + video-shotcraft / video-talkcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、15 大主流多平台自动化填入与发布就绪（涵盖今日头条、微信公众号/小绿书、小红书、抖音、百度百家号、哔哩哔哩、腾讯企鹅号、微信视频号、YouTube Studio、知乎、稀土掘金、CSDN博客、阿里云开发者社区、腾讯云开发者社区、烧饼社区 linux.sb），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、doudou-remotion-style、video-shotcraft、video-talkcraft、doudou-tts、remotion-best-practices 以及 opencli-plugin-doudou 系列多平台发布适配器 opencli doudou toutiao/weixin/xhs/douyin/baijia/bilibili/qiehao/shipinhao/youtube/zhihu/juejin/csdn/aliyun/tencent/linuxsb）。所有产物均规整保存到 Markdown 文件的同名目录下。
+description: 针对给定的 Markdown 文章文件，一站式全流程依次执行内容合规检测、外链引用提取追加、文章配图生成与CDN回填、封面图生成与CDN同步（只上传不插入正文）、微信公众号排版生成、小红书图文卡片生成、Remotion 短视频生成（doudou-remotion-style 视频与封面视觉风格先行选择 + 黄金钩子分镜脚本 + video-shotcraft 镜头与动效配方卡 + doudou-tts edge-tts 配音字幕 + remotion-best-practices 最佳实践）、15 大主流多平台自动化填入与发布就绪（涵盖今日头条、微信公众号/小绿书、小红书、抖音、百度百家号、哔哩哔哩、腾讯企鹅号、微信视频号、YouTube Studio、知乎、稀土掘金、CSDN博客、阿里云开发者社区、腾讯云开发者社区、烧饼社区 linux.sb），并在产物根目录生成全景交互式 HTML 结果汇总看板（依次串联 text-check-skill、baoyu-article-illustrator、baoyu-cover-image、doudou-image、doudou-cdn、gzh-design、baoyu-xhs-images、doudou-remotion-style、video-shotcraft、doudou-tts、remotion-best-practices 以及 opencli-plugin-doudou 系列多平台发布适配器 opencli doudou toutiao/weixin/xhs/douyin/baijia/bilibili/qiehao/shipinhao/youtube/zhihu/juejin/csdn/aliyun/tencent/linuxsb）。所有产物均规整保存到 Markdown 文件的同名目录下。
 ---
 
 # 一站式 Markdown 自媒体发布资产加工 Skill
 
-针对用户提供的 Markdown 文件，依次调用已安装的自媒体系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`doudou-remotion-style`、`video-shotcraft`、`video-talkcraft`、`doudou-tts`、`remotion-best-practices`）与 `opencli doudou` 多平台发布适配器（`opencli-plugin-doudou`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网 15 大多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
+针对用户提供的 Markdown 文件，依次调用已安装的自媒体系列 Skill（`text-check-skill`、`baoyu-article-illustrator`、`baoyu-cover-image`、`doudou-image`、`doudou-cdn`、`gzh-design`、`baoyu-xhs-images`、`doudou-remotion-style`、`video-shotcraft`、`doudou-tts`、`remotion-best-practices`）与 `opencli doudou` 多平台发布适配器（`opencli-plugin-doudou`），实现从**内容审查、外链引用规范化、文章配图生成与 CDN 回填、封面图生成与 CDN 同步、公众号排版、图文卡片、Remotion 短视频生成、全网 15 大多平台自动化填入与发布就绪**到**生成交互式全景 HTML 结果汇总看板**的全流程生产。
 
 **核心规约**：所有生成的提示词 (Prompts)、配图、封面、HTML、CDN 版 Markdown、多平台发布状态清单、结果汇总看板 (`index.html`) 等内容，**一律保存在与该 Markdown 文件同名的目录下**。
 
@@ -63,7 +63,7 @@ path/to/article_name/
 ├── xhs_images/                           # 步骤 6：小红书/微信图文卡片 (baoyu-xhs-images)
 │   ├── prompts/                          # 小红书卡片 Prompt 文件
 │   └── images/                           # 生成的 3:4 图文卡片
-├── video/                                # 步骤 7：Remotion 短视频资产 (doudou-remotion-style + video-shotcraft + video-talkcraft + doudou-tts + 动画生态库)
+├── video/                                # 步骤 7：Remotion 短视频资产 (doudou-remotion-style + video-shotcraft + doudou-tts + 动画生态库)
 │   ├── storyboard.md                     # 分镜脚本 (视频风格标识 + 黄金钩子开场/首镜四大核心动画高端开场 + 镜头卡映射表 + 帧级时间轴 + 素材与动效定义)
 │   ├── assets/                           # 视频专属定制素材库 (矢量 SVG + 专属定制生图，严格对齐所选视觉风格规范)
 │   │   ├── svg/                          # 分镜量身定制的矢量 SVG 图形/架构图/图标 (配合 @remotion/paths 路径动画与风格硬边线)
@@ -251,7 +251,7 @@ flowchart TD
 
 ---
 
-### 7. 生成 Remotion 短视频 (`/doudou-remotion-style` + `/video-shotcraft` + `/video-talkcraft` + `/doudou-tts` + `/remotion-best-practices` + 四大核心动画特效组合矩阵)
+### 7. 生成 Remotion 短视频 (`/doudou-remotion-style` + `/video-shotcraft` + `/doudou-tts` + `/remotion-best-practices` + 四大核心动画特效组合矩阵)
 
 - **执行目标**：综合分析**目标 Markdown 原文**核心叙事，**根据目标 Markdown 原文字数规划视频时长（每 500 字生成 1 分钟左右的视频）**，制作极具动态质感、信息密集与电影级视觉冲击力的解说短视频。
 - **【核心执行原则：风格先行机制】**：短视频生成流程**必须首先提示用户选择视频与配套封面视觉风格（`/doudou-remotion-style`）**。再展开后续的分镜与组件实现。
@@ -271,9 +271,7 @@ flowchart TD
 - **技能与技术栈协同分工**：
   - **视频与封面风格选择器（先行中枢）**：`/doudou-remotion-style`：提供多种工业级 Remotion 短视频动效与封面视觉风格让用户自主选择（集成：新野兽派经典明亮版 Neo-brutalism Light 与新野兽派暗黑极客版 Neo-brutalism Black 等）。无首发或预设风格，用户完全自主决定。视频与封面提示词为一组高内聚的一体化套件。包含像素级字号排版阶梯、Design Tokens 字典、物理弹簧动效、Remotion 完整代码 Master Prompt、配套 16:9 与 9:16 矢量贴画封面生图 Prompt 以及 AI 视频物理运镜提示词。
   - **最佳实践规范**：`/remotion-best-practices`：遵循 Remotion 官方架构规范、组件生命周期、动画计算准则、确定性渲染与工程化最佳实践。
-  - **分镜与镜头动效（双引擎协同）**：
-    - `/video-shotcraft`：提供电影感与产品镜头配方卡库（附 demo 源码与动态样片画廊）、Ink Press 模板、可复用组件（PageCam / ClipCard / Caption 等）与声明式钉帧音效库。
-    - `/video-talkcraft`：提供口播/解说动效配方卡库、七层反 PPT 运镜系统（CameraRig/视差/让位/环境）、SHOTBOOK 三面分层工作单、Apple 视觉范式与字级时间戳节拍锚定。
+  - **分镜与镜头动效**：`/video-shotcraft`：提供电影感与产品镜头配方卡库（附 demo 源码与动态样片画廊）、Ink Press 模板、可复用组件（PageCam / ClipCard / Caption 等）与声明式钉帧音效库。
   - **四大核心动画特效矩阵（Canvas + WebGL + GSAP 时序 + Paths SVG + Three 3D，已安装于根 `package.json`）**：深度激活并有机融合 `@remotion/canvas`（Canvas + WebGL 逐帧像素与着色器微粒画布，支持 2D 绘图与 WebGL Shader 硬件加速渲染）、`@remotion/gsap` + `gsap`（工业级时间轴与物理补间）、`@remotion/paths` + SVG（矢量路径描边生长与游走形变）、`@remotion/three` + `three`（3D 空间建模与运镜穿梭），充分利用这四大核心动画能力的深度组合，构建丰富多彩的绚丽场景。
   - **动画生态辅助增强库**：全面激活 `@remotion/rough-notation`（手绘标注）、`@remotion/mac-cursors`（光标交互）、`@remotion/motion-blur`（动态模糊）、`@remotion/noise`（程序化噪波）、`@remotion/shapes`（参数化几何）、`@remotion/effects`（光学辉光/色散）、`@remotion/captions`（动态字幕）等，构建全景动画赋能矩阵。
   - **配音与字幕**：`/doudou-tts` 的 **edge-tts** 引擎（`scripts/edgetts.py`），**必须使用 edge-tts，不使用 cosyvoice**（后者慢到分钟级、且本流程无音色克隆需求）。
@@ -319,7 +317,7 @@ flowchart TD
        - 🌐 **Three.js 3D 空间立体运镜范式**：利用 `<ThreeCanvas>` 搭建 3D 悬浮空间视差、立体卡片翻转、三维点线拓扑粒子流或摄像机极速俯冲/环绕穿梭（Orbiting / Fly-through），配合 `@remotion/effects` 辉光（Bloom/Glow）与色散分离（Chromatic Aberration），开篇即营造深邃空间纵深与未来科技工业质感；
      - **四大核心动画多维组合爆发范式（首推，Wow Effect 核爆）**：首镜最强形态为深度融合 **Three.js 3D 空间运镜 + Canvas/WebGL 粒子着色器爆炸 + Paths SVG 路径生长 + GSAP 弹性撞停** 四维联动组合（Quad-Synergy），将痛点爆发与视效奇观融为一体，开篇 3 秒即引发震撼的 Wow Effect，彻底粉碎划走欲望！
 3. **叙事骨架（钩子之后）**：按「**冲突 → 拆解 → 兑现 → 收束**」推进——痛点冲突段（问题有多贵）→ 方法拆解段（核心架构 / 原则，对应文章主干小节）→ 价值兑现段（能换来什么结果）→ 品牌收束段（字标落定 + 引导关注）。
-4. **分镜表与素材动效标注（与风格套件、两大技能及动画库深度对齐）**：
+4. **分镜表与素材动效标注（与风格套件、动效技能及动画库深度对齐）**：
    - 分镜表结构：`| # | 时间(帧) | 镜头卡 | 关键动效与画面内容 | 素材形式与路径 | 调用的动效库与组合特效 |`
    - 另附**帧级时间轴** `| shot | from | duration | 内容 |`
    - 逐镜必须详细标注：
@@ -336,7 +334,7 @@ flowchart TD
    - **紧凑节奏**：全片节奏保持利落紧凑，信息密度饱满。**特别是镜头与段落转场时，绝对不要出现长时间停顿**（音频结束与下一镜头切入之间的间隙严格控制在 0.1~0.25 秒 / 3~8 帧以内，紧密咬合，严禁黑屏死等或静止空镜拖沓）。
    - **全片时长规划**：视频总时长根据目标 Markdown 原文字数规划，每 500 字生成 1 分钟左右的视频（30fps 即每分钟约 1800 帧），全片由多个 3~7 秒（90~210 帧）的黄金短分镜高频组合咬合构成。
    - **呼吸位克制**：品牌字标落定 hold 0.5s~0.8s 即可，批量动效收尾留 0.3s 缓冲；**全片绝对不要出现超过 3 秒画面一直不变的情况**（长镜头中必须持续注入微运镜推拉、慢速平移、视差浮动、文字逐行/逐词浮现或光效流动，杜绝死板定格）。
-7. **一镜一核心动效（每场景必配特效，硬约束）**：**全片每一个分镜 / 场景（Scene）必须至少添加并明确标注一个来自 `video-shotcraft` 或 `video-talkcraft` 的动效配方特效**。
+7. **一镜一核心动效（每场景必配特效，硬约束）**：**全片每一个分镜 / 场景（Scene）必须至少添加并明确标注一个来自 `video-shotcraft` 的动效配方特效**。
 8. **一镜一核心视觉载体（每分镜建议通过矢量 SVG 或专属定制生图丰富内容，硬规约）**：
    - **杜绝纯文字大字报**：严禁出现任何仅凭几行文字排版的干瘪空洞分镜。全片每一个分镜必须建议并通过【矢量 SVG】或者【专属定制生图】（或二者协同组合）来极大丰富画面内容；
    - **形态契合与信息落地**：逻辑流程、架构拓扑与指标对比优先选用【矢量 SVG】配合动态描边与生长；冲突直击、场景隐喻与氛围营造优先选用【专属定制生图】配合运镜推拉；
@@ -344,16 +342,12 @@ flowchart TD
 
 #### 7.3 镜头与动效配方挑选及动画全家桶赋能
 
-1. **从双技能库动态检索配方卡**：
-   - 在为分镜挑选镜头动效时，**必须直接从两大动效技能中动态检索最新卡库**：
+1. **从动效技能库动态检索配方卡 (`/video-shotcraft`)**：
+   - 在为分镜挑选镜头动效时，**必须直接从 `/video-shotcraft` 技能中动态检索最新卡库**：
      - **`/video-shotcraft`（产品宣传片镜头体系）**：
        - **文本索引与全景速查**：动态读取 `<video-shotcraft技能目录>/gallery/llms.txt`（按类别汇总全部卡片的一句话语法说明）或 `<video-shotcraft技能目录>/gallery/api/library.json`（包含全量卡片及其多变体样式的结构化元数据、建议时长与能量等级）。
        - **单卡技术规范与避坑**：按分类直接读取 `<video-shotcraft技能目录>/references/shots/<category>/<card_name>.md`。
        - **Remotion 参考实现源码**：直接定位并读取 `<video-shotcraft技能目录>/demos/<category>/<card_name>/...`。
-     - **`/video-talkcraft`（口播解说动效体系）**：
-       - **总纲体系与全景速查**：动态读取 `<video-talkcraft技能目录>/references/taxonomy.md`（包含全部分类与配方卡的完整体系清单、解决问题、一句话动作与命门纪律）。
-       - **单卡技术规范与避坑**：直接读取 `<video-talkcraft技能目录>/references/cards/<slug>.md`。
-       - **Remotion 参考实现源码**：直接定位并读取 `<video-talkcraft技能目录>/template/cards/<slug>.tsx`。
 
 2. **已安装 Remotion 动画库全景赋能矩阵（仓库根目录下的 `package.json`）**：
    在分镜组件实现中，必须按分镜叙事形态灵活编排下列 17 个已安装的生态库，极大拓展动态表现力：
@@ -477,7 +471,7 @@ flowchart TD
       - 物体旋转与摄像机运镜由当前帧直接插值驱动，严禁在渲染循环外自行累加旋转量。
 
 4. **逐镜独立推荐与自主选择规约（硬约束）**：
-   - **每一个分镜分别独立筛选推荐（每场景必配动效 + 建议配置丰富视觉载体）**：严禁将全片镜头打包为一个整体组合选项，**必须确保每个场景（Scene）/ 分镜至少添加一个来自 `video-shotcraft` 或 `video-talkcraft` 的特效**，逐镜独立从上述技能中动态检索并推荐。针对每一个分镜，综合其叙事能量、信息形态（痛点直击/概念对比/架构扫描/终端演示/指标大板/品牌收束）与画面素材特征，**为该分镜单独筛选出至少 3 个最契合的候选动效配方卡**（注明所属技能来源、卡名、动作语法、视觉风格、呈现重点与适用场景），**并针对该分镜的具体叙事诉求，明确建议通过【矢量 SVG】或者【专属定制生图】来极大丰富内容**（指明建议的视觉资产形式、构图重点与动效咬合方式）。
+   - **每一个分镜分别独立筛选推荐（每场景必配动效 + 建议配置丰富视觉载体）**：严禁将全片镜头打包为一个整体组合选项，**必须确保每个场景（Scene）/ 分镜至少添加一个来自 `video-shotcraft` 的特效**，逐镜独立从该技能中动态检索并推荐。针对每一个分镜，综合其叙事能量、信息形态（痛点直击/概念对比/架构扫描/终端演示/指标大板/品牌收束）与画面素材特征，**为该分镜单独筛选出至少 3 个最契合的候选动效配方卡**（注明所属技能来源、卡名、动作语法、视觉风格、呈现重点与适用场景），**并针对该分镜的具体叙事诉求，明确建议通过【矢量 SVG】或者【专属定制生图】来极大丰富内容**（指明建议的视觉资产形式、构图重点与动效咬合方式）。
    - **首个场景（Scene 1 黄金钩子）动效优先倾斜规约**：在为首个场景筛选推荐候选配方卡时，**必须优先推荐能够与四大核心动画（`@remotion/canvas` Canvas + WebGL 粒子/着色器/代码雨、`@remotion/gsap` 错落缓动、`@remotion/paths` SVG 描边生长、`@remotion/three` 3D 空间运镜）单项或多维组合深度联动的高能量配方组件**（如 3D 空间立体运镜、高冲击碰撞、高密度粒子爆发、多段错落级联等高维动画），确保首镜动效具备顶尖高端质感。
    - **交互门禁逐镜独立设问**：在步骤 7 门禁（`ask_question`）中，**必须针对每一个分镜分别设立独立的选择题项**，选项中同时列出候选动效配方卡与配套的内容丰富度建议（建议选用矢量 SVG 还是专属定制生图），确保用户能够对每一个镜头的动效形式与视觉资产进行精细化自主裁决。
    - 用户逐镜分别确认或选择后，形成最终的**分镜到镜头卡与视觉资产映射表**写入 `storyboard.md`。
@@ -493,7 +487,7 @@ flowchart TD
      - **视觉赋能**：根据该分镜的画幅（16:9 横屏或 9:16 竖屏）、景别（微距特写/沉浸中景/宏大全景）与 7.1 所选视觉风格规范，提取核心元素编写精准生图提示词，调用生图工具（优先使用原生 `generate_image`，降级使用 `/doudou-image`）生成专属高清插画；在 Remotion 中配合 2.5D 视差推拉、镜头微晃（`@remotion/noise`）或快门动态模糊（`@remotion/motion-blur`）舞台化呈现，赋予画面院线级视觉张力。
      - **资产落盘**：提示词保存至 `video/assets/prompts/`，高清原图落地至 `video/assets/images/`，部署至 `public/<article_name>/images/`。
    - **动效骨架与视觉实体深度咬合**：
-     - 来自 `video-shotcraft` 或 `video-talkcraft` 的动效卡是**运镜与动效骨架**，而矢量 SVG 与专属定制生图是**视觉血肉与核心信息实体**。动效组件必须包裹、承载并驱动所选的 SVG 或生图资产（例如：将定制架构 SVG 放入 ClipCard 视差运镜中，或将专属生图置入 3D 悬浮卡片舞台），实现“动效骨架 + 视觉资产 + 口播节奏”三位一体的饱满视听呈现。
+     - 来自 `video-shotcraft` 的动效卡是**运镜与动效骨架**，而矢量 SVG 与专属定制生图是**视觉血肉与核心信息实体**。动效组件必须包裹、承载并驱动所选的 SVG 或生图资产（例如：将定制架构 SVG 放入 ClipCard 视差运镜中，或将专属生图置入 3D 悬浮卡片舞台），实现“动效骨架 + 视觉资产 + 口播节奏”三位一体的饱满视听呈现。
 
 6. **三读硬规则（不可跳）**：选定后 → 校验卡名与 `style-key` → **读该配方卡全文** → 按卡片「参考实现」定位并**读准确的 demo TSX 源码全文** → 把对应组件 **copy 进** `src/videos/<article_name>/lib/`（不 import 原库）。
    - **配方卡「已知坑 / 命门」标注的参数不得降档**，允许按本文章素材做适配性改动，质量标准只升不降。
@@ -501,7 +495,7 @@ flowchart TD
 
 7. **视觉语言与 Design Tokens 继承与统一蒙皮**：
    - **直接继承 7.1 所选风格规范**：全片配色、字体、圆角、阴影与动画弹簧**必须严格继承步骤 7.1 中用户所选定的视觉风格规范**。
-   - **镜头卡统一蒙皮**：所有从 `video-shotcraft` 或 `video-talkcraft` 引入的镜头卡组件，继承其动作语法与已调物理时序，**皮肤样式统一按照全片 Design Tokens 进行统一蒙皮**，实现动效骨架与视觉皮肤的完美融合。
+   - **镜头卡统一蒙皮**：所有从 `video-shotcraft` 引入的镜头卡组件，继承其动作语法与已调物理时序，**皮肤样式统一按照全片 Design Tokens 进行统一蒙皮**，实现动效骨架与视觉皮肤的完美融合。
 
 #### 7.4 配音与字幕（`doudou-tts` edge-tts）
 
@@ -548,7 +542,7 @@ flowchart TD
      </Sequence>
      ```
      严禁缺省 `name` 属性或使用未具名的裸 `<Sequence>`，确保在 Remotion Studio 与时间线（Timeline）轨道中各分镜场景清晰直观可辨、一目了然。
-   - **全场景特效落地原则（每个 Scene 必配特效，硬约束）**：每个场景组件（`src/videos/<article_name>/scenes/Scene*.tsx`）内部**必须至少装配并使用一个源自 `video-shotcraft` 或 `video-talkcraft` 的核心镜头/动效特效组件**（从 `lib/` 引入），实现动效全覆盖，杜绝无动效的纯静态裸场景。**特别是首个场景组件（`src/videos/<article_name>/scenes/Scene1.tsx`），必须使用四大核心动画（`@remotion/canvas` Canvas + WebGL 画布、`@remotion/gsap` 工业时间轴、`@remotion/paths` SVG 路径、`@remotion/three` 3D 空间画布）单项或多维组合实现高端动画**，奠定全片顶尖视觉质感基调。
+   - **全场景特效落地原则（每个 Scene 必配特效，硬约束）**：每个场景组件（`src/videos/<article_name>/scenes/Scene*.tsx`）内部**必须至少装配并使用一个源自 `video-shotcraft` 的核心镜头/动效特效组件**（从 `lib/` 引入），实现动效全覆盖，杜绝无动效的纯静态裸场景。**特别是首个场景组件（`src/videos/<article_name>/scenes/Scene1.tsx`），必须使用四大核心动画（`@remotion/canvas` Canvas + WebGL 画布、`@remotion/gsap` 工业时间轴、`@remotion/paths` SVG 路径、`@remotion/three` 3D 空间画布）单项或多维组合实现高端动画**，奠定全片顶尖视觉质感基调。
    - **四大核心动画组合落地守则（Canvas + WebGL + GSAP + Paths + Three）**：在分镜组件实现中，积极组合调用 `@remotion/canvas`（Canvas/WebGL 粒子/着色器/波形/代码雨）、`@remotion/gsap`（受控时间轴/级联错落）、`@remotion/paths`（SVG 描边生长/光标游走）与 `@remotion/three`（3D 空间模型/立体卡片翻转），严格遵循纯函数确定性渲染铁律，构建多维饱满的绚丽场景。
    - **注入风格常量**：`src/videos/<article_name>/theme.ts` 中直接注入 7.1 所选风格的全量 Design Tokens 字典与物理弹簧配置。
    - Composition 在根 `src/Root.tsx` 中挂载注册（30fps，根据用户选择的画幅注册为横屏 1920×1080 或竖屏 1080×1920），入口仍是根 `src/index.ts`。
@@ -589,8 +583,8 @@ flowchart TD
 - ✅ **节奏紧凑与转场连贯**：全片节奏紧凑利落，**镜头与段落转场处无长时间停顿或空镜冷场**（转场咬合间隙 ≤ 0.25s / 8 帧）。
 - ✅ **绝对防静止（严禁定格 >3s）**：**全片绝对不要出现超过 3 秒画面一直不变的情况**（镜头内必须保持持续微动效、慢速推拉、视差漂移、扫光或文字渐显，严禁静态死板画面）。
 - ✅ **音画同步**：每镜画面切换晚于该镜配音结束，字幕与人声逐句对齐。
-- ✅ **全场景动效覆盖（每个 Scene 必配特效，硬约束）**：**确保全片每个场景（`scenes/Scene*.tsx`）/ 每个分镜均至少添加并落地一个来自 `video-shotcraft` 或 `video-talkcraft` 的核心镜头/动效特效**，严禁出现任何无动效修饰、素颜裸露或纯静态定格的“空白裸场景”。
-- ✅ **镜头卡还原度**：保留所选卡（`video-shotcraft` / `video-talkcraft`）的动作语法、关键时值与「已知坑 / 命门」参数。
+- ✅ **全场景动效覆盖（每个 Scene 必配特效，硬约束）**：**确保全片每个场景（`scenes/Scene*.tsx`）/ 每个分镜均至少添加并落地一个来自 `video-shotcraft` 的核心镜头/动效特效**，严禁出现任何无动效修饰、素颜裸露或纯静态定格的“空白裸场景”。
+- ✅ **镜头卡还原度**：保留所选卡（`video-shotcraft`）的动作语法、关键时值与「已知坑 / 命门」参数。
 - ✅ **视觉一致**：Design Tokens 统一，配色、字体与质感贯穿全片。
 - ✅ **文字锐度**：推进特写下文字不糊（先查 2x 纹理与栅格化路径，别先动景深）。
 - ✅ **无哑巴段落**：每个镜头都有解说或字幕承载新信息。
@@ -1015,7 +1009,7 @@ flowchart TD
     6. **步骤 6（小红书门禁）**：触发 `baoyu-xhs-images` 的图文方案确认（基于“痛点—成因—拆解—解决方案”模型规划卡片大纲，确认风格、布局与策略）。
     7. **步骤 7（短视频门禁，风格优先先行）**：
        - **先行门禁（视频风格与画幅确认）**：在展开分镜制作前，**必须首先使用 `ask_question` 提示用户自主选择视频与封面视觉风格（`/doudou-remotion-style`）**，以及**自主选择视频画幅（横屏 16:9 / 竖屏 9:16）**；
-       - **脚本与动效门禁**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、**首个场景采用四大核心动画实现高端电影级动画方案**、原文字数与规划时长（每 500 字约 1 分钟）、**每个分镜严格控制在黄金区间 3~7 秒（90~210 帧）及紧凑节奏规划**、**确保每个场景（Scene）至少添加一个特效：全片每一个分镜分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft` / `video-talkcraft`，按所选风格 Tokens 统一蒙皮，首个场景优先匹配四大核心动画强联动组件）供用户逐镜自主选择**；
+       - **脚本与动效门禁**：呈现分镜脚本方案供确认——黄金钩子文案（3 个可选句式）、**首个场景采用四大核心动画实现高端电影级动画方案**、原文字数与规划时长（每 500 字约 1 分钟）、**每个分镜严格控制在黄金区间 3~7 秒（90~210 帧）及紧凑节奏规划**、**确保每个场景（Scene）至少添加一个特效：全片每一个分镜分别独立提供至少 3 个最契合候选镜头配方卡（`video-shotcraft`，按所选风格 Tokens 统一蒙皮，首个场景优先匹配四大核心动画强联动组件）供用户逐镜自主选择**；
        - **配音门禁**：**配音音色与语速由用户自主选择（音色与语速严格拆分为两个独立的单选题项）**；
        - 用户逐项确认后再执行配音合成、Remotion 工程实现与渲染。
     8. **步骤 8（多平台发布门禁）**：触发多平台发布适配器（基于 `opencli-plugin-doudou` 的 `opencli doudou <site>` 系列命令）选项确认。使用 `ask_question`（`is_multi_select: true`）呈现 15 大平台列表供用户选择（支持勾选「全选发布」、逐个勾选具体平台、或选择「全部跳过」）。若用户选择「全部跳过」，直接跳过发布阶段推进至步骤 9 生成看板；若勾选了目标平台，则**全面支持并行并发执行**——可同时并发发起所选平台命令，每个平台命令均**显式指定产物同名目录下生成的资源路径**（如 `--cover <DIR>/cover/images/cover-16x9.png`、`--video <DIR>/video/<NAME>.mp4`、`--cards-dir <DIR>/xhs_images/images`、`--html-path <DIR>/<NAME>_排版_*.html`、`--cdn-md <DIR>/<NAME>_cdn.md`、`--video-cover <DIR>/cover/images/cover-16x9.png`，且携带 `--execute`），启动浏览器自动化并发将文章长文、图文贴图卡片与短视频资产自动填入所选平台发文草稿箱，直接判定完成，原样保留当前发文现场供人工复核与发布，严禁主动关闭浏览器。
